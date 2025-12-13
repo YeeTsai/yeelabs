@@ -24,6 +24,7 @@ const config: Config = {
       animation: {
         "text-glitch": "glitch 2s infinite",
         "cursor-blink": "blink 1s step-end infinite",
+        "scroll-y": "scroll-y 15s linear infinite",
       },
       keyframes: {
         blink: {
@@ -37,6 +38,10 @@ const config: Config = {
           "60%": { transform: "translate(2px, 2px)" },
           "80%": { transform: "translate(2px, -2px)" },
           "100%": { transform: "translate(0)" },
+        },
+        "scroll-y": {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(-50%)" },
         },
       },
     },

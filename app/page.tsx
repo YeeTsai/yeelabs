@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import TypingEffect from "@/components/TypingEffect";
 import CyberCard from "@/components/CyberCard";
+import EngineCard from "@/components/EngineCard";
 import NextImage from "next/image";
 import { ArrowRight, Terminal } from "lucide-react";
 import Link from "next/link";
@@ -79,7 +80,7 @@ export default function Home() {
                transition={{ delay: 0.5, duration: 0.8 }}
                className="flex gap-4 pt-4"
             >
-              <a href="#experiments" className="px-6 py-3 bg-neon-cyan/10 border border-neon-cyan/50 text-neon-cyan rounded hover:bg-neon-cyan hover:text-black transition-all duration-300 font-bold tracking-wide">
+              <a href="#core" className="px-6 py-3 bg-neon-cyan/10 border border-neon-cyan/50 text-neon-cyan rounded hover:bg-neon-cyan hover:text-black transition-all duration-300 font-bold tracking-wide">
                 ENTER THE LAB
               </a>
               <a href="/blog" className="px-6 py-3 border border-white/20 text-white rounded hover:border-white hover:bg-white/5 transition-all duration-300 font-bold tracking-wide flex items-center gap-2">
@@ -135,6 +136,50 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* Core Section */}
+      <section id="core" className="container mx-auto px-6 py-20 min-h-[60vh] flex flex-col justify-center">
+        <motion.h2 
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-12 flex items-center gap-4"
+        >
+          <span className="text-neon-cyan">00.</span> THE_CORE
+        </motion.h2>
+
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column: Text */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="space-y-6"
+            >
+                <div>
+                   <h3 className="text-4xl md:text-5xl font-bold font-orbitron text-white mb-2">Y.E.E</h3>
+                   <p className="text-neon-cyan font-mono text-sm tracking-widest border-l-2 border-neon-cyan pl-3">
+                     Yee’s Enhanced-intelligence Engine
+                   </p>
+                </div>
+                <p className="text-xl text-gray-300 font-light leading-relaxed max-w-lg">
+                  The underlying architecture powering YEE Labs. An autonomous system constantly exploring market alphas, evolving strategies, and refining execution precision.
+                </p>
+            </motion.div>
+
+            {/* Right Column: EngineCard */}
+            <motion.div 
+               initial={{ opacity: 0, scale: 0.95 }}
+               whileInView={{ opacity: 1, scale: 1 }}
+               viewport={{ once: true }}
+               transition={{ duration: 0.6, delay: 0.2 }}
+               className="flex justify-start"
+            >
+               <EngineCard />
+            </motion.div>
+        </div>
+      </section>
+
       {/* Experiments Section */}
       <section id="experiments" className="container mx-auto px-6 py-20">
         <motion.h2 
@@ -165,7 +210,6 @@ export default function Home() {
       <section id="about" className="container mx-auto px-6 py-20 relative">
          <div className="absolute top-0 right-0 w-64 h-64 bg-neon-green/10 rounded-full blur-[100px]" />
          
-         <div className="max-w-4xl mx-auto">
             <motion.h2 
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -175,6 +219,7 @@ export default function Home() {
               <span className="text-neon-cyan">02.</span> THE_ALCHEMIST
             </motion.h2>
 
+            <div className="max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -209,7 +254,7 @@ export default function Home() {
                   </div>
                </div>
             </motion.div>
-         </div>
+            </div>
       </section>
 
     </div>
