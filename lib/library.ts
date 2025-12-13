@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const articlesDirectory = path.join(process.cwd(), "articles");
+const libraryDirectory = path.join(process.cwd(), "library");
 
 export interface KeyValueData {
   [key: string]: any;
@@ -14,9 +14,9 @@ export interface PostData {
   content: string;
 }
 
-// Ensure articles directory exists
-if (!fs.existsSync(articlesDirectory)) {
-  fs.mkdirSync(articlesDirectory, { recursive: true });
+// Ensure library directory exists
+if (!fs.existsSync(libraryDirectory)) {
+  fs.mkdirSync(libraryDirectory, { recursive: true });
 }
 
 // Recursively get all files
@@ -37,13 +37,13 @@ function getAllFiles(dir: string, fileList: string[] = []): string[] {
   return fileList;
 }
 
-export function getAllPosts(): PostData[] {
-  const files = getAllFiles(articlesDirectory);
+export function getAllLibraryPosts(): PostData[] {
+  const files = getAllFiles(libraryDirectory);
   
   const allPosts = files.map((filePath): PostData | null => {
     try {
-      // Calculate slug relative to articlesDirectory
-      const relativePath = path.relative(articlesDirectory, filePath);
+      // Calculate slug relative to libraryDirectory
+      const relativePath = path.relative(libraryDirectory, filePath);
       // Remove extension
       const cleanPath = relativePath.replace(/\.(mdx|md)$/, "");
       // Split into segments
@@ -83,15 +83,15 @@ export function getAllPosts(): PostData[] {
   });
 }
 
-export function getPostBySlug(slug: string[]): PostData | undefined {
+export function getLibraryPostBySlug(slug: string[]): PostData | undefined {
   const targetPathPart = slug.join(path.sep);
   
   // Try .md and .mdx
   const possiblePaths = [
-    path.join(articlesDirectory, targetPathPart + ".md"),
-    path.join(articlesDirectory, targetPathPart + ".mdx"),
-    path.join(articlesDirectory, targetPathPart, "index.md"),
-    path.join(articlesDirectory, targetPathPart, "index.mdx"),
+    path.join(libraryDirectory, targetPathPart + ".md"),
+    path.join(libraryDirectory, targetPathPart + ".mdx"),
+    path.join(libraryDirectory, targetPathPart, "index.md"),
+    path.join(libraryDirectory, targetPathPart, "index.mdx"),
   ];
   
   for (const p of possiblePaths) {

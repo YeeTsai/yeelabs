@@ -9,6 +9,7 @@ import { Terminal } from "lucide-react";
 const navItems = [
   { name: "Home", path: "/" },
   { name: "Blog", path: "/blog" },
+  { name: "Library", path: "/library" },
   { name: "About", path: "/#about" },
 ];
 
