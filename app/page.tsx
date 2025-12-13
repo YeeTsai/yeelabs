@@ -3,64 +3,42 @@
 import { motion } from "framer-motion";
 import TypingEffect from "@/components/TypingEffect";
 import CyberCard from "@/components/CyberCard";
-import { useState, useEffect } from "react";
-import { ArrowRight, Code, Cpu, Globe, Database } from "lucide-react";
+import NextImage from "next/image";
+import { ArrowRight, Terminal } from "lucide-react";
+import Link from "next/link";
 
-const identities = [
-  "Senior Blockchain Architect",
-  "ERC-3525 Co-Author",
-  "AI + Crypto Researcher",
-  "Finance + Tech Hybrid"
-];
-
-const projects = [
-  {
-    title: "Solv Protocol",
-    description: "Bitcoin-native DeFi ecosystem ($1B+ TVL). Activating Bitcoin as a capital-efficient asset within a growing ecosystem.",
-    link: "https://solv.finance",
-    tags: ["DeFi", "Bitcoin", "Smart Contracts"],
-    borderColor: "cyan" as const
-  },
-  {
-    title: "ERC-3525",
-    description: "Co-author of the Semi-Fungible Token Standard (EIP-3525). Adopted in Finance, Gaming, and RWA sectors.",
-    link: "https://eips.ethereum.org/EIPS/eip-3525",
-    tags: ["Standard", "Reseach", "Ethereum"],
-    borderColor: "green" as const
-  },
+const experiments = [
   {
     title: "YES Lab",
-    description: "Yield Entropy Synthesis Lab. AI-Driven Crypto Quant Trading Platform leveraging advanced strategies.",
+    description: "Where AI meets Market Alpha. AI-Driven Crypto Quant Trading Platform leveraging advanced strategies.",
     link: "https://yeslab.app",
     tags: ["AI", "Quant", "Trading"],
     borderColor: "blue" as const
   },
   {
-    title: "Kunlun Bank 3.0",
-    description: "Distributed Core Banking System serving 400B+ Asset Scale. Architecture design and implementation.",
-    link: undefined,
-    tags: ["Banking", "Distributed System", "Java"],
+    title: "ERC-3525",
+    description: "Redefining Digital Assets with Semi-Fungible Tokens. Adopted in Finance, Gaming, and RWA sectors.",
+    link: "https://eips.ethereum.org/EIPS/eip-3525",
+    tags: ["Standard", "Research", "Ethereum"],
+    borderColor: "green" as const
+  },
+  {
+    title: "Solv Protocol",
+    description: "Building the Bitcoin Economy. Bitcoin-native DeFi ecosystem ($1B+ TVL).",
+    link: "https://solv.finance",
+    tags: ["DeFi", "Bitcoin", "Smart Contracts"],
+    borderColor: "cyan" as const
+  },
+  {
+    title: "Open Source Tools",
+    description: "Small utilities born from curiosity. A collection of scripts and tools for the ecosystem.",
+    // link: "https://github.com/...", // Placeholder or link to github profile
+    tags: ["Tools", "Open Source", "Scripts"],
     borderColor: "cyan" as const
   }
 ];
 
-const techStack = [
-  { category: "Blockchains", items: ["Ethereum", "Bitcoin", "Solana", "EOS", "Fabric"], icon: Globe },
-  { category: "Languages", items: ["Solidity", "C/C++", "Java", "Python", "Rust", "Go"], icon: Code },
-  { category: "Domains", items: ["DeFi", "Quant Trading", "Banking Core", "GameFi"], icon: Database },
-  { category: "Core Tech", items: ["Smart Contracts", "Distributed Systems", "Cryptography", "AI Agents"], icon: Cpu },
-];
-
 export default function Home() {
-  const [identityIndex, setIdentityIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIdentityIndex((prev) => (prev + 1) % identities.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="flex flex-col gap-24 pb-20 overflow-hidden">
       
@@ -83,25 +61,16 @@ export default function Home() {
               <h1 className="text-5xl md:text-7xl font-bold font-orbitron leading-tight text-white mb-4">
                 YEE <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-blue">LABS</span>
               </h1>
-              <div className="h-8 mb-6">
-                <span className="text-xl md:text-2xl text-gray-300 font-light">
-                  I am a{" "}
-                  <motion.span
-                    key={identityIndex}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    className="text-neon-green font-bold"
-                  >
-                    {identities[identityIndex]}
-                  </motion.span>
-                </span>
+              <div className="mb-6 space-y-2">
+                <p className="text-xl md:text-2xl text-gray-300 font-light">
+                   Scale to <span className="text-white font-bold">Yotta</span>. 
+                   Learn in <span className="text-white font-bold">Epochs</span>. 
+                   Precise to <span className="text-white font-bold">Epsilon</span>.
+                </p>
+                <p className="text-neon-green/80 font-mono text-sm md:text-base tracking-wide">
+                  &gt; A digital playground for experiments, whimsical ideas, and code alchemy.
+                </p>
               </div>
-              <p className="text-gray-400 max-w-lg text-lg leading-relaxed">
-                Scale to <span className="text-white font-bold">Yotta</span>. 
-                Learn in <span className="text-white font-bold">Epochs</span>. 
-                Precise to <span className="text-white font-bold">Epsilon</span>.
-              </p>
             </motion.div>
 
             <motion.div
@@ -110,8 +79,8 @@ export default function Home() {
                transition={{ delay: 0.5, duration: 0.8 }}
                className="flex gap-4 pt-4"
             >
-              <a href="#projects" className="px-6 py-3 bg-neon-cyan/10 border border-neon-cyan/50 text-neon-cyan rounded hover:bg-neon-cyan hover:text-black transition-all duration-300 font-bold tracking-wide">
-                EXPLORE PROJECTS
+              <a href="#experiments" className="px-6 py-3 bg-neon-cyan/10 border border-neon-cyan/50 text-neon-cyan rounded hover:bg-neon-cyan hover:text-black transition-all duration-300 font-bold tracking-wide">
+                ENTER THE LAB
               </a>
               <a href="/blog" className="px-6 py-3 border border-white/20 text-white rounded hover:border-white hover:bg-white/5 transition-all duration-300 font-bold tracking-wide flex items-center gap-2">
                 READ LOGS <ArrowRight className="w-4 h-4" />
@@ -123,8 +92,35 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="flex justify-center"
+            className="flex flex-col items-center justify-center gap-6"
           >
+            {/* Hero Logo */}
+            <motion.div
+              animate={{ 
+                scale: [1, 1.05, 1],
+                filter: [
+                  "drop-shadow(0 0 15px rgba(0, 243, 255, 0.3)) brightness(1)",
+                  "drop-shadow(0 0 25px rgba(0, 243, 255, 0.5)) brightness(1.2)",
+                  "drop-shadow(0 0 15px rgba(0, 243, 255, 0.3)) brightness(1)"
+                ]
+              }}
+              transition={{
+                duration: 3,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+              className="relative w-48 md:w-64 aspect-square"
+            >
+               <NextImage
+                 src="/logo.png"
+                 alt="Reactor Logo"
+                 fill
+                 className="object-contain mix-blend-screen"
+                 priority
+               />
+            </motion.div>
+
             <TypingEffect />
           </motion.div>
         </div>
@@ -139,77 +135,19 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="container mx-auto px-6 py-20 relative">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-neon-green/10 rounded-full blur-[100px]" />
-        
-        <div className="max-w-4xl mx-auto">
-          <motion.h2 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-12 flex items-center gap-4"
-          >
-            <span className="text-neon-cyan">01.</span> ABOUT_ME
-          </motion.h2>
-
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="md:col-span-2 space-y-6 text-gray-300 leading-relaxed font-light">
-              <p>
-                Obsessed with combining <strong className="text-white">Computer Science</strong> and <strong className="text-white">Finance</strong>. 
-                With over <span className="text-neon-cyan">20+ years of experience</span>, I have navigated through Banking Core Systems, 
-                Internet Finance, and deeply into the Crypto/DeFi revolution.
-              </p>
-              <p>
-                I actively contribute to the blockchain ecosystem, most notably as a co-author of the <strong className="text-white">ERC-3525</strong> standard, 
-                which introduced Semi-Fungible Tokens to Ethereum. Currently exploring the intersection of <span className="text-neon-green">AI Agents</span> and Crypto protocols.
-              </p>
-              <div className="flex gap-4 pt-4">
-                <div className="pl-4 border-l border-neon-blue">
-                  <h4 className="text-white font-bold">M.S. Finance</h4>
-                  <p className="text-sm text-gray-500">Renmin University of China</p>
-                </div>
-                <div className="pl-4 border-l border-neon-blue">
-                  <h4 className="text-white font-bold">B.S. Computer Science</h4>
-                  <p className="text-sm text-gray-500">Kunming University of Sci-Tech</p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Tech Stack Mini-Grid */}
-            <div className="space-y-6">
-              {techStack.map((stack) => (
-                <div key={stack.category}>
-                  <h4 className="flex items-center gap-2 text-white font-bold mb-2">
-                    <stack.icon className="w-4 h-4 text-neon-cyan" /> {stack.category}
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {stack.items.map(item => (
-                      <span key={item} className="text-xs px-2 py-1 rounded bg-white/5 text-gray-400 border border-white/5 hover:border-neon-cyan/50 hover:text-neon-cyan transition-colors cursor-default">
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="container mx-auto px-6 py-20">
+      {/* Experiments Section */}
+      <section id="experiments" className="container mx-auto px-6 py-20">
         <motion.h2 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-12 flex items-center gap-4"
         >
-          <span className="text-neon-cyan">02.</span> SELECTED_WORKS
+          <span className="text-neon-cyan">01.</span> THE_EXPERIMENTS
         </motion.h2>
 
         <div className="grid md:grid-cols-2 gap-8">
-            {projects.map((project, index) => (
+            {experiments.map((project, index) => (
               <motion.div
                 key={project.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -223,21 +161,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="container mx-auto px-6 py-24 text-center">
-        <div className="max-w-2xl mx-auto bg-gradient-to-b from-white/5 to-transparent p-12 rounded-2xl border border-white/10 relative overflow-hidden">
-           <div className="absolute top-0 w-full h-[1px] bg-gradient-to-r from-transparent via-neon-cyan to-transparent"></div>
-           
-           <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-white mb-4">
-             Ready to Explore?
-           </h3>
-           <p className="text-gray-400 mb-8">
-             Dive into my technical logs or check out the latest research.
-           </p>
-           <a href="/blog" className="inline-block px-8 py-4 bg-neon-blue hover:bg-neon-blue/80 text-white rounded font-bold transition-all shadow-[0_0_20px_#2d5af6]">
-             VISIT THE LOGS
-           </a>
-        </div>
+      {/* The Alchemist Section */}
+      <section id="about" className="container mx-auto px-6 py-20 relative">
+         <div className="absolute top-0 right-0 w-64 h-64 bg-neon-green/10 rounded-full blur-[100px]" />
+         
+         <div className="max-w-4xl mx-auto">
+            <motion.h2 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl md:text-4xl font-orbitron font-bold text-white mb-12 flex items-center gap-4"
+            >
+              <span className="text-neon-cyan">02.</span> THE_ALCHEMIST
+            </motion.h2>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="glass p-8 rounded-2xl border border-white/10 flex flex-col md:flex-row items-center gap-8"
+            >
+               {/* Avatar */}
+               <div className="relative w-32 h-32 shrink-0 rounded-full overflow-hidden border-2 border-neon-cyan shadow-[0_0_20px_rgba(0,243,255,0.3)] bg-black">
+                 <NextImage
+                   src="/logo.png"
+                   alt="Alchemist Avatar"
+                   fill
+                   className="object-cover mix-blend-screen scale-110"
+                 />
+               </div>
+
+               {/* Content */}
+               <div className="flex-1 text-center md:text-left space-y-4">
+                  <p className="text-xl text-white font-light">
+                    Senior Architect & <span className="text-neon-green font-bold">ERC-3525</span> Co-author.
+                  </p>
+                  <p className="text-gray-400">
+                    Obsessed with the intersection of <span className="text-white">AI</span>, <span className="text-white">Crypto</span>, and <span className="text-white">Math</span>.
+                    Exploring the boundaries of digital value and autonomous systems.
+                  </p>
+                  
+                  <div className="pt-4">
+                     <Link href="/about" className="inline-flex items-center gap-2 text-neon-cyan hover:text-neon-green transition-colors font-mono text-sm">
+                       <Terminal className="w-4 h-4" />
+                       <span>Full specs available in the Terminal.</span>
+                     </Link>
+                  </div>
+               </div>
+            </motion.div>
+         </div>
       </section>
 
     </div>

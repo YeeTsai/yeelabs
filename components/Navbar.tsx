@@ -52,6 +52,17 @@ export default function Navbar() {
               </Link>
             );
           })}
+          
+          {/* Terminal Trigger */}
+          <Link 
+            href="/about" 
+            className="ml-4 group flex items-center gap-2 text-gray-400 hover:text-[#0aff00] transition-colors duration-300"
+          >
+             <span className="hidden group-hover:block font-mono text-sm tracking-tighter text-[#0aff00] animate-in slide-in-from-right-2 duration-300">
+               &gt;_ whoami
+             </span>
+             <Terminal className="w-5 h-5 group-hover:drop-shadow-[0_0_5px_#0aff00] transition-all duration-300" />
+          </Link>
         </div>
       </div>
     </nav>

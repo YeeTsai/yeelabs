@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "YEE Labs | Scale to Yotta",
+  title: "YEE Labs | Yotta · Epoch · Epsilon",
   description: "Personal Tech Hub of a Senior Blockchain Architect & ERC-3525 Co-author.",
   icons: {
     icon: "/favicon.ico", // Ensure favicon exists or use default
