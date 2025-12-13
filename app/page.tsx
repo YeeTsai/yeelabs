@@ -44,7 +44,7 @@ export default function Home() {
     <div className="flex flex-col gap-24 pb-20 overflow-hidden">
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-16">
+      <section className="relative min-h-screen snap-start flex items-center justify-center pt-16">
         {/* Background Gradients */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-cyan/20 rounded-full blur-[128px]" />
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-neon-blue/20 rounded-full blur-[128px]" />
@@ -137,7 +137,7 @@ export default function Home() {
       </section>
 
       {/* Core Section */}
-      <section id="core" className="container mx-auto px-6 py-20 min-h-[60vh] flex flex-col justify-center">
+      <section id="core" className="container mx-auto px-6 py-20 min-h-screen snap-start flex flex-col justify-center">
         <motion.h2 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -181,7 +181,7 @@ export default function Home() {
       </section>
 
       {/* Experiments Section */}
-      <section id="experiments" className="container mx-auto px-6 py-20">
+      <section id="experiments" className="container mx-auto px-6 py-20 min-h-screen snap-start flex flex-col justify-center">
         <motion.h2 
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -207,7 +207,7 @@ export default function Home() {
       </section>
 
       {/* The Alchemist Section */}
-      <section id="about" className="container mx-auto px-6 py-20 relative">
+      <section id="about" className="container mx-auto px-6 py-20 min-h-screen snap-start flex flex-col justify-center relative">
          <div className="absolute top-0 right-0 w-64 h-64 bg-neon-green/10 rounded-full blur-[100px]" />
          
             <motion.h2 
