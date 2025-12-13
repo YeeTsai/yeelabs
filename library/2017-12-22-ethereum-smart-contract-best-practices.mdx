@@ -1,111 +1,111 @@
 ---
-title: 以太坊智能合约 —— 最佳安全开发指南
+title: Ethereum Smart Contract Best Practices
 author: ConsenSys
 category: blockchain
 date: 2017-09-16
 permalink: /docs/blockchain/ethereum-smart-contract-best-practices/
+language: en
 ---
 
-# 以太坊智能合约 —— 最佳安全开发指南
+# Ethereum Smart Contract Best Practices
 
-*本文翻译自：https://github.com/ConsenSys/smart-contract-best-practices。
-为了使语句表达更加贴切，个别地方未按照原文逐字逐句翻译，如有出入请以原文为准。*
+*This article is translated from: https://github.com/ConsenSys/smart-contract-best-practices.*
 
 [![Join the chat at https://gitter.im/ConsenSys/smart-contract-best-practices](https://badges.gitter.im/ConsenSys/smart-contract-best-practices.svg)](https://gitter.im/ConsenSys/smart-contract-best-practices?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-**主要章节如下**:
+**Major Sections**:
 
-- [**Solidity安全贴士**](#solidity-tips)
-- [**已知的攻击手段**](#known-attacks)
-  - [***竞态***](#race-conditions)
-    - [***可重入***](#reentrancy)
-    - [***交易顺序依赖***](#transaction-ordering-dependence)
-  - [***针对Gas的攻击***](#dos-with-block-gas-limit)
-  -  [***整数上溢/整数下溢***](#integer-overflow-and-underflow)
-- [**软件工程开发技巧**](#eng-techniques)
-- [**参考文献**](#bibliography)
+- [**Solidity Recommendations**](#solidity-tips)
+- [**Known Attacks**](#known-attacks)
+  - [***Race Conditions***](#race-conditions)
+    - [***Reentrancy***](#reentrancy)
+    - [***Transaction Ordering Dependence***](#transaction-ordering-dependence)
+  - [***DoS with Block Gas Limit***](#dos-with-block-gas-limit)
+  - [***Integer Overflow and Underflow***](#integer-overflow-and-underflow)
+- [**Software Engineering Techniques**](#eng-techniques)
+- [**Bibliography**](#bibliography)
 
-这篇文档旨在为Solidity开发人员提供一些智能合约的安全准则(**security baseline**)。当然也包括智能合约的**安全开发理念、bug赏金计划指南、文档例程以及工具。**
+This document aims to provide some security baselines for Solidity developers. It also includes **security philosophies, bug bounty program guides, code examples, and tools.**
 
-我们邀请社区对该文档提出修改或增补建议，欢迎各种合并请求(Pull Request)。若有相关的文章或者博客的发表，也清将其加入到[参考文献](#bibliography)中，具体详情请参见我们的[社区贡献指南](CONTRIBUTING.md)。
+We invite the community to propose changes or additions to this document. Pull Requests are welcome. If you have relevant articles or blogs, please add them to the [Bibliography](#bibliography). See our [Contribution Guide](CONTRIBUTING.md) for details.
 
-#### 更多期待内容
-我们欢迎并期待社区开发者贡献以下几个方面的内容：
- -  Solidity代码测试（包括代码结构，程序框架 以及 常见软件工程测试）
- -  智能合约开发经验总结，以及更广泛的基于区块链的开发技巧分享
+#### Wanted Content
+We welcome and look forward to community contributions in the following areas:
+ - Solidity code testing (including code structure, program frameworks, and common software engineering tests)
+ - Smart contract development experience summaries, and broader blockchain-based development tips
 
-## 基本理念
+## General Philosophy
 <a name="general-philosophy"></a>
 
-以太坊和其他复杂的区块链项目都处于早期阶段并且有很强的实验性质。因此，随着新的bug和安全漏洞被发现，新的功能不断被开发出来，其面临的安全威胁也是不断变化的。这篇文章对于开发人员编写安全的智能合约来说只是个开始。
+Ethereum and other complex blockchain projects are in their early stages and are highly experimental. Therefore, as new bugs and security vulnerabilities are discovered and new features are developed, the security threats faced are constantly changing. This article is just a start for developers writing secure smart contracts.
 
-开发智能合约需要一个全新的工程思维，它不同于我们以往项目的开发。因为它犯错的代价是巨大的，并且很难像传统软件那样轻易的打上补丁。就像直接给硬件编程或金融服务类软件开发，相比于web开发和移动开发都有更大的挑战。因此，仅仅防范已知的漏洞是不够的，你还需要学习新的开发理念：
+Developing smart contracts requires a completely new engineering mindset, different from previous project development. Because the cost of mistakes is huge, and it is difficult to patch easily like traditional software. Just like programming hardware directly or developing financial services software, it presents greater challenges than web development and mobile development. Therefore, defending against known vulnerabilities is not enough; you also need to learn new development philosophies:
 
-- **对可能的错误有所准备**。任何有意义的智能合约或多或少都存在错误。因此你的代码必须能够正确的处理出现的bug和漏洞。始终保证以下规则：
-  - 当智能合约出现错误时，停止合约，（“断路开关”）
-  - 管理账户的资金风险（限制（转账）速率、最大（转账）额度）
-  - 有效的途径来进行bug修复和功能提升
+- **Prepare for failure**. Any meaningful smart contract will contain errors. Therefore, your code must be able to correctly handle bugs and vulnerabilities when they appear. Always ensure the following rules:
+  - Pause the contract when an error occurs ("Circuit Breaker")
+  - Manage capital risk of accounts (rate limiting, maximum withdrawal limits)
+  - Effective ways to fix bugs and upgrade features
 
-- [**谨慎发布智能合约**](#contract-rollout)。 尽量在正式发布智能合约之前发现并修复可能的bug。
-  - 对智能合约进行彻底的测试，并在任何新的攻击手法被发现后及时的测试(包括已经发布的合约)
-  - 从alpha版本在测试网（testnet）上发布开始便提供[bug赏金计划](#bounties) 
-  - 阶段性发布，每个阶段都提供足够的测试
+- [**Rollout carefully**](#contract-rollout). Try to find and fix possible bugs before officially releasing the smart contract.
+  - Test smart contracts thoroughly, and test promptly after any new attack vector is discovered (including already released contracts)
+  - Provide a [bug bounty program](#bounties) starting from the alpha version release on the testnet
+  - Phased rollout, providing sufficient testing for each phase
 
-- **保持智能合约的简洁**。复杂会增加出错的风险。
-  - 确保智能合约逻辑简洁
-  - 确保合约和函数模块化
-  - 使用已经被广泛使用的合约或工具（比如，不要自己写一个随机数生成器）
-  - 条件允许的话，清晰明了比性能更重要
-  - 只在你系统的去中心化部分使用区块链
+- **Keep it simple**. Complexity increases the risk of errors.
+  - Ensure smart contract logic is simple
+  - Ensure contract and function modularity
+  - Use widely used contracts or tools (e.g., don't write your own random number generator)
+  - If conditions permit, clarity is more important than performance
+  - Only use blockchain for the decentralized parts of your system
 
-- **保持更新**。通过下一章节所列出的资源来确保获取到最新的安全进展。
-  - 在任何新的漏洞被发现时检查你的智能合约
-  - 尽可能快的将使用到的库或者工具更新到最新
-  - 使用最新的安全技术
+- **Stay updated**. Ensure you get the latest security progress through resources listed in the next section.
+  - Check your smart contracts when any new vulnerability is discovered
+  - Update libraries or tools used to the latest version as quickly as possible
+  - Use the latest security techniques
 
-- **清楚区块链的特性**。尽管你先前所拥有的编程经验同样适用于以太坊开发，但这里仍然有些陷阱你需要留意：
-  - 特别小心针对外部合约的调用，因为你可能执行的是一段恶意代码然后更改控制流程
-  - 清楚你的public function是公开的，意味着可以被恶意调用。（在以太坊上）你的private data也是对他人可见的
-  - 清楚gas的花费和区块的gas limit
+- **Understand blockchain properties**. Although your previous programming experience applies to Ethereum development, there are still some pitfalls you need to watch out for:
+  - Be especially careful with calls to external contracts, as you may verify a piece of malicious code and change the control flow
+  - Understand that your public functions are public, meaning they can be called maliciously. Your private data is also visible to others (on Ethereum)
+  - Understand gas costs and block gas limits
 
-### 基本权衡：简单性与复杂性
+### Fundamental Tradeoffs: Simplicity vs Complexity
 <a name="fundamental-tradeoffs"></a>
 
-在评估一个智能合约的架构和安全性时有很多需要权衡的地方。对任何智能合约的建议是在各个权衡点中找到一个平衡点。
+There are many tradeoffs when evaluating the architecture and security of a smart contract. The suggestion for any smart contract is to find a balance among various tradeoff points.
 
-从传统软件工程的角度出发：一个理想的智能合约首先需要模块化，能够重用代码而不是重复编写，并且支持组件升级。从智能合约安全架构的角度出发同样如此，模块化和重用被严格审查检验过的合约是最佳策略，特别是在复杂智能合约系统里。
+From a traditional software engineering perspective: an ideal smart contract needs to be modular, able to reuse code instead of rewriting it, and support component upgrades. From a smart contract security architecture perspective, modularity and reusing rigorously reviewed contracts is the best strategy, especially in complex smart contract systems.
 
-然而，这里有几个重要的例外，它们从合约安全和传统软件工程两个角度考虑，所得到的重要性排序可能不同。当中每一条，都需要针对智能合约系统的特点找到最优的组合方式来达到平衡。
+However, there are several important exceptions where the importance ranking obtained from contract security and traditional software engineering perspectives may differ. For each one, the optimal combination needs to be found based on the characteristics of the smart contract system to achieve balance.
 
-- 固化 vs 可升级
-- 庞大 vs 模块化
-- 重复 vs 可重用
+- Rigid vs Upgradeable
+- Monolithic vs Modular
+- Duplication vs Reuse
 
-#### 固化 vs 可升级
+#### Rigid vs Upgradeable
 
-在很多文档或者开发指南中，包括该指南，都会强调延展性比如：可终止，可升级或可更改的特性，不过对于智能合约来说，延展性和安全之间是个*基本权衡*。
+In many documents or development guides, including this one, malleability such as termination, upgradeability, or changeability is emphasized. However, for smart contracts, malleability and security are a *fundamental tradeoff*.
 
-延展性会增加程序复杂性和潜在的攻击面。对于那些只在特定的时间段内提供有限的功能的智能合约，简单性比复杂性显得更加高效，比如无管治功能，有限短期内使用的代币发行的智能合约系统(governance-fee,finite-time-frame token-sale contracts)。
+Malleability increases program complexity and potential attack surfaces. For smart contracts that only provide limited functions within a specific time frame, simplicity is vastly more efficient than complexity, such as governance-free, finite-time-frame token-sale contracts.
 
-#### 庞大 vs 模块化
+#### Monolithic vs Modular
 
-一个庞大的独立的智能合约把所有的变量和模块都放到一个合约中。尽管只有少数几个大家熟知的智能合约系统真的做到了大体量，但在将数据和流程都放到一个合约中还是享有部分优点--比如，提高代码审核(code review)效率。
+A large independent smart contract puts all variables and modules into one contract. Although only a few well-known smart contract systems have truly achieved monolithic scale, keeping data and processes in one contract does enjoy some advantages -- for example, improving code review efficiency.
 
-和在这里讨论的其他权衡点一样，传统软件开发策略和从合约安全角度出发考虑，两者不同主要在对于简单、短生命周期的智能合约；对于更复杂、长生命周期的智能合约，两者策略理念基本相同。
+Like other tradeoffs discussed here, traditional software development strategies and contract security perspectives differ mainly for simple, short-lifecycle smart contracts; for more complex, long-lifecycle smart contracts, the strategy concepts are basically the same.
 
-#### 重复 vs 可重用
+#### Duplication vs Reuse
 
-从软件工程角度看，智能合约系统希望在合理的情况下最大程度地实现重用。 在Solidity中重用合约代码有很多方法。 使用**你拥有的**以前部署的经过验证的智能合约是实现代码重用的最安全的方式。
+From a software engineering perspective, smart contract systems hope to maximize reuse where reasonable. There are many ways to reuse contract code in Solidity. Using **your own** previously deployed verified smart contracts is the safest way to achieve code reuse.
 
-在以前所拥有已部署智能合约不可重用时重复还是很需要的。 现在[Live Libs](https://github.com/ConsenSys/live-libs) 和[Zeppelin Solidity](https://github.com/OpenZeppelin/zeppelin-solidity) 正寻求提供安全的智能合约组件使其能够被重用而不需要每次都重新编写。任何合约安全性分析都必须标明重用代码，特别是以前没有建立与目标智能合同系统中处于风险中的资金相称的信任级别的代码。
+Duplication is still needed when previously owned deployed smart contracts are not reusable. Now [Live Libs](https://github.com/ConsenSys/live-libs) and [Zeppelin Solidity](https://github.com/OpenZeppelin/zeppelin-solidity) are seeking to provide secure smart contract components that can be reused without rewriting every time. A contract security analysis must mark reused code, especially code that has not previously established a trust level commensurate with the funds at risk in the target smart contract system.
 
-## 安全通知
+## Security Notifications
 
-以下这些地方通常会通报在Ethereum或Solidity中新发现的漏洞。安全通告的官方来源是Ethereum Blog，但是一般漏洞都会在其他地方先被披露和讨论。
+The following places typically announce newly discovered vulnerabilities in Ethereum or Solidity. The official source for security advisories is the Ethereum Blog, but vulnerabilities are often disclosed and discussed elsewhere first.
 
-- [Ethereum Blog](https://blog.ethereum.org/): The official Ethereum blog 
-  - [Ethereum Blog - Security only](https://blog.ethereum.org/category/security/): 所有相关博客都带有**Security**标签
-- [Ethereum Gitter](https://gitter.im/orgs/ethereum/rooms) 聊天室
+- [Ethereum Blog](https://blog.ethereum.org/): The official Ethereum blog
+  - [Ethereum Blog - Security only](https://blog.ethereum.org/category/security/): All relevant blogs have the **Security** tag
+- [Ethereum Gitter](https://gitter.im/orgs/ethereum/rooms) Chat Rooms
   - [Solidity](https://gitter.im/ethereum/solidity)
   - [Go-Ethereum](https://gitter.im/ethereum/go-ethereum)
   - [CPP-Ethereum](https://gitter.im/ethereum/cpp-ethereum)
@@ -113,53 +113,54 @@ permalink: /docs/blockchain/ethereum-smart-contract-best-practices/
 - [Reddit](https://www.reddit.com/r/ethereum)
 - [Network Stats](https://ethstats.net/)
 
-强烈建议你经常浏览这些网站，尤其是他们提到的可能会影响你的智能合约的漏洞。
+It is strongly recommended that you browse these sites frequently, especially for vulnerabilities mentioned that may affect your smart contracts.
 
-另外, 这里列出了以太坊参与安全模块相关的核心开发成员, 浏览 [bibliography](https://github.com/ConsenSys/smart-contract-best-practices#smart-contract-security-bibliography) 获取更多信息。
+ additionally, here is a list of core developers involved in Ethereum security modules. See the [bibliography](https://github.com/ConsenSys/smart-contract-best-practices#smart-contract-security-bibliography) for more information.
 
 - **Vitalik Buterin**: [Twitter](https://twitter.com/vitalikbuterin), [Github](https://github.com/vbuterin), [Reddit](https://www.reddit.com/user/vbuterin), [Ethereum Blog](https://blog.ethereum.org/author/vitalik-buterin/)
 - **Dr. Christian Reitwiessner**: [Twitter](https://twitter.com/ethchris), [Github](https://github.com/chriseth), [Ethereum Blog](https://blog.ethereum.org/author/christian_r/)
 - **Dr. Gavin Wood**: [Twitter](https://twitter.com/gavofyork), [Blog](http://gavwood.com/), [Github](https://github.com/gavofyork)
 - **Vlad Zamfir**: [Twitter](https://twitter.com/vladzamfir), [Github](https://github.com/vladzamfir), [Ethereum Blog](https://blog.ethereum.org/author/vlad/)
 
-除了关注核心开发成员，参与到各个区块链安全社区也很重要，因为安全漏洞的披露或研究将通过各方进行。
+Besides following core developers, participating in various blockchain security communities is also important, as security vulnerability disclosures or research will be conducted through various parties.
+
 <a name="solidity-tips"></a>
 
-## 关于使用Solidity开发的智能合约安全建议
+## Security Recommendations for Smart Contract Development with Solidity
 
-### 外部调用
+### External Calls
 
-#### 尽量避免外部调用
+#### Avoid External Calls
 <a name="avoid-external-calls"></a>
 
-调用不受信任的外部合约可能会引发一系列意外的风险和错误。外部调用可能在其合约和它所依赖的其他合约内执行恶意代码。因此，每一个外部调用都会有潜在的安全威胁，尽可能的从你的智能合约内移除外部调用。当无法完全去除外部调用时，可以使用这一章节其他部分提供的建议来尽量减少风险。
+Calling untrusted external contracts can introduce a range of unexpected risks and errors. External calls can execute malicious code within their contract and other contracts they depend on. Therefore, every external call presents a potential security threat. Ideally, remove external calls from your smart contract. When external calls cannot be completely removed, use the suggestions provided in other parts of this section to minimize risks.
 
 <a name="send-vs-call-value"></a>
 
-#### 仔细权衡“send()”、“transfer()”、以及“call.value()”
+#### Carefully weigh "send()", "transfer()", and "call.value()()"
 
-当转账Ether时，需要仔细权衡“someAddress.send()”、“someAddress.transfer()”、和“someAddress.call.value()()”之间的差别。
+When transferring Ether, you need to carefully weigh the differences between "someAddress.send()", "someAddress.transfer()", and "someAddress.call.value()()".
 
--  `x.transfer(y)`和`if (!x.send(y)) throw;`是等价的。send是transfer的底层实现，建议尽可能直接使用transfer。
-- `someAddress.send()`和`someAddress.transfer()` 能保证[可重入](#reentrancy) **安全** 。
-    尽管这些外部智能合约的函数可以被触发执行，但补贴给外部智能合约的2,300 gas，意味着仅仅只够记录一个event到日志中。
-- `someAddress.call.value()()` 将会发送指定数量的Ether并且触发对应代码的执行。被调用的外部智能合约代码将享有所有剩余的gas，通过这种方式转账是很容易有可重入漏洞的，非常 **不安全**。
+- `x.transfer(y)` is equivalent to `if (!x.send(y)) throw;`. send is the low-level implementation of transfer, and it is recommended to use transfer directly whenever possible.
+- `someAddress.send()` and `someAddress.transfer()` guarantee [reentrancy](#reentrancy) **safety**.
+    Although these external smart contract functions can be triggered, the 2,300 gas stipend mainly only allows logging an event.
+- `someAddress.call.value()()` will send the specified amount of Ether and trigger the execution of the corresponding code. The called external smart contract code will enjoy all remaining gas. Transferring in this way is very prone to reentrancy vulnerabilities and is very **unsafe**.
 
-使用`send()` 或`transfer()` 可以通过制定gas值来预防可重入， 但是这样做可能会导致在和合约调用fallback函数时出现问题，由于gas可能不足，而合约的fallback函数执行至少需要2,300 gas消耗。
+Using `send()` or `transfer()` generates reentrancy prevention by specifying gas values, but doing so may cause issues when calling the fallback function of a contract, because the gas may be insufficient, and the Contract's fallback function execution requires at least 2,300 gas consumption.
 
-一种被称为[*push* 和*pull*](#favor-pull-over-push-payments)的 机制试图来平衡两者， 在 *push* 部分使用`send()` 或`transfer()`，在*pull* 部分使用`call.value()()`。（*译者注：在需要对外未知地址转账Ether时使用`send()` 或`transfer()`，已知明确内部无恶意代码的地址转账Ether使用`call.value()()`）
+A mechanism known as [*push* and *pull*](#favor-pull-over-push-payments) attempts to balance both, using `send()` or `transfer()` in the *push* part and `call.value()()` in the *pull* part.
 
-需要注意的是使用`send()` 或`transfer()` 进行转账并不能保证该智能合约本身重入安全，它仅仅只保证了这次转账操作时重入安全的。
+Note that using `send()` or `transfer()` for transfers does not guarantee the smart contract itself is reentrancy safe; it only guarantees that this specific transfer operation is reentrancy safe.
 
 <a name="handle-external-errors"></a>
 
-#### 处理外部调用错误
+#### Handle External Call Errors
 
-Solidity提供了一系列在raw address上执行操作的底层方法，比如： `address.call()`，`address.callcode()`， `address.delegatecall()`和`address.send`。这些底层方法不会抛出异常(throw)，只是会在遇到错误时返回false。另一方面， *contract calls* （比如，`ExternalContract.doSomething()`)）会自动传递异常，（比如，`doSomething()`抛出异常，那么`ExternalContract.doSomething()` 同样会进行`throw`） )。
+Solidity provides a series of low-level methods for executing operations on raw addresses, such as: `address.call()`, `address.callcode()`, `address.delegatecall()`, and `address.send()`. These low-level methods do not throw exceptions (throw); they simply return `false` when encountering errors. On the other hand, *contract calls* (e.g., `ExternalContract.doSomething()`) automatically propagate exceptions (e.g., if `doSomething()` throws an exception, `ExternalContract.doSomething()` will also `throw`).
 
-如果你选择使用底层方法，一定要检查返回值来对可能的错误进行处理。
+If you choose to use low-level methods, be sure to check the return value to handle possible errors.
 
-```sh
+```javascript
 // bad
 someAddress.send(55);
 someAddress.call.value(55)(); // this is doubly dangerous, as it will forward all remaining gas and doesn't check for result
@@ -174,17 +175,17 @@ ExternalContract(someAddress).deposit.value(100);
 ```
 <a name="expect-control-flow-loss"></a>
 
-#### 不要假设你知道外部调用的控制流程
+#### Don't Assume You Know the Control Flow of External Calls
 
-无论是使用**raw calls** 或是**contract calls**，如果这个`ExternalContract`是不受信任的都应该假设存在恶意代码。即使`ExternalContract`不包含恶意代码，但它所调用的其他合约代码可能会包含恶意代码。一个具体的危险例子便是恶意代码可能会劫持控制流程导致竞态。（浏览[Race Conditions](https://github.com/ConsenSys/smart-contract-best-practices/#race-conditions)获取更多关于这个问题的讨论）
+Whether using **raw calls** or **contract calls**, if this `ExternalContract` is untrusted, you should assume malicious code exists. Even if the `ExternalContract` does not contain malicious code, the other contract code it calls might. A concrete danger example is malicious code hijacking control flow leading to race conditions. (See [Race Conditions](https://github.com/ConsenSys/smart-contract-best-practices/#race-conditions) for more discussion on this issue)
 
 <a name="favor-pull-over-push-payments"></a>
 
-#### 对于外部合约优先使用*pull* 而不是*push*
+#### Favor *pull* over *push* for External Contracts
 
-外部调用可能会有意或无意的失败。为了最小化这些外部调用失败带来的损失，通常好的做法是将外部调用函数与其余代码隔离，最终是由收款发起方负责发起调用该函数。这种做法对付款操作尤为重要，比如让用户自己撤回资产而不是直接发送给他们。（*译者注：事先设置需要付给某一方的资产的值，表明接收方可以从当前账户撤回资金的额度，然后由接收方调用当前合约提现函数完成转账*）。（这种方法同时也避免了造成 [gas limit相关问题](https://github.com/ConsenSys/smart-contract-best-practices/#dos-with-block-gas-limit)。）
+External calls can fail intentionally or unintentionally. To minimize the damage caused by these external call failures, it is usually good practice to isolate the external call function from the rest of the code, and ultimately have the payee initiate the call to that function. This practice is especially important for payment operations, such as letting users withdraw assets themselves rather than sending directly to them. (This method also avoids [gas limit related issues](https://github.com/ConsenSys/smart-contract-best-practices/#dos-with-block-gas-limit).)
 
-```sh
+```javascript
 // bad
 contract auction {
     address highestBidder;
@@ -232,11 +233,11 @@ contract auction {
 ```
 <a name="mark-untrusted-contracts"></a>
 
-#### 标记不受信任的合约
+#### Mark Untrusted Contracts
 
-当你自己的函数调用外部合约时，你的变量、方法、合约接口命名应该表明和他们可能是不安全的。
+When your own functions call external contracts, your variable, method, and contract interface naming should indicate that they might be unsafe.
 
-```sh
+```javascript
 // bad
 Bank.withdraw(100); // Unclear whether trusted or untrusted
 
@@ -253,13 +254,13 @@ function makeUntrustedWithdrawal(uint amount) {
 }
 ```
 
-### 使用`assert()`强制不变性
+### Use `assert()` to Enforce Invariants
 
-当断言条件不满足时将触发断言保护 -- 比如不变的属性发生了变化。举个例子，代币在以太坊上的发行比例，在代币的发行合约里可以通过这种方式得到解决。断言保护经常需要和其他技术组合使用，比如当断言被触发时先挂起合约然后升级。（否则将一直触发断言，你将陷入僵局）
+Assertion protection will be triggered when assertion conditions are not met -- for example, when an invariant property changes. For example, the issuance ratio of tokens on Ethereum can be resolved in this way in the token issuance contract. Assertion protection often needs to be combined with other techniques, such as pausing the contract and upgrading when an assertion is triggered. (Otherwise, the assertion will always be triggered, and you will be in a deadlock)
 
-例如：
+For example:
 
-```
+```javascript
 contract Token {
     mapping(address => uint) public balanceOf;
     uint public totalSupply;
@@ -271,21 +272,21 @@ contract Token {
     }
 }
 ```
-注意断言保护 **不是** 严格意义的余额检测， 因为智能合约可以不通过`deposit()` 函数被 [强制发送Ether](#ether-forcibly-sent)！
+Note that assertion protection is **not** a strict balance check, because smart contracts can be [forcibly sent Ether](#ether-forcibly-sent) without going through the `deposit()` function!
 
-### 正确使用`assert()`和`require()` 
+### Correctly Use `assert()` and `require()`
 
-在Solidity 0.4.10 中`assert()`和`require()`被加入。`require(condition)`被用来验证用户的输入，如果条件不满足便会抛出异常，应当使用它验证所有用户的输入。 `assert(condition)` 在条件不满足也会抛出异常，但是最好只用于固定变量：内部错误或你的智能合约陷入无效的状态。遵循这些范例，使用分析工具来验证永远不会执行这些无效操作码：意味着代码中不存在任何不变量，并且代码已经正式验证。
+`assert()` and `require()` were added in Solidity 0.4.10. `require(condition)` uses to validate user inputs, and throws an exception if the condition is not met. It should be used to validate all user inputs. `assert(condition)` also throws an exception if not met, but should ideally only be used for invariants: internal errors or your smart contract getting into an invalid state. Following these paradigms, use analysis tools to verify that these invalid opcodes are never executed: meaning no invariants exist in the code, and the code has been formally verified.
 
 <a name="beware-rounding-with-integer-division"></a>
 
-### 小心整数除法的四舍五入
+### Beware of Rounding with Integer Division
 
-所有整数除数都会四舍五入到最接近的整数。 如果您需要更高精度，请考虑使用乘数，或存储分子和分母。
+All integer division rounds down to the nearest integer. If you need higher precision, consider using a multiplier, or store both the numerator and denominator.
 
-（将来Solidity会有一个fixed-point类型来让这一切变得容易。）
+(In the future Solidity will have a fixed-point type to make this easier.)
 
-```sh
+```javascript
 // bad
 uint x = 5 / 2; // Result is 2, all integer divison rounds DOWN to the nearest integer
 
@@ -299,44 +300,44 @@ uint denominator = 2;
 
 <a name="ether-forcibly-sent"></a>
 
-### 记住Ether可以被强制发送到账户
+### Remember Ether can be Forcibly Sent
 
-谨慎编写用来检查账户余额的不变量。
+Be careful when writing invariants that check account balances.
 
-攻击者可以强制发送wei到任何账户，而且这是不能被阻止的（即使让fallback函数`throw`也不行）
+An attacker can forcibly send wei to any account, and this cannot be prevented (even if the fallback function `throws`).
 
-攻击者可以仅仅使用1 wei来创建一个合约，然后调用`selfdestruct(victimAddress)`。在`victimAddress`中没有代码被执行，所以这是不能被阻止的。
+An attacker can create a contract with just 1 wei, and then call `selfdestruct(victimAddress)`. No code is executed in `victimAddress`, so this cannot be prevented.
 
-### 不要假设合约创建时余额为零
+### Don't Assume Zero Balance on Contract Creation
 
-攻击者可以在合约创建之前向合约的地址发送wei。合约不能假设它的初始状态包含的余额为零。浏览[issue 61](https://github.com/ConsenSys/smart-contract-best-practices/issues/61) 获取更多信息。
+Attackers can send wei to the contract address before the contract is created. The contract cannot assume its initial state contains zero balance. See [issue 61](https://github.com/ConsenSys/smart-contract-best-practices/issues/61) for more info.
 
-### 记住链上的数据是公开的
+### Remember On-Chain Data is Public
 
-许多应用需要提交的数据是私有的，直到某个时间点才能工作。游戏（比如，链上游戏rock-paper-scissors（石头剪刀布））和拍卖机（比如，sealed-bid second-price auctions）是两个典型的例子。如果你的应用存在隐私保护问题，一定要避免过早发布用户信息。
+Many applications require submitted data to be private until a certain point in time to work. Games (e.g., on-chain Rock-Paper-Scissors) and auctions (e.g., sealed-bid second-price auctions) are two typical examples. If your application has privacy issues, be sure to avoid releasing user information prematurely.
 
-例如：
+For example:
 
-* 在游戏石头剪刀布中，需要参与游戏的双方提交他们“行动计划”的hash值，然后需要双方随后提交他们的行动计划；如果双方的“行动计划”和先前提交的hash值对不上则抛出异常。
-* 在拍卖中，要求玩家在初始阶段提交其所出价格的hash值（以及超过其出价的保证金），然后在第二阶段提交他们所出价格的资金。
-* 当开发一个依赖随机数生成器的应用时，正确的顺序应当是（1）玩家提交行动计划，（2）生成随机数，（3）玩家支付。产生随机数是一个值得研究的领域；当前最优的解决方案包括比特币区块头（通过http://btcrelay.org验证），hash-commit-reveal方案（比如，一方产生number后，将其散列值提交作为对这个number的“提交”，然后在随后再暴露这个number本身）和 [RANDAO](http://github.com/randao/randao)。
-* 如果你正在实现频繁的批量拍卖，那么hash-commit机制也是个不错的选择。
+* In Rock-Paper-Scissors, require both players to submit the hash of their "move", then require both to reveal their move later; if the "move" doesn't match the previously submitted hash, throw an exception.
+* In auctions, require players to submit the hash of their bid (along with a deposit exceeding their bid) in the initial phase, and then submit their bid funds in the second phase.
+* When developing an application relying on a random number generator, the correct order should be (1) players submit moves, (2) generate random number, (3) players pay. Random number generation is a field worth researching; current best solutions include Bitcoin block headers (verified via http://btcrelay.org), hash-commit-reveal schemes (e.g., one party generates a number, submits its hash as a "commitment" to this number, and then reveals the number itself later), and [RANDAO](http://github.com/randao/randao).
+* If you are implementing frequent batch auctions, a hash-commit mechanism is also a good choice.
 
-### 权衡Abstract合约和Interfaces
+### Tradeoffs between Abstract Contracts and Interfaces
 
-Interfaces和Abstract合约都是用来使智能合约能更好的被定制和重用。Interfaces是在Solidity 0.4.11中被引入的，和Abstract合约很像但是不能定义方法只能申明。Interfaces存在一些限制比如不能够访问storage或者从其他Interfaces那继承，通常这些使Abstract合约更实用。尽管如此，Interfaces在实现智能合约之前的设计智能合约阶段仍然有很大用处。另外，需要注意的是如果一个智能合约从另一个Abstract合约继承而来那么它必须实现所有Abstract合约内的申明并未实现的函数，否则它也会成为一个Abstract合约。
+Interfaces and Abstract contracts are used to make smart contracts better customizable and reusable. Interfaces were introduced in Solidity 0.4.11 and are very similar to Abstract contracts but cannot define methods, only declare them. Interfaces have limitations such as not being able to access storage or inherit from other Interfaces, which usually makes Abstract contracts more practical. Nevertheless, Interfaces are still very useful in the design phase before implementing smart contracts. Additionally, note that if a smart contract inherits from another Abstract contract, it must implement all functions declared but not implemented in the Abstract contract, otherwise it will also become an Abstract contract.
 
-### 在双方或多方参与的智能合约中，参与者可能会“脱机离线”后不再返回
+### Participants May "Go Offline" and Not Return
 
-不要让退款和索赔流程依赖于参与方执行的某个特定动作而没有其他途径来获取资金。比如，在石头剪刀布游戏中，一个常见的错误是在两个玩家提交他们的行动计划之前不要付钱。然而一个恶意玩家可以通过一直不提交它的行动计划来使对方蒙受损失 -- 事实上，如果玩家看到其他玩家泄露的行动计划然后决定他是否会损失（译者注：发现自己输了），那么他完全有理由不再提交他自己的行动计划。这些问题也同样会出现在通道结算。当这些情形出现导致问题后：（1）提供一种规避非参与者和参与者的方式，可能通过设置时间限制，和（2）考虑为参与者提供额外的经济激励，以便在他们应该这样做的所有情况下仍然提交信息。
+Do not let refund and claim processes depend on a specific action performed by a participant without other ways to get funds. For example, in Rock-Paper-Scissors, a common mistake is not to pay out until both players submit their moves. However, a malicious player can cause the opponent to lose by never submitting their move -- effectively, if deeps sees the other player's revealed move and decides he will lose, he has every reason not to submit his own move. These issues also appear in channel settlement. When such situations arise causing problems: (1) provide a way to circumvent non-participants, possibly by setting time limits, and (2) consider providing additional economic incentives for participants to submit information in all situations where they should.
 
 <a name="keep-fallback-functions-simple"></a>
 
-### 使Fallback函数尽量简单
+### Keep Fallback Functions Simple
 
-[Fallback函数](http://solidity.readthedocs.io/en/latest/contracts.html#fallback-function)在合约执行消息发送没有携带参数（或当没有匹配的函数可供调用）时将会被调用，而且当调用 `.send()` or `.transfer()`时，只会有2,300 gas 用于失败后fallback函数的执行（*译者注：合约收到Ether也会触发fallback函数执行*）。如果你希望能够监听`.send（）`或`.transfer（）`接收到Ether，则可以在fallback函数中使用event（译者注：让客户端监听相应事件做相应处理）。谨慎编写fallback函数以免gas不够用。
+The [Fallback function](http://solidity.readthedocs.io/en/latest/contracts.html#fallback-function) is called when a contract executes a message call with no arguments (or when no matching function is found), and when `.send()` or `.transfer()` is called, only 2,300 gas is available for the fallback function execution after failure. If you wish to listen for Ether received by `.send()` or `.transfer()`, use an event in the fallback function. Write fallback functions carefully to avoid running out of gas.
 
-```sh
+```javascript
 // bad
 function() payable { balances[msg.sender] += msg.value; }
 
@@ -348,11 +349,11 @@ function() payable { LogDepositReceived(msg.sender); }
 
 <a name="mark-visibility"></a>
 
-### 明确标明函数和状态变量的可见性
+### Explicitly Mark Function and State Variable Visibility
 
-明确标明函数和状态变量的可见性。函数可以声明为 `external`，`public`， `internal` 或 `private`。 分清楚它们之间的差异， 例如`external` 可能已够用而不是使用 `public`。对于状态变量，`external`是不可能的。明确标注可见性将使得更容易避免关于谁可以调用该函数或访问变量的错误假设。
+Explicitly mark the visibility of functions and state variables. Functions can be declared as `external`, `public`, `internal`, or `private`. Understand the differences; for example, `external` might be sufficient instead of `public`. For state variables, `external` is impossible. Explicitly marking visibility makes it easier to avoid incorrect assumptions about who can call the function or access the variable.
 
-```sh
+```javascript
 // bad
 uint x; // the default is private for state variables, but it should be made explicit
 function buy() { // the default is public
@@ -376,11 +377,11 @@ function internalAction() internal {
 
 <a name="lock-pragmas"></a>
 
-### 将程序锁定到特定的编译器版本
+### Lock Pragmas to Specific Compiler Version
 
-智能合约应该应该使用和它们测试时使用最多的编译器相同的版本来部署。锁定编译器版本有助于确保合约不会被用于最新的可能还有bug未被发现的编译器去部署。智能合约也可能会由他人部署，而pragma标明了合约作者希望使用哪个版本的编译器来部署合约。
+Smart contracts should be deployed with the same compiler version used most often during testing. Locking the compiler version helps ensure the contract isn't deployed with the latest compiler which might have undiscovered bugs. Smart contracts might also be deployed by others, and the pragma indicates which compiler version the author wishes to be used.
 
-```sh
+```javascript
 // bad
 pragma solidity ^0.4.4;
 
@@ -390,19 +391,17 @@ pragma solidity 0.4.4;
 ```
 <a name="beware-division-by-zero"></a>
 
-（*译者注：这当然也会付出兼容性的代价*）
+### Beware of Division by Zero (Solidity < 0.4)
 
-### 小心分母为零 (Solidity < 0.4)
-
-早于0.4版本, 当一个数尝试除以零时，Solidity [返回zero](https://github.com/ethereum/solidity/issues/670) 并没有 `throw` 一个异常。确保你使用的Solidity版本至少为 0.4。
+Prior to version 0.4, when a number attempts to divide by zero, Solidity [returns zero](https://github.com/ethereum/solidity/issues/670) and does not `throw` an exception. Ensure the Solidity version you use is at least 0.4.
 
 <a name="differentiate-functions-events"></a>
 
-### 区分函数和事件
+### Differentiate Functions and Events
 
-为了防止函数和事件（Event）产生混淆，命名一个事件使用大写并加入前缀（我们建议**LOG**）。对于函数， 始终以小写字母开头，构造函数除外。
+To prevent confusion between functions and events, name an event using visualization and add a prefix (we suggest **LOG**). For functions, always start with a lowercase letter, except for constructors.
 
-```sh
+```javascript
 // bad
 event Transfer() {}
 function transfer() {}
@@ -414,27 +413,27 @@ function transfer() external {}
 
 <a name="prefer-newer-constructs"></a>
 
-### 使用Solidity更新的构造器
+### Use Newer Solidity Constructs
 
-更合适的构造器/别名，如`selfdestruct`（旧版本为'suicide`）和`keccak256`（旧版本为`sha3`）。 像`require(msg.sender.send(1 ether))``的模式也可以简化为使用`transfer()`，如`msg.sender.transfer(1 ether)`。
+Use more appropriate constructors/aliases, like `selfdestruct` (old version `suicide`) and `keccak256` (old version `sha3`). Patterns like `require(msg.sender.send(1 ether))` can also be simplified to use `transfer()`, like `msg.sender.transfer(1 ether)`.
 
 <a name="known-attacks"></a>
 
-## 已知的攻击
+## Known Attacks
 
 <a name="race-conditions"></a>
 
-### 竞态<sup><a href='#footnote-race-condition-terminology'>\*</a></sup>
+### Race Conditions<sup><a href='#footnote-race-condition-terminology'>\*</a></sup>
 
-调用外部契约的主要危险之一是它们可以接管控制流，并对调用函数意料之外的数据进行更改。 这类bug有多种形式，导致DAO崩溃的两个主要错误都是这种错误。
+One of the major dangers of calling external contracts is that they can take over the control flow and make changes to data that the calling function did not expect. This class of bugs takes many forms, and both of the major bugs that led to the DAO collapse were of this type.
 
 <a name="reentrancy"></a>
 
-#### 重入
+#### Reentrancy
 
-这个版本的bug被注意到是其可以在第一次调用这个函数完成之前被多次重复调用。对这个函数不断的调用可能会造成极大的破坏。
+This version of the bug is noticed because it can be called repeatedly multiple times before the first call to the function completes. Repeated calls to this function can cause massive destruction.
 
-```sh
+```javascript
 // INSECURE
 mapping (address => uint) private userBalances;
 
@@ -444,15 +443,14 @@ function withdrawBalance() public {
     userBalances[msg.sender] = 0;
 }
 ```
-（*译者注：使用msg.sender.call.value()()）传递给fallback函数可用的气是当前剩余的所有气，在这里，假如从你账户执行提现操作的恶意合约的fallback函数内递归调用你的withdrawBalance()便可以从你的账户转走更多的币。*）
 
-可以看到当调msg.sender.call.value()()时，并没有将userBalances[msg.sender] 清零，于是在这之前可以成功递归调用很多次withdrawBalance()函数。 一个非常相像的bug便是出现在针对 DAO 的攻击。
+It can be seen that when `msg.sender.call.value()()` is called, `userBalances[msg.sender]` is not zeroed out, so `withdrawBalance()` functions can be successfully recursively called many times before that. A very similar bug appeared in the DAO attack.
 
-在给出来的例子中，最好的方法是 [ 使用 `send()` 而不是`call.value()()`](https://github.com/ConsenSys/smart-contract-best-practices#send-vs-call-value)。这将避免多余的代码被执行。
+In the example given, the best way is to [use `send()` instead of `call.value()()`](https://github.com/ConsenSys/smart-contract-best-practices#send-vs-call-value). This will avoid executing extra code.
 
-然而，如果你没法完全移除外部调用，另一个简单的方法来阻止这个攻击是确保你在完成你所有内部工作之前不要进行外部调用：
+However, if you cannot completely remove external calls, another simple way to prevent this attack is to ensure you don't make external calls until you finish all your internal work:
 
-```sh
+```javascript
 mapping (address => uint) private userBalances;
 
 function withdrawBalance() public {
@@ -462,13 +460,13 @@ function withdrawBalance() public {
 }
 ```
 
-注意如果你有另一个函数也调用了 `withdrawBalance()`， 那么这里潜在的存在上面的攻击，所以你必须认识到任何调用了不受信任的合约代码的合约也是不受信任的。继续浏览下面的相关潜在威胁解决办法的讨论。
+Note that if you have another function that also calls `withdrawBalance()`, potential attacks exist there too, so you must recognize that any contract that calls untrusted contract code is also untrusted. Continue reading the discussion of potential threat solutions below.
 
-#### 跨函数竞态
+#### Cross-function Race Conditions
 
-攻击者也可以使用两个共享状态变量的不同的函数来进行类似攻击。
+Attackers can also use two different functions that share state variables to launch similar attacks.
 
-```sh
+```javascript
 // INSECURE
 mapping (address => uint) private userBalances;
 
@@ -485,17 +483,17 @@ function withdrawBalance() public {
     userBalances[msg.sender] = 0;
 }
 ```
-着这个例子中，攻击者在他们外部调用`withdrawBalance`函数时调用`transfer()`，如果这个时候`withdrawBalance`还没有执行到`userBalances[msg.sender] = 0;`这里，那么他们的余额就没有被清零，那么他们就能够调用`transfer()`转走代币尽管他们其实已经收到了代币。这个弱点也可以被用到对DAO的攻击。
+In this example, attackers call `transfer()` when their external `withdrawBalance` function is called. If `withdrawBalance` has not yet executed to `userBalances[msg.sender] = 0;` here, their balance has not been zeroed, so they can call `transfer()` to transfer tokens even though they have actually received the tokens. This weakness can also be used in DAO attacks.
 
-同样的解决办法也会管用，在执行转账操作之前先清零。也要注意在这个例子中所有函数都是在同一个合约内。然而，如果这些合约共享了状态，同样的bug也可以发生在跨合约调用中。
+The same solution works: zero out before executing transfer operations. Also note that in this example all functions are within the same contract. However, if these contracts share state, the same bug can occur in cross-contract calls.
 
-#### 竞态解决办法中的陷阱
+#### Pitfalls in Race Condition Solutions
 
-由于竞态既可以发生在跨函数调用，也可以发生在跨合约调用，任何只是避免重入的解决办法都是不够的。
+Since race conditions can occur in both cross-function calls and cross-contract calls, any solution that only avoids reentrancy is insufficient.
 
-作为替代，我们建议首先应该完成所有内部的工作然后再执行外部调用。这个规则可以避免竞态发生。然而，你不仅应该避免过早调用外部函数而且应该避免调用那些也调用了外部函数的外部函数。例如，下面的这段代码是不安全的：
+Alternatively, we suggest finishing all internal work first and then executing external calls. This rule avoids race conditions. However, you should avoid potential calls to external functions prematurely as well as avoiding calling eternal functions that also call external functions. For example, the following code is unsafe:
 
-```sh
+```javascript
 // INSECURE
 mapping (address => uint) private userBalances;
 mapping (address => bool) private claimedBonus;
@@ -516,9 +514,9 @@ function getFirstWithdrawalBonus(address recipient) public {
 }
 ```
 
-尽管`getFirstWithdrawalBonus()` 没有直接调用外部合约，但是它调用的`withdraw()` 却会导致竞态的产生。在这里你不应该认为`withdraw()`是受信任的。
+Although `getFirstWithdrawalBonus()` does not directly call an external contract, the `withdraw()` it calls leads to a race condition. Here you should not consider `withdraw()` trusted.
 
-```sh
+```javascript
 mapping (address => uint) private userBalances;
 mapping (address => bool) private claimedBonus;
 mapping (address => uint) private rewardsForA;
@@ -538,11 +536,11 @@ function untrustedGetFirstWithdrawalBonus(address recipient) public {
 }
 ```
 
-除了修复bug让重入不可能成功，[不受信任的函数也已经被标记出来](https://github.com/ConsenSys/smart-contract-best-practices#mark-untrusted-contracts) 。同样的情景： `untrustedGetFirstWithdrawalBonus()` 调用`untrustedWithdraw()`, 而后者调用了外部合约，因此在这里`untrustedGetFirstWithdrawalBonus()` 是不安全的。
+In addition to fixing the bug to make reentrancy impossible, [untrusted functions have also been marked](https://github.com/ConsenSys/smart-contract-best-practices#mark-untrusted-contracts). Same scenario: `untrustedGetFirstWithdrawalBonus()` calls `untrustedWithdraw()`, which calls an external contract, so here `untrustedGetFirstWithdrawalBonus()` is unsafe.
 
-另一个经常被提及的解决办法是（*译者注：像传统多线程编程中一样*）使用[mutex](https://en.wikipedia.org/wiki/Mutual_exclusion)。它会"lock" 当前状态，只有锁的当前拥有者能够更改当前状态。一个简单的例子如下： 
+Another frequently mentioned solution is to use [mutex](https://en.wikipedia.org/wiki/Mutual_exclusion). It allows "locking" the current state so only the current owner of the lock can change the current state. A simple example follows:
 
-```sh
+```javascript
 // Note: This is a rudimentary example, and mutexes are particularly useful where there is substantial logic and/or shared state
 mapping (address => uint) private balances;
 bool private lockBalances;
@@ -573,9 +571,9 @@ function withdraw(uint amount) payable public returns (bool) {
 }
 ```
 
-如果用户试图在第一次调用结束前第二次调用 `withdraw()`，将会被锁住。 这看上去很有效果，但当你使用多个合约互相交互时问题变得严峻了。 下面是一段不安全的代码：
+If the user attempts to call `withdraw()` a second time before the first call finishes, it will be locked. This looks effective, but the problem becomes severe when you use multiple contracts interacting with each other. Here is insecure code:
 
-```
+```javascript
 // INSECURE
 contract StateHolder {
     uint private n;
@@ -597,27 +595,27 @@ contract StateHolder {
 }
 ```
 
-攻击者可以只调用`getLock()`，然后就不再调用 `releaseLock()`。如果他们真这样做，那么这个合约将会被永久锁住，任何接下来的操作都不会发生了。如果你使用mutexs来避免竞态，那么一定要确保没有地方能够打断锁的进程或绝不释放锁。（这里还有一个潜在的威胁，比如死锁和活锁。在你决定使用锁之前最好大量阅读相关文献（*译者注：这是真的，传统的在多线程环境下对锁的使用一直是个容易犯错的地方*））
+An attacker can just call `getLock()` and then never call `releaseLock()`. If they do this, the contract will be locked forever, and no further operations will happen. If you use mutexes to avoid race conditions, make sure there are no places where the lock process can be interrupted or the lock never released. (There are also potential threats here, such as deadlocks and livelocks. It's best to read extensive literature before deciding to use locks.)
 
 <a name="footnote-race-condition-terminology"></a>
 
-<div style='font-size: 80%; display: inline;'>* 有些人可能会发反对使用该术语 <i>竞态</i>，因为以太坊并没有真正意思上实现并行执行。然而在逻辑上依然存在对资源的竞争，同样的陷阱和潜在的解决方案。 </div>
+<div style={{fontSize: '80%', display: 'inline'}}>* Some might object to using the term <i>race condition</i>, as Ethereum does not truly implement parallel execution. However, logically there is still competition for resources, and the same pitfalls and potential solutions exist. </div>
 
 <a name="transaction-ordering-dependence"></a>
 
-### 交易顺序依赖(TOD) / 前面的先运行
+### Transaction Ordering Dependence (TOD) / Front Running
 
-以上是涉及攻击者在**单个交易**内执行恶意代码产生竞态的示例。接下来演示在区块链本身运作原理导致的竞态：（同一个block内的）交易顺序很容易受到操纵。
+The above involves attackers executing malicious code within a **single transaction** to produce race conditions. Next, we demonstrate race conditions caused by the operating principle of the blockchain itself: the order of transactions (within the same block) is easily manipulated.
 
-由于交易在短暂的时间内会先存放到mempool中，所以在矿工将其打包进block之前，是可以知道会发生什么动作的。这对于一个去中心化的市场来说是麻烦的，因为可以查看到代币的交易信息，并且可以在它被打包进block之前改变交易顺序。避免这一点很困难，因为它归结为具体的合同本身。例如，在市场上，最好实施批量拍卖（这也可以防止高频交易问题）。 另一种使用预提交方案的方法（“我稍后会提供详细信息”）。
+Since transactions are stored in the mempool for a short time, it is possible to know what actions will happen before miners pack them into a block. This is troublesome for a decentralized market because token transaction information can be viewed, and the transaction order can be changed before it is packed into a block. Avoiding this is difficult because it boils down to the specific contract itself. For example, in a market, it is best to implement batch auctions (this also prevents high-frequency trading problems). Another method uses a pre-commit scheme ("I will provide details later").
 
 <a name="timestamp-dependence"></a>
 
-### 时间戳依赖
+### Timestamp Dependence
 
-请注意，块的时间戳可以由矿工操纵，并且应考虑时间戳的所有直接和间接使用。 **区块数量**和**平均出块时间**可用于估计时间，但这不是区块时间在未来可能改变（例如Casper期望的更改）的证明。
+Note that block timestamps can be manipulated by miners, and all direct and indirect uses of timestamps should be considered. **Block number** and **average block time** can be used to estimate time, but this is not proof that block time may change in the future (e.g., changes expected by Casper).
 
-```sh
+```javascript
 uint someVariable = now + 1;
 
 if (now % 2 == 0) { // the now can be manipulated by the miner
@@ -631,13 +629,13 @@ if ((someVariable - 100) % 2 == 0) { // someVariable can be manipulated by the m
 
 <a name="integer-overflow-and-underflow"></a>
 
-### 整数上溢和下溢
+### Integer Overflow and Underflow
 
-这里大概有 [20关于上溢和下溢的例子](https://github.com/ethereum/solidity/issues/796#issuecomment-253578925)。
+There are roughly [20 examples regarding overflow and underflow here](https://github.com/ethereum/solidity/issues/796#issuecomment-253578925).
 
-考虑如下这个简单的转账操作：
+Consider this simple transfer operation:
 
-```sh
+```javascript
 mapping (address => uint256) public balanceOf;
 
 // INSECURE
@@ -662,19 +660,19 @@ function transfer(address _to, uint256 _value) {
 }
 ```
 
-如果余额到达**uint**的最大值（2^256），便又会变为0。应当检查这里。溢出是否与之相关取决于具体的实施方式。想想uint值是否有机会变得这么大或和谁会改变它的值。如果任何用户都有权利更改uint的值，那么它将更容易受到攻击。如果只有管理员能够改变它的值，那么它可能是安全的，因为没有别的办法可以跨越这个限制。
+If the balance reaches the maximum value of **uint** (2^256), it will turn back to 0. This should be checked. Whether overflow is relevant depends on the specific implementation. Think about whether the uint value has a chance to become that large or who will change its value. If any user has the right to change the uint value, it will be more vulnerable. If only administrators can change its value, it might be safe because there is no other way to cross this limit.
 
-对于下溢同样的道理。如果一个uint别改变后小于0，那么将会导致它下溢并且被设置成为最大值（2^256）。
+The same logic applies to underflow. If a uint is changed to be less than 0, it will cause an underflow and be set to the maximum value (2^256).
 
-对于较小数字的类型比如uint8、uint16、uint24等也要小心：他们更加容易达到最大值。
+Be careful with smaller number types like uint8, uint16, uint24, etc.: they reach maximum values much more easily.
 
 <a name="dos-with-unexpected-throw"></a>
 
-### 通过(Unexpected) Throw发动DoS
+### DoS with (Unexpected) Throw
 
-考虑如下简单的智能合约：
+Consider the simple smart contract below:
 
-```sh
+```javascript
 // INSECURE
 contract Auction {
     address currentLeader;
@@ -690,11 +688,11 @@ contract Auction {
     }
 }
 ```
-当有更高竞价时，它将试图退款给曾经最高竞价人，如果退款失败则会抛出异常。这意味着，恶意投标人可以成为当前最高竞价人，同时确保对其地址的任何退款**始终**失败。这样就可以阻止任何人调用“bid()”函数，使自己永远保持领先。建议向之前所说的那样建立[基于pull的支付系统](https://github.com/ConsenSys/smart-contract-best-practices/#favor-pull-over-push-payments) 。
+When there is a higher bid, it attempts to refund the previous highest bidder. If the refund fails, it throws an exception. This means a malicious bidder can become the current highest bidder while ensuring that any refund to their address **always** fails. This can prevent anyone else from calling the "bid()" function, keeping themselves in the lead forever. It is recommended to establish a [pull-based payment system](https://github.com/ConsenSys/smart-contract-best-practices/#favor-pull-over-push-payments) as mentioned before.
 
-另一个例子是合约可能通过数组迭代来向用户支付（例如，众筹合约中的支持者）时。 通常要确保每次付款都成功。 如果没有，应该抛出异常。 问题是，如果其中一个支付失败，您将恢复整个支付系统，这意味着该循环将永远不会完成。 因为一个地址没有转账成功导致其他人都没得到报酬。
+Another example is when a contract might pay users (e.g., backers in a crowdfunding contract) by iterating through an array. Usually ensure each payment succeeds. If not, throw an exception. The problem is, if one payment fails, you will revert the entire payment system, meaning the loop will never complete. Because one address failed to transfer, no one else gets paid.
 
-```sh
+```javascript
 address[] private refundAddresses;
 mapping (address => uint) public refunds;
 
@@ -708,21 +706,21 @@ function refundAll() public {
 }
 ```
 
-再一次强调，同样的解决办法： [优先使用pull 而不是push支付系统](#favor-pull-over-push-payments)。
+Once again, the same solution: [Favor pull over push payments](#favor-pull-over-push-payments).
 
 <a name="dos-with-block-gas-limit"></a>
 
-### 通过区块Gas Limit发动DoS
+### DoS with Block Gas Limit
 
-在先前的例子中你可能已经注意到另一个问题：一次性向所有人转账，很可能会导致达到以太坊区块gas limit的上限。以太坊规定了每一个区块所能花费的gas limit，如果超过你的交易便会失败。
+You might have noticed another problem in the previous example: transferring to everyone at once is likely to hit the Ethereum block gas limit. Ethereum specifies the gas limit each block can spend; if exceeded, your transaction will fail.
 
-即使没有故意的攻击，这也可能导致问题。然而，最为糟糕的是如果gas的花费被攻击者操控。在先前的例子中，如果攻击者增加一部分收款名单，并设置每一个收款地址都接收少量的退款。这样一来，更多的gas将会被花费从而导致达到区块gas limit的上限，整个转账的操作也会以失败告终。
+Even without intentional attacks, this can cause problems. However, it is worst if gas costs are manipulated by attackers. In the previous example, if an attacker adds a portion of the receiving list and sets each receiving address to receive a small amount of refund. In this way, more gas will be spent, leading to reaching the block gas limit, and the entire transfer operation will end in failure.
 
-又一次证明了 [优先使用pull 而不是push支付系统](#favor-pull-over-push-payments)。
+Props again for [Favor pull over push payments](#favor-pull-over-push-payments).
 
-如果你实在必须通过遍历一个变长数组来进行转账，最好估计完成它们大概需要多少个区块以及多少笔交易。然后你还必须能够追踪得到当前进行到哪以便当操作失败时从那里开始恢复，举个例子：
+If you really must transfer by traversing a variable-length array, it is best to estimate how many blocks and transactions it will take to complete. Then you must also be able to track where you are currently so that you can resume from there when the operation fails, for example:
 
-```sh
+```javascript
 struct Payee {
     address addr;
     uint256 value;
@@ -740,39 +738,39 @@ function payOut() {
 }
 ```
 
-如上所示，你必须确保在下一次执行`payOut()`之前另一些正在执行的交易不会发生任何错误。如果必须，请使用上面这种方式来处理。
+As shown above, you must ensure that no other executing transactions will cause any errors before the next execution of `payOut()`. If necessary, use this method to handle it.
 
 <a name="call-depth-attack"></a>
 
-### ~~Call Depth攻击~~
+### ~~Call Depth Attack~~
 
-由于[EIP 150](https://github.com/ethereum/EIPs/issues/150) 进行的硬分叉，Call Depth攻击已经无法实施<sup><a href='http://ethereum.stackexchange.com/questions/9398/how-does-eip-150-change-the-call-depth-attack'>\*</a></sup> （由于以太坊限制了Call Depth最大为1024，确保了在达到最大深度之前gas都能被正确使用）
+Due to the hard fork performed by [EIP 150](https://github.com/ethereum/EIPs/issues/150), Call Depth attacks are no longer feasible<sup><a href='http://ethereum.stackexchange.com/questions/9398/how-does-eip-150-change-the-call-depth-attack'>\*</a></sup> (Since Ethereum limited Call Depth to a maximum of 1024, ensuring gas is used correctly before reaching maximum depth)
 
 <a name="eng-techniques"></a>
 
-## 软件工程开发技巧
+## Software Engineering Techniques
 
-正如我们先前在[基本理念](#general-philosophy) 章节所讨论的那样，避免自己遭受已知的攻击是不够的。由于在链上遭受攻击损失是巨大的，因此你还必须改变你编写软件的方式来抵御各种攻击。
+As we discussed in the [General Philosophy](#general-philosophy) section, avoiding known attacks is not enough. Since losses from on-chain attacks are huge, you must also change the way you write software to defend against various attacks.
 
-我们倡导“时刻准备失败"，提前知道你的代码是否安全是不可能的。然而，我们可以允许合约以可预知的方式失败，然后最小化失败带来的损失。本章将带你了解如何为可预知的失败做准备。
+We advocate "Prepare for Failure". It is impossible to know if your code is secure in advance. However, we can allow contracts to fail in predictable ways and then minimize the loss from failure. This chapter will take you through how to prepare for predictable failures.
 
-注意：当你向你的系统添加新的组件时总是伴随着风险的。一个不良设计本身会成为漏洞-一些精心设计的组件在交互过程中同样会出现漏洞。仔细考虑你在合约里使用的每一项技术，以及如何将它们整合共同创建一个稳定可靠的系统。
+Note: There is always risk when adding new components to your system. A poor design itself can be a vulnerability - some well-designed components can also have vulnerabilities during interaction. Carefully consider every technology you use in your contract and how to integrate them to create a stable and reliable system.
 
-### 升级有问题的合约
+### Upgrading Broken Contracts
 
-如果代码中发现了错误或者需要对某些部分做改进都需要更改代码。在以太坊上发现一个错误却没有办法处理他们是太多意义的。
+If errors are found in the code or improvements need to be made to certain parts, the code needs to be changed. Finding an error on Ethereum but having no way to handle it makes little sense.
 
-关于如何在以太坊上设计一个合约升级系统是一个正处于积极研究的领域，在这篇文章当中我们没法覆盖所有复杂的领域。然而，这里有两个通用的基本方法。最简单的是专门设计一个注册合约，在注册合约中保存最新版合约的地址。对于合约使用者来说更能实现无缝衔接的方法是设计一个合约，使用它转发调用请求和数据到最新版的合约。
+How to design a contract upgrade system on Ethereum is an area of active research, and we cannot cover all complex areas in this article. However, there are two common basic approaches. The simplest is to design a dedicated registry contract that holds the address of the latest version of the contract. A more seamless method for contract users is to design a contract that forwards call requests and data to the latest version of the contract.
 
-无论采用何种技术，组件之间都要进行模块化和良好的分离，由此代码的更改才不会破坏原有的功能，造成孤儿数据，或者带来巨大的成本。 尤其是将复杂的逻辑与数据存储分开，这样你在使用更改后的功能时不必重新创建所有数据。
+Regardless of the technique used, components must be modular and well-separated so that code changes do not break existing functionality, create orphan data, or incur huge costs. Especially separate complex logic from data storage so you don't have to recreate all data when using changed functionality.
 
-当需要多方参与决定升级代码的方式也是至关重要的。根据你的合约，升级代码可能会需要通过单个或多个受信任方参与投票决定。如果这个过程会持续很长时间，你就必须要考虑是否要换成一种更加高效的方式以防止遭受到攻击，例如[紧急停止或断路器](#circuit-breakers-pause-contract-functionality)。
+How appropriate parties participate in deciding to upgrade code is also crucial. Depending on your contract, upgrading code might require voting by single or multiple trusted parties. If this process takes a long time, you must consider whether to switch to a more efficient way to prevent attacks, such as [Emergency Stop or Circuit Breaker](#circuit-breakers-pause-contract-functionality).
 
-**Example 1：使用注册合约存储合约的最新版本**
+**Example 1: Use a Registry Contract to Store the Latest Version of the Contract**
 
-在这个例子中，调用没有被转发，因此用户必须每次在交互之前都先获取最新的合约地址。
+In this example, calls are not forwarded, so users must fetch the latest contract address before every interaction.
 
-```sh
+```javascript
 contract SomeRegister {
     address backendContract;
     address[] previousBackends;
@@ -798,316 +796,6 @@ contract SomeRegister {
             backendContract = newBackend;
             return true;
         }
-
-        return false;
     }
 }
 ```
-
-这种方法有两个主要的缺点：
-
-1、用户必须始终查找当前合约地址，否则任何未执行此操作的人都可能会使用旧版本的合约
-2、在你替换了合约后你需要仔细考虑如何处理原合约中的数据
-
-另外一种方法是设计一个用来转发调用请求和数据到最新版的合约：
-
-**例2： [使用`DELEGATECALL`](http://ethereum.stackexchange.com/questions/2404/upgradeable-contracts) 转发数据和调用**
-
-```
-contract Relay {
-    address public currentVersion;
-    address public owner;
-
-    modifier onlyOwner() {
-        if (msg.sender != owner) {
-            throw;
-        }
-        _;
-    }
-
-    function Relay(address initAddr) {
-        currentVersion = initAddr;
-        owner = msg.sender; // this owner may be another contract with multisig, not a single contract owner
-    }
-
-    function changeContract(address newVersion) public
-    onlyOwner()
-    {
-        currentVersion = newVersion;
-    }
-
-    function() {
-        if(!currentVersion.delegatecall(msg.data)) throw;
-    }
-}
-```
-
-这种方法避免了先前的问题，但也有自己的问题。它使得你必须在合约里小心的存储数据。如果新的合约和先前的合约有不同的存储层，你的数据可能会被破坏。另外，这个例子中的模式没法从函数里返回值，只负责转发它们，由此限制了它的适用性。（这里有一个[更复杂的实现](https://github.com/ownage-ltd/ether-router) 想通过内联汇编和返回大小的注册表来解决这个问题）
-
-无论你的方法如何，重要的是要有一些方法来升级你的合约，否则当被发现不可避免的错误时合约将没法使用。
-
-### 断路器（暂停合约功能）
-
-由于断路器在满足一定条件时将会停止执行，如果发现错误时可以使用断路器。例如，如果发现错误，大多数操作可能会在合约中被挂起，这是唯一的操作就是撤销。你可以授权给任何你受信任的一方，提供给他们触发断路器的能力，或者设计一个在满足某些条件时自动触发某个断路器的程序规则。
-
-例如：
-
-```
-bool private stopped = false;
-address private owner;
-
-modifier isAdmin() {
-    if(msg.sender != owner) {
-        throw;
-    }
-    _;
-}
-
-function toggleContractActive() isAdmin public
-{
-    // You can add an additional modifier that restricts stopping a contract to be based on another action, such as a vote of users
-    stopped = !stopped;
-}
-
-modifier stopInEmergency { if (!stopped) _; }
-modifier onlyInEmergency { if (stopped) _; }
-
-function deposit() stopInEmergency public
-{
-    // some code
-}
-
-function withdraw() onlyInEmergency public
-{
-    // some code
-}
-```
-
-### 速度碰撞（延迟合约动作）
-
-速度碰撞使动作变慢，所以如果发生了恶意操作便有时间恢复。例如，[The DAO](https://github.com/slockit/DAO/) 从发起分割DAO请求到真正执行动作需要27天。这样保证了资金在此期间被锁定在合约里，增加了系统的可恢复性。在DAO攻击事件中，虽然在速度碰撞给定的时间段内没有有效的措施可以采取，但结合我们其他的技术，它们是非常有效的。
-
-例如：
-
-```
-struct RequestedWithdrawal {
-    uint amount;
-    uint time;
-}
-
-mapping (address => uint) private balances;
-mapping (address => RequestedWithdrawal) private requestedWithdrawals;
-uint constant withdrawalWaitPeriod = 28 days; // 4 weeks
-
-function requestWithdrawal() public {
-    if (balances[msg.sender] > 0) {
-        uint amountToWithdraw = balances[msg.sender];
-        balances[msg.sender] = 0; // for simplicity, we withdraw everything;
-        // presumably, the deposit function prevents new deposits when withdrawals are in progress
-
-        requestedWithdrawals[msg.sender] = RequestedWithdrawal({
-            amount: amountToWithdraw,
-            time: now
-        });
-    }
-}
-
-function withdraw() public {
-    if(requestedWithdrawals[msg.sender].amount > 0 && now > requestedWithdrawals[msg.sender].time + withdrawalWaitPeriod) {
-        uint amountToWithdraw = requestedWithdrawals[msg.sender].amount;
-        requestedWithdrawals[msg.sender].amount = 0;
-
-        if(!msg.sender.send(amountToWithdraw)) {
-            throw;
-        }
-    }
-}
-```
-
-### 速率限制
-
-速率限制暂停或需要批准进行实质性更改。 例如，只允许存款人在一段时间内提取总存款的一定数量或百分比（例如，1天内最多100个ether） - 该时间段内的额外提款可能会失败或需要某种特别批准。 或者将速率限制做在合约级别，合约期限内只能发出发送一定数量的代币。
-
-[浏览例程](https://gist.github.com/PeterBorah/110c331dca7d23236f80e69c83a9d58c#file-circuitbreaker-sol)
-
-<a name="contract-rollout"></a>
-
-### 合约发布
-
-在将大量资金放入合约之前，合约应当进行大量的长时间的测试。
-
-至少应该：
-
-- 拥有100％测试覆盖率的完整测试套件（或接近它）
-- 在自己的testnet上部署
-- 在公共测试网上部署大量测试和错误奖励
-- 彻底的测试应该允许各种玩家与合约进行大规模互动
-- 在主网上部署beta版以限制风险总额
-
-##### 自动弃用
-
-在合约测试期间，你可以在一段时间后强制执行自动弃用以阻止任何操作继续进行。例如，alpha版本的合约工作几周，然后自动关闭所有除最终退出操作的操作。
-
-```
-modifier isActive() {
-    if (block.number > SOME_BLOCK_NUMBER) {
-        throw;
-    }
-    _;
-}
-
-function deposit() public
-isActive() {
-    // some code
-}
-
-function withdraw() public {
-    // some code
-}
-
-```
-
-#####限制每个用户/合约的Ether数量
-
-在早期阶段，你可以限制任何用户（或整个合约）的Ether数量 - 以降低风险。
-
-
-<a name="bounties"> </a>
-
-### Bug赏金计划
-
-运行赏金计划的一些提示：
-
-- 决定赏金以哪一种代币分配（BTC和/或ETH）
-- 决定赏金奖励的预算总额
-- 从预算来看，确定三级奖励：
-   - 你愿意发放的最小奖励
-   - 通常可发放的最高奖励
-   - 设置额外的限额以避免非常严重的漏洞被发现
-- 确定赏金发放给谁（3是一个典型）
-- 核心开发人员应该是赏金评委之一
-- 当收到错误报告时，核心开发人员应该评估bug的严重性
-- 在这个阶段的工作应该在私有仓库进行，并且在Github上的issue板块提出问题
-- 如果这个bug需要被修复，开发人员应该在私有仓库编写测试用例来复现这个bug
-- 开发人员需要修复bug并编写额外测试代码进行测试确保所有测试都通过
-- 展示赏金猎人的修复；并将修复合并回公共仓库也是一种方式
-- 确定赏金猎人是否有任何关于修复的其他反馈
-- 赏金评委根据bug的*可能性*和*影响*来确定奖励的大小
-- 在整个过程中保持赏金猎人参与讨论，并确保赏金发放不会延迟
-
- 有关三级奖励的例子，参见 [Ethereum's Bounty Program](https://bounty.ethereum.org)：
-
-> 奖励的价值将根据影响的严重程度而变化。 奖励轻微的“无害”错误从0.05 BTC开始。 主要错误，例如导致协商一致的问题，将获得最多5个BTC的奖励。 在非常严重的漏洞的情况下，更高的奖励是可能的（高达25 BTC）。
-
-## 安全相关的文件和程序
-
-当发布涉及大量资金或重要任务的合约时，必须包含适当的文档。有关安全性的文档包括：
-
-**规范和发布计划**
-
-- 规格说明文档，图表，状态机，模型和其他文档，帮助审核人员和社区了解系统打算做什么。
-- 许多bug从规格中就能找到，而且它们的修复成本最低。
-- 发布计划所涉及到的参考[这里](#contract-rollout)列出的详细信息和完成日期。
-
-**状态**
-
-- 当前代码被部署到哪里
-- 编译器版本，使用的标志以及用于验证部署的字节码的步骤与源代码匹配
-- 将用于不同阶段的编译器版本和标志
-- 部署代码的当前状态（包括未决问题，性能统计信息等）
-
-**已知问题**
-
-- 合约的主要风险
-  - 例如， 你可能会丢掉所有的钱，黑客可能会通过投票支持某些结果
-- 所有已知的错误/限制
-- 潜在的攻击和解决办法
-- 潜在的利益冲突（例如，筹集的Ether将纳入自己的腰包，像Slock.it与DAO一样）
-
-**历史记录**
-
-- 测试（包括使用统计，发现的错误，测试时间）
-- 已审核代码的人员（及其关键反馈）
-
-**程序**
-
-- 发现错误的行动计划（例如紧急情况选项，公众通知程序等）
-- 如果出现问题，就可以降级程序（例如，资金拥有者在被攻击之前的剩余资金占现在剩余资金的比例）
-- 负责任的披露政策（例如，在哪里报告发现的bug，任何bug赏金计划的规则）
-- 在失败的情况下的追索权（例如，保险，罚款基金，无追索权）
-
-**联系信息**
-
-- 发现问题后和谁联系
-- 程序员姓名和/或其他重要参与方的名称
-- 可以询问问题的论坛/聊天室
-
-## 安全工具
-
-- [Oyente](https://github.com/melonproject/oyente) - 根据[这篇文章](http://www.comp.nus.edu.sg/~loiluu/papers/oyente.pdf)分析Ethereum代码以找到常见的漏洞。
-- [solidity-coverage](https://github.com/sc-forks/solidity-coverage) - Solidity代码覆盖率测试
-- [Solgraph](https://github.com/raineorshine/solgraph) - 生成一个DOT图，显示了Solidity合约的功能控制流程，并highlight了潜在的安全漏洞。
-
-## Linters
-
-Linters通过约束代码风格和排版来提高代码质量，使代码更容易阅读和查看。
-
-- [Solium](https://github.com/duaraghav8/Solium) - 另一种Solidity linting。
-- [Solint](https://github.com/weifund/solint) - 帮助你实施代码一致性约定来避免你合约中的错误的Solidity linting
-- [Solcheck](https://github.com/federicobond/solcheck) - 用JS写的Solidity linter，（实现上）深受eslint的影响。
-
-## 将来的改进
-- **编辑器安全警告**：编辑器将很快能够实现醒常见的安全错误，而不仅仅是编译错误。 Solidity浏览器即将推出这些功能。
-- **新的能够被编译成EVM字节码的函数式编程语言**： 像Solidity这种函数式编程语言相比面向过程编程语言能够保证功能的不变性和编译时间检查。通过确定性行为来减少出现错误的风险。（更多相关信息请参阅 [这里](https://plus.google.com/u/0/events/cmqejp6d43n5cqkdl3iu0582f4k), Curry-Howard 一致性和线性逻辑）
-
-<a name="bibliography"></a>
-
-## 智能合约安全参考书目
-
-很多包含代码，示例和见解的文档已经由社区编写完成。这里是其中的一些，你可以随意添加更多新的内容。
-
-##### 来自以太坊核心开发人员
-
-- [How to Write Safe Smart Contracts](https://chriseth.github.io/notes/talks/safe_solidity) (Christian Reitwiessner)
-- [Smart Contract Security](https://blog.ethereum.org/2016/06/10/smart-contract-security/) (Christian Reitwiessner)
-- [Thinking about Smart Contract Security](https://blog.ethereum.org/2016/06/19/thinking-smart-contract-security/) (Vitalik Buterin)
-- [Solidity](http://solidity.readthedocs.io)
-- [Solidity Security Considerations](http://solidity.readthedocs.io/en/latest/security-considerations.html)
-
-##### 来自社区
-
-- http://forum.ethereum.org/discussion/1317/reentrant-contracts
-- http://hackingdistributed.com/2016/06/16/scanning-live-ethereum-contracts-for-bugs/
-- http://hackingdistributed.com/2016/06/18/analysis-of-the-dao-exploit/
-- http://hackingdistributed.com/2016/06/22/smart-contract-escape-hatches/
-- http://martin.swende.se/blog/Devcon1-and-contract-security.html
-- http://publications.lib.chalmers.se/records/fulltext/234939/234939.pdf
-- http://vessenes.com/deconstructing-thedao-attack-a-brief-code-tour
-- http://vessenes.com/ethereum-griefing-wallets-send-w-throw-considered-harmful
-- http://vessenes.com/more-ethereum-attacks-race-to-empty-is-the-real-deal
-- https://blog.blockstack.org/simple-contracts-are-better-contracts-what-we-can-learn-from-the-dao-6293214bad3a
-- https://blog.slock.it/deja-vu-dao-smart-contracts-audit-results-d26bc088e32e
-- https://blog.vdice.io/wp-content/uploads/2016/11/vsliceaudit_v1.3.pdf
-- https://eprint.iacr.org/2016/1007.pdf
-- https://github.com/Bunjin/Rouleth/blob/master/Security.md
-- https://github.com/LeastAuthority/ethereum-analyses
-- https://medium.com/@ConsenSys/assert-guards-towards-automated-code-bounties-safe-smart-contract-coding-on-ethereum-8e74364b795c
-- https://medium.com/@coriacetic/in-bits-we-trust-4e464b418f0b
-- https://medium.com/@hrishiolickel/why-smart-contracts-fail-undiscovered-bugs-and-what-we-can-do-about-them-119aa2843007
-- https://medium.com/@peterborah/we-need-fault-tolerant-smart-contracts-ec1b56596dbc
-- https://medium.com/zeppelin-blog/zeppelin-framework-proposal-and-development-roadmap-fdfa9a3a32ab
-- https://pdaian.com/blog/chasing-the-dao-attackers-wake
-- http://www.comp.nus.edu.sg/~loiluu/papers/oyente.pdf
-
-## Reviewers
-
-The following people have reviewed this document (date and commit they reviewed in parentheses):
-Bill Gleim (07/29/2016 3495fb5)
-Bill Gleim (03/15/2017 0244f4e)
--
-
-## License
-
-Licensed under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
-
-Licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/)

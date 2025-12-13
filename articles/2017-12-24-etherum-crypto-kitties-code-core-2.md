@@ -1,41 +1,42 @@
 ---
 layout: post
 category: blockchain
-title: 【智能合约】CryptoKitties核心代码(KittyCore)分析（二）
+title: "[Smart Contract] CryptoKitties Core Code (KittyCore) Analysis (II)"
+language: en
 ---
 
-`Written by 蔡一 | TsaiYee 转载请注明出处。`
+`Written by TsaiYee. Please cite the source when reprinting.`
 
-`原文链接`：[https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-2/](https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-2/)
+`Original link`: [https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-2/](https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-2/)
 
 [![Gitter](https://badges.gitter.im/tsaiyee/tsaiyee.com.svg)](https://gitter.im/tsaiyee/tsaiyee.com?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-在上文[【智能合约】CryptoKitties核心代码(KittyCore)分析（一）](https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-1/)中，我们主要分析了最基本的接口，以及权限设置部分的代码，这部分代码比较核心，也是理解整个撸猫游戏的根本，因此逐行进行了分析，后面的代码将主要介绍核心部分，不再逐行分析。
+In the previous article [[Smart Contract] CryptoKitties Core Code (KittyCore) Analysis (I)](https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-1/), we mainly analyzed the most basic interfaces and permission setting codes. This part of the code is relatively core and fundamental to understanding the whole Kitties game, so it was analyzed line by line. The following code will mainly introduce the core parts and will not be analyzed line by line.
 
-接下来的合约是 KittyBase， 该合约是小猫的基类合约，保存了所有公用数据结构、事件以及基础变量。
+The next contract is KittyBase, which is the base contract for kitties, saving all common data structures, events, and basic variables.
 
-既然是小猫的基类合约，里面最核心的是两点，一是小猫的数据结构是怎样设计的，二是小猫是如何产生/创建的。
+Since it is the base contract for kitties, the two most core points in it are how the kitty data structure is designed and how kitties are produced/created.
 
-1. 小猫数据结构
+1. Kitty Data Structure
 
 ~~~javascript
   struct Kitty {
-        uint256 genes; //代表猫的基因的256位整数，你的猫是否值钱主要看它
-        uint64 birthTime; //生日
-        uint64 cooldownEndBlock; //可以再次繁殖最小时间戳
-        uint32 matronId; //母亲ID
-        uint32 sireId; //父亲ID
-        uint32 siringWithId; //如果猫当前怀孕，则设置为父亲的ID，否则为零
-        uint16 cooldownIndex; //目前这只猫的冷却时间（其实是对应一个冷却时间的数组的索引
-        uint16 generation; //猫的代数，被合约创造的猫为0代，新一代的猫是他们的父母一代中较大的一个，再加上1.
+        uint256 genes; // A 256-bit integer representing the cat's genes. Use this to check if your cat is valuable.
+        uint64 birthTime; // Birthday
+        uint64 cooldownEndBlock; // Minimum timestamp to breed again
+        uint32 matronId; // Mother's ID
+        uint32 sireId; // Father's ID
+        uint32 siringWithId; // If the cat is currently pregnant, set to the father's ID, otherwise zero
+        uint16 cooldownIndex; // Everything has a cooldown (actually an index to a cooldown array)
+        uint16 generation; // The generation number of the cat. Cats created by the contract are generation 0. New generation cats are the larger of their parents' generation plus 1.
     }
 ~~~
 
-请注意，在Crypto Kitties中，猫是无性的，任何2只猫都可以一起繁殖 - 因此猫没有性别。
-KittyBase 合约定义了一个kitty 数据结构的数据：
+Please note that in CryptoKitties, cats are asexual, and any 2 cats can breed together - so cats have no gender.
+The KittyBase contract defines a data array for the kitty data structure:
 
 ~~~javascript
 Kitty[] kitties;
 ~~~
 
-这就是保存所有的猫的数据库，每繁殖一只猫，都将保存进来，所有的猫都通过id来访问。
+This is the database that saves all the cats. Every time a cat is bred, it will be saved here, and all cats are accessed via ID.

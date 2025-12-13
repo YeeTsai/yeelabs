@@ -1,16 +1,17 @@
 ---
 layout: post
 category: program
-title: 使用Jekyll、GitHub搭建Blog
-description: "如果你玩腻了WordPress，亦或你是个喜欢折腾的Coder，那么你应该使用Jekyll和GitHub搭建一个属于自己的Blog，......"
+title: Building a Blog with Jekyll and GitHub
+language: en
+description: "If you are tired of WordPress, or if you are a Coder who likes to tinker, then you should use Jekyll and GitHub to build your own Blog, ......"
 keywords: "Jekyll, GitHub Pages, Markdown"
 ---
 
-如果你玩腻了WordPress，亦或你是个喜欢折腾的Coder，那么你应该使用Jekyll和GitHub搭建一个属于自己的Blog，你可以像提交代码一样将写的Blog提交到GitHub，然后通过自己的域名或者GitHub的二级域名进行访问。
+If you are tired of WordPress, or if you are a Coder who likes to tinker, then you should use Jekyll and GitHub to build your own Blog. You can commit your written Blog to GitHub just like submitting code, and then access it through your own domain name or GitHub's subdomain.
 
 ## Jekyll
 
-[Jekyll](https://jekyllrb.com/)是一个静态网页生成工具。
+[Jekyll](https://jekyllrb.com/) is a static site generator.
 
 ```
 Transform your plain text into static websites and blogs.
@@ -18,7 +19,7 @@ Transform your plain text into static websites and blogs.
 
 ## GitHub Pages
 
-[GitHub Pages](https://github.io) 是一个页面托管主机。
+[GitHub Pages](https://github.io) is a page hosting service.
 
 ```
 Websites for you and your projects.
@@ -26,22 +27,22 @@ Hosted directly from your GitHub repository. Just edit, push, and your changes a
 ```
 
 
-幸运的是，GitHub Pages 支持Jekyll。
+Fortunately, GitHub Pages supports Jekyll.
 
 ## Markdown
 
-Markdown 是一种轻量级的「标记语言」。
+Markdown is a lightweight "markup language".
 
 ```
 Markdown is a text-to-HTML conversion tool for web writers.
 ```
 
-用Atom或者Vi可以方便的编写版式很漂亮的文档。
+You can easily write documents with beautiful layouts using Atom or Vi.
 
 ## Trap
 
-如果你按照网上的大部分教程一样，在本机上安装Jekyll，编写Markdown文件，本机测试显示效果，然后上传到GitHub。那么恭喜你，你会发现本机显示很好的页面，到GitHub Pages上显示就没有那么好了。
+If you follow most online tutorials, install Jekyll on your local machine, write Markdown files, check the display effect locally, and then upload to GitHub. Then congratulations, you will find that the page that displays well locally does not display as well on GitHub Pages.
 
-这是因为GitHub Pages使用的Jekyll和官方的Jekyll的Markdown语法上有很大的差别，强烈建议使用GitHub Pages的本地环境测试而不是使用Jekyll官方引擎。
+This is because the Jekyll used by GitHub Pages has significant differences in Markdown syntax from the official Jekyll, so it is strongly recommended to use the GitHub Pages local environment for testing instead of using the official Jekyll engine.
 
-[搭建本地GitHub Pages传送门](https://help.github.com/articles/using-jekyll-with-pages)
+[Portal to setting up local GitHub Pages](https://help.github.com/articles/using-jekyll-with-pages)

@@ -1,46 +1,48 @@
 ---
 layout: post
 category: OS
-title: Red Hat Enterprise 6.4 网卡配置备忘
-description: "Red Hat Enterprise 最小安装Basic Server, 发现原来啥都配好的现在要自己配置了。......"
-keywords: "网卡配置, RedHat"
+title: Red Hat Enterprise 6.4 Network Card Configuration Memo
+language: en
+description: "Red Hat Enterprise Minimal Install Basic Server, found that what used to be configured now needs to be configured manually. ......"
+keywords: "Network Card Configuration, RedHat"
 ---
-最近在尝试Hadoop，RMBP硬盘空间有限，于是就使用最小安装Basic Server，发现原来啥都配好的现在要自己配置了。
+Recently I was trying Hadoop. Due to limited disk space on my RMBP, I used the minimal installation Basic Server. I found that what used to be configured automatically now needs to be configured manually.
 
-一、安装完成重新启动后网卡没有startup，即用setup tools可以看到，但ifconfig无法看到
-  处理方法：
+I. Network card not starting up after rebooting post-installation
+   Problem: Can be seen with setup tools, but not visible with ifconfig.
+   Solution:
 
-  1. /etc/sysconfig/network-scripts/ifcfg-eth*中：ONBOOT=no改为ONBOOT=yes
+   1. In `/etc/sysconfig/network-scripts/ifcfg-eth*`: Change `ONBOOT=no` to `ONBOOT=yes`
 
-  2. service network restart
+   2. `service network restart`
 
-二、设置静态IP
+II. Setting Static IP
 
-  处理方法：
+   Solution:
 
-  1. /etc/sysconfig/network-scripts/ifcfg-eth*中:
+   1. In `/etc/sysconfig/network-scripts/ifcfg-eth*`:
 
-    IPADDR=192.168.1.10 #IP地址
+     IPADDR=192.168.1.10 #IP Address
 
-    NETMASK=255.255.255.0 #掩码值
+     NETMASK=255.255.255.0 #Mask Value
 
-    GATEWAY=192.168.1.1 #网关地址
+     GATEWAY=192.168.1.1 #Gateway Address
 
-    BOOTPROTO=static #[none|static|bootp|dhcp]（引导时不使用协议|静态分配|BOOTP协议|DHCP协议）
+     BOOTPROTO=static #[none|static|bootp|dhcp] (Do not use protocol at boot|Static allocation|BOOTP protocol|DHCP protocol)
 
-  2. service network restart
+   2. `service network restart`
 
-三、VMWare 7.1 Copy虚拟机后有时不能自动设置网卡
-  处理方法
+III. VMWare 7.1 copying virtual machine sometimes fails to automatically set network card
+   Solution:
 
-  1. 关闭虚拟机后重新生成网卡地址
+   1. Turn off the virtual machine and regenerate the network card address.
 
-  2. /etc/sysconfig/network-scripts/ifcfg-eth*中:
+   2. In `/etc/sysconfig/network-scripts/ifcfg-eth*`:
 
-    HWADDR修改为新MAC地址
+     Modify HWADDR to the new MAC address
 
-    UUID需要修改成不唯一的
+     UUID needs to be modified to be non-unique
 
-  3. reboot
+   3. `reboot`
 
-  注意，需要检查 /etc/sysconfig/networking/devices下是否已经有ifcfg-eth*了，如果有，需要删除后reboot
+   Note: You need to check if `ifcfg-eth*` already exists under `/etc/sysconfig/networking/devices`. If so, you need to delete it and reboot.

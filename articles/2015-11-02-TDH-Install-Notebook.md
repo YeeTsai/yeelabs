@@ -1,35 +1,36 @@
 ---
 layout: post
 category: bigdata
-title: TDH 安装日志
+title: TDH Installation Log
+language: en
 ---
-最近在做TDH（Transwarp Data Hub）的技术验证，本文记录安装时遇到的问题及解决办法。
+Recently I've been doing technical validation for TDH (Transwarp Data Hub). This article records the problems encountered during installation and their solutions.
 
-### 一、环境说明
+### I. Environment Description
 
 
-* TDH版本
+* TDH Version
 
 4.2
 
-OS版本
+* OS Version
 
 Red Hat Enterprise 6.4 64bit
 
-* 节点数
+* Number of Nodes
 
-4个节点，内存2G，CPU内核1个
+4 nodes, 2G RAM each, 1 CPU core each
 
-* 节点用途
+* Node Usage
 
-tdh-demo-mgr: 安装TDH Manager
+tdh-demo-mgr: Install TDH Manager
 
-tdh-demo-1,tdh-demo-2,tdh-demo-3作为安装Hadoop等服务
+tdh-demo-1, tdh-demo-2, tdh-demo-3 serve as installation for Hadoop and other services
 
-### 二、安装中遇到的问题及办法
+### II. Problems Encountered During Installation and Solutions
 
 
-* 安装时无法启动Yarn NodeManager，报错:
+* Unable to start Yarn NodeManager during installation, error reported:
 
 ```
   FATAL org.apache.hadoop.yarn.server.nodemanager.NodeManager: Error starting NodeManager
@@ -40,12 +41,12 @@ tdh-demo-1,tdh-demo-2,tdh-demo-3作为安装Hadoop等服务
   Sending SHUTDOWN signal to the NodeManager.        
 ```
 
-* 解决办法：
+* Solution:
 
-通过在网上查找相应问题，在 http://blog.csdn.net/u010967382/article/details/20380387 中说到，yarn-site.xml中的    
+By searching for the corresponding problem online, http://blog.csdn.net/u010967382/article/details/20380387 mentions that in `yarn-site.xml`:
 
 ```
     <name>yarn.nodemanager.resource.memory-mb</name>
 ```
 
-不能小于1024，查看TDH中的配置为931，修改为1024，启动OK
+Calculated value cannot be less than 1024. Checking the configuration in TDH, it was 931. Modified to 1024, started OK.

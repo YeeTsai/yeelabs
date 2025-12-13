@@ -56,15 +56,21 @@ permalink: /docs/blockchain/ethereum-whitepaper/
 
 从技术角度讲，比特币账本可以被认为是一个状态转换系统，该系统包括所有现存的比特币所有权状态和“状态转换函数”。状态转换函数以当前状态和交易为输入，输出新的状态。例如，在标准的银行系统中，状态就是一个资产负债表，一个从A账户向B账户转账X美元的请求是一笔交易，状态转换函数将从A账户中减去X美元，向B账户增加X美元。如果A账户的余额小于X美元，状态转换函数就会返回错误提示。所以我们可以如下定义状态转换函数：
 
-    APPLY(S,TX) ­> S' or ERROR
+```
+APPLY(S,TX) -> S' or ERROR
+```
 
 在上面提到的银行系统中，状态转换函数如下：
 
-    APPLY({ Alice: $50, Bob: $50 },"send $20 from Alice to Bob") = { Alice: $30,Bob: $70 }
+```
+APPLY({ Alice: $50, Bob: $50 },"send $20 from Alice to Bob") = { Alice: $30,Bob: $70 }
+```
 
 但是：
 
-    APPLY({ Alice: $50, Bob: $50 },"send $70 from Alice to Bob") = ERROR
+```
+APPLY({ Alice: $50, Bob: $50 },"send $70 from Alice to Bob") = ERROR
+```
 
 比特币系统的“状态”是所有已经被挖出的、没有花费的比特币（技术上称为“未花费的交易输出，unspent transaction outputs 或UTXO”）的集合。每个UTXO都有一个面值和所有者（由20个字节的本质上是密码学公钥的地址所定义[1]）。一笔交易包括一个或多个输入和一个或多个输出。每个输入包含一个对现有UTXO的引用和由与所有者地址相对应的私钥创建的密码学签名。每个输出包含一个新的加入到状态中的UTXO。
 

@@ -1,7 +1,8 @@
 ---
 layout: post
 category: blockchain
-title: HyperLedger Fabric 初探 （一） - 术语
+title: HyperLedger Fabric First Exploration (I) - Terminology
+language: en
 ---
 
 
@@ -10,42 +11,42 @@ title: HyperLedger Fabric 初探 （一） - 术语
 
 * Transaction
 
-Transaction是一个请求，用来在Ledger上执行一个功能(Function)，这个功能是用Chaincode来实现的。
+A Transaction is a request used to execute a function on the Ledger. This function is implemented using Chaincode.
 
 * Transactor
 
-Transactor是Transaction的发起者，可能是一个客户端。
+A Transactor is the initiator of a Transaction, which can be a client.
 
 * Ledger
 
-Ledger是一串经过加密的区块链(BlockChain)，每一个Block包含多个Transaction和当前World State。
+A Ledger is a series of encrypted Blockchains. Each Block contains multiple Transactions and the current World State.
 
-分布式账本可以理解成是一种只有明细，没有主账的账户体系，其账户的余额以最新一笔明细为准。
+A distributed ledger can be understood as an account system with only details and no main account, where the account balance is based on the latest detail.
 
 * World State
 
-World State 是一组变量的集合，包含着多个交易的执行结果。
+The World State is a collection of variables containing the execution results of multiple transactions.
 
 * Chaincode
 
-Chaincode是一段应用层代码（智能合约 Smart Contract），它存储在Ledger上，作为Transaction的一部分。也就是说Chaincode运行Transaction，然后运行的结果可能会修改World State。
+Chaincode is a piece of application-layer code (Smart Contract) stored on the Ledger as part of a Transaction. That is to say, Chaincode runs the Transaction, and the result of the run may modify the World State.
 
 * Validating Peer
 
-Validating Peer是参与者之一，是在网络里负责执行一致性协议、确认交易和维护账本的计算机节点。
+A Validating Peer is one of the participants, a computer node in the network responsible for executing the consensus protocol, confirming transactions, and maintaining the ledger.
 
 * Nonvalidating Peer
 
-Nonvalidating Peer 相当于一个代理节点，用来连接Transactor和邻近的VP(Validating Peer)节点。一个NVP节点不会去执行Transaction但是会验证它们。同时，它也会承担事件流Server和提供REST Service的角色。
+A Nonvalidating Peer acts as a proxy node used to connect the Transactor and neighboring VP (Validating Peer) nodes. An NVP node will not execute Transactions but will verify them. At the same time, it also assumes the roles of an event stream Server and providing REST Service.
 
 * Permissioned Ledger
 
-Permissioned Ledger 是一个要求每一个实体和节点都要成为网络成员的区块链网络，所有匿名节点都不被允许连接。
+A Permissioned Ledger is a blockchain network that requires every entity and node to be a network member; anonymous nodes are not allowed to connect.
 
 * Privacy
 
-Privacy 用来保护和隐藏Chain Transactor的身份，当网络成员要检查交易时，如果没有特权的话，是无法追踪到交易的Transactor。
+Privacy is used to protect and hide the identity of the Chain Transactor. When network members want to check transactions, they cannot trace the Transactor of the transaction without privileges.
 
 * Confidentiality
 
-Confidentiality 使交易内容不是对所有人可见，只开放给利益相关者。
+Confidentiality makes transaction content not visible to everyone, but only open to stakeholders.

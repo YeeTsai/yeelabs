@@ -1,70 +1,70 @@
 ---
 layout: post
 category: program
-title: MYSQL支持表情代码解决方案（MYSQL 5.7)
+title: MySQL Emoji Support Solution (MySQL 5.7)
+language: en
 ---
 
-最近在一个内容方面的产品，在留言中需要存储表情代码，对于MYSQL，支持表情符号(emoji)需要一些额外的工作。
+Recently working on a content-based product, we needed to store emoji codes in comments. For MySQL, supporting emoji characters requires some additional work.
 
 ***
 
-### 数据库Server层面
+### Database Server Level
 
-1. Server配置文件 mysqld.cnf
+1. Server Configuration File `mysqld.cnf`
 
-需要在 [mysqld] 下增加：
+Add the following under `[mysqld]`:
 
 ```
 character-set-server=utf8mb4
 ```
 
-如果你mysql是docker，且[mysqld]是最后一个section，可以用如下命令:
+If your MySQL is running in Docker and `[mysqld]` is the last section, you can use the following command:
 
 ```
-echo "character-set-server=utf8mb" >> /etc/mysql/mysql.conf.d/mysqld.cnf
+echo "character-set-server=utf8mb4" >> /etc/mysql/mysql.conf.d/mysqld.cnf
 ```
 
-使用
+Use:
 
 ```
 more /etc/mysql/mysql.conf.d/mysqld.cnf
 ```
 
-检查结果是否正确。
+to check if the result is correct.
 
-2. Client配置文件 mysql.cnf
+2. Client Configuration File `mysql.cnf`
 
-需要在 [mysql] 下增加
+Add the following under `[mysql]`:
 
 ```
 default-character-set=utf8mb4
 ```
 
-同1，你也可以使用如下命令增加：
+Similar to step 1, you can also use the following command to add it:
 
 ```
-echo "default-character-set=utf8mb" >> /etc/mysql/conf.d/mysql.cnf
+echo "default-character-set=utf8mb4" >> /etc/mysql/conf.d/mysql.cnf
 ```
 
-3. 重新启动数据库
+3. Restart the Database
 
-*** Note: *** 如果你使用的Docker，一定记得commit
+*** Note: *** If you are using Docker, remember to commit:
 
 ```
 docker commit CONTAINER_ID [REPOSITORY[:TAG]]
 ```
 
-### 数据库建表脚本层面
+### Database Schema Script Level
 
-1. DataBase支持
-
-```
-ALTER DATABASE 数据库名 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-```
-
-2. 数据库表支持
+1. Database Support
 
 ```
-ALTER TABLE 表名 CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER DATABASE database_name CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 ```
 
+2. Table Support
+
+```
+ALTER TABLE table_name CONVERT TO CHARACTER SET utf8mb4 COLLATE = utf8mb4_unicode_ci;
+```

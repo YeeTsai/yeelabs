@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { clsx } from "clsx";
 import { Terminal } from "lucide-react";
 
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 const navItems = [
   { name: "Home", path: "/" },
   { name: "Blog", path: "/blog" },
@@ -63,6 +65,8 @@ export default function Navbar() {
              </span>
              <Terminal className="w-5 h-5 group-hover:drop-shadow-[0_0_5px_#0aff00] transition-all duration-300" />
           </Link>
+
+          <LanguageSwitcher />
         </div>
       </div>
     </nav>

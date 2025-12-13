@@ -1,0 +1,326 @@
+
+> temp_init@0.1.0 build
+> next build
+
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/Yee/yarn.lock as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/Yee/Sources/yeelabs/package-lock.json
+
+   ▲ Next.js 16.0.10 (Turbopack)
+
+   Creating an optimized production build ...
+(node:72392) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/Yee/Sources/yeelabs/tailwind.config.ts?id=1765604004491 is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/Yee/Sources/yeelabs/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ ✓ Compiled successfully in 2.6s
+   Running TypeScript ...
+   Collecting page data using 9 workers ...
+Error processing file /Users/Yee/Sources/yeelabs/library/2017-12-03-dialog-token-is-key-for-next.mdx: YAMLException: incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 2, column 16:
+    title: Dialogue: Token is the Key to the Next G ... 
+                   ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:164531)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2017-11-26-ethereum-smart-contract-develop-env-ubuntu.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2017-11-28-ethereum-wallet-install-windows.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2017-12-11-etherum-crypto-kitties-code-core-1.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/library/2018-03-08-decenter-thinking.mdx: YAMLException: incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line at line 2, column 27:
+    title: Viewpoint | Vitalik: The Meaning of Decentralization
+                              ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:164531)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2017-12-24-etherum-crypto-kitties-code-core-2.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2018-01-23-ethereum-in-action-video-tsaiyee.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2018-03-03-erc721-in-action.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+   Generating static pages using 9 workers (0/51) ...
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "（" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "价" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "格" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "）" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "每" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "升" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "（" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "单" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "位" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "）" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "。" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "在" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "以" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "太" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "坊" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "中" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "，" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "就" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "是" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "（" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "价" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "格" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "）" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "每" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "（" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "单" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "位" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "）" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "。" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "为" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "了" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "填" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "满" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "你" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "的" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "油" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "箱" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "，" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "需" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "要" used in math mode [unicodeTextInMathMode]
+LaTeX-incompatible input and strict mode is set to 'warn': Unicode text character "升" used in math mode [unicodeTextInMathMode]
+   Generating static pages using 9 workers (12/51) 
+Error processing file /Users/Yee/Sources/yeelabs/articles/2017-11-26-ethereum-smart-contract-develop-env-ubuntu.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2017-11-28-ethereum-wallet-install-windows.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2017-12-11-etherum-crypto-kitties-code-core-1.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2017-12-24-etherum-crypto-kitties-code-core-2.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2018-01-23-ethereum-in-action-video-tsaiyee.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+Error processing file /Users/Yee/Sources/yeelabs/articles/2018-03-03-erc721-in-action.md: YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 5, column 9:
+    language: en
+            ^
+    at K (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156335)
+    at L (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:156433)
+    at _ (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:165128)
+    at ad (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:167862)
+    at ae (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:169971)
+    at af (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170714)
+    at ah (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:170923)
+    at Object.aj [as safeLoad] (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:171184)
+    at b.exports (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:183977)
+    at n (.next/server/chunks/ssr/[root-of-the-server]__981d4124._.js:1:184800) {
+  reason: 'can not read a block mapping entry; a multiline key may not be an implicit key',
+  mark: [e],
+  constructor: [Function: d],
+  toString: [Function (anonymous)]
+}
+   Generating static pages using 9 workers (25/51) 
+Error occurred prerendering page "/blog/2017-12-11-etherum-crypto-kitties-code-core-1-zh". Read more: https://nextjs.org/docs/messages/prerender-error
+[Error: [next-mdx-remote] error compiling MDX:
+Could not parse expression with acorn
+
+More information: https://mdxjs.com/docs/troubleshooting-mdx] {
+  digest: '1865203046'
+}
+Export encountered an error on /blog/[...slug]/page: /blog/2017-12-11-etherum-crypto-kitties-code-core-1-zh, exiting the build.
+ ⨯ Next.js build worker exited with code: 1 and signal: null

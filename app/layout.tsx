@@ -31,6 +31,8 @@ export const metadata: Metadata = {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+import { LanguageProvider } from "@/app/context/LanguageContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,11 +44,13 @@ export default function RootLayout({
         className={`antialiased bg-background text-foreground font-sans selection:bg-neon-cyan selection:text-black`}
       >
         <div className="fixed inset-0 -z-50 bg-[url('/circuit-pattern.svg')] opacity-10 pointer-events-none"></div>
-        <Navbar />
-        <main className="min-h-screen transition-opacity duration-500">
-          {children}
-        </main>
-        <Footer />
+        <LanguageProvider>
+          <Navbar />
+          <main className="min-h-screen transition-opacity duration-500">
+            {children}
+          </main>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

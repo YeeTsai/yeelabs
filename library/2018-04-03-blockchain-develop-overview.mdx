@@ -1,121 +1,121 @@
 ---
-title: 区块链研究进展综述
-author: 中国人民银行数字货币研究所所长姚前
+title: Overview of Blockchain Research Progress
+author: Yao Qian, Director of the Digital Currency Research Institute of the People's Bank of China
 category: blockchain
 permalink: /docs/blockchain/blockchain-develop-overview/
+language: en
 ---
 
-区块链是信息互联网向价值互联网转变的重要基石，是现代数字货币体系的可选技术之一。它以密码学技术为基础，通过分布式多节点“共识”机制，可以“完整、不可篡改”地记录价值转移（交易）的全过程。区块链采用的具体技术包括密码学、共识协议、博弈论、数据存储、P2P通信等，是多种已有技术的融合创新。本文从共识协议、安全与隐私保护机制、可扩展性与效率、系统/协议的安全分析与评估等四个方面，对区块链的研究进展进行了概要评述。
+Blockchain is an important cornerstone solely for the transition from the Information Internet to the Value Internet and is one of the optional technologies for the modern digital currency system. Based on cryptographic technology, through a distributed multi-node "consensus" mechanism, it can record the entire process of value transfer (transaction) in a "complete and tamper-proof" manner. The specific technologies adopted by blockchain include cryptography, consensus protocols, game theory, data storage, P2P communication, etc., which is a fusion innovation of multiple existing technologies. This article provides a summary review of blockchain research progress from four aspects: consensus protocols, security and privacy protection mechanisms, scalability and efficiency, and system/protocol security analysis and evaluation.
 
-## 一、共识协议
+## I. Consensus Protocols
 
-共识协议用于在分布式系统中实现可用性与一致性，是区块链的关键技术，其核心指标包括共识协议的强壮性（容错、容恶意节点的能力）、高效性（收敛速度，也即系统达成一致性或“稳态”的速度）及安全性（协议抽象理论模型的安全界）。代表性协议包括PBFT为代表的BFT类共识、PoW/PoS为代表的中本聪共识（Nakamoto Consensus）、新型混合共识等。
+Consensus protocols are used to achieve availability and consistency in distributed systems. It is a key technology of blockchain. Its core indicators include the robustness of the consensus protocol (ability to tolerate faults and malicious nodes), efficiency (convergence speed, meaning the speed at which the system reaches consistency or "steady state"), and security (security bound of the abstract theoretical model of the protocol). Representative protocols include BFT-type consensus represented by PBFT, Nakamoto Consensus represented by PoW/PoS, and new types of hybrid consensus.
 
-### （一）BFT类共识
+### (I) BFT-type Consensus
 
-BFT（Byzantine Fault-Tolerant）算法于20世纪80年代开始被研究，旨在解决所谓拜占庭将军问题。BFT类算法中最著名的是PBFT，该算法是基于消息传递的一致性算法，在弱同步网络下，算法经过三个阶段可以达成一致性，复杂度为O(n2)。在无法达成一致时，这些阶段会重复进行，直到超时。PBFT的优点是收敛速度快、节省资源、具有理论上的安全界（理论上允许不超过1/3的恶意节点存在，即总节点数为3k + 1，其中正常节点超过2k + 1个时，算法可以正常工作）。
+BFT (Byzantine Fault-Tolerant) algorithms began to be studied in the 1980s, aiming to solve the so-called Byzantine Generals Problem. The most famous BFT-type algorithm is PBFT, which is a consistency algorithm based on message passing. In a weakly synchronous network, the algorithm can reach consistency after three phases, with a complexity of O(n^2). When consistency cannot be reached, these phases will be repeated until timeout. The advantages of PBFT are fast convergence, resource saving, and a theoretical security bound (theoretically allowing no more than 1/3 of malicious nodes, i.e., the total number of nodes is 3k + 1, and the algorithm can work normally when normal nodes exceed 2k + 1).
 
-Andrew Miller在2016年提出的HoneyBadgerBFT对PBFT做了改进，其过程由原子广播（Atomic Broadcast）和异步公共子集协议（Asynchronous Common Subset）两部分组成，它使用N个二进制共识协议实例并根据其结果来决定一个公共子集。HoneyBadgerBFT可以在异步网络下进行共识，不依赖于任何关于网络环境的时间假设 。
+HoneyBadgerBFT, proposed by Andrew Miller in 2016, improved PBFT. Its process consists of two parts: Atomic Broadcast and Asynchronous Common Subset protocol. It uses N binary consensus protocol instances and decides a common subset based on their results. HoneyBadgerBFT can reach consensus under asynchronous networks and does not rely on any time assumptions about the network environment.
 
-BFT类共识随着参与共识节点的增加，通信开销会急剧上升，达成共识的速度则快速下降，难以支撑上万节点规模的分布式系统。此外，节点参与共识首先要获得投票权，因此要为节点的加入和退出过程设计额外的机制，增加了协议复杂度和实现难度。
+With the increase of nodes participating in consensus, the communication overhead of BFT-type consensus will rise sharply, and the speed of reaching consensus will decrease rapidly, making it difficult to support distributed systems with tens of thousands of nodes. In addition, nodes participating in consensus must first obtain voting rights, so additional mechanisms need to be designed for the joining and exiting process of nodes, increasing protocol complexity and implementation difficulty.
 
-### （二）中本聪共识
+### (II) Nakamoto Consensus
 
-比特币通过引入经济激励改造了共识投票的过程，将每次账本数据变化都安排一轮投票变为滚动的无限期投票：任何人都可以生成一个包含交易的区块（增加账本数据）并广播，其他人如果同意该区块纳入账本，则将该区块的哈希作为自己构造的区块数据的一部分，以对该区块进行“确认”；对某个区块的“确认”也包含了对该区块前序所有区块的“确认”；以工作量大小决定投票权重，投票附加的工作量大的区块胜出。这类共识机制的安全依赖于特别设计的经济激励，比如工作量证明（PoW）或者权益证明（PoS）等。 
+Bitcoin transformed the consensus voting process by introducing economic incentives, changing each ledger data change from a scheduled round of voting to a rolling indefinite voting: anyone can generate a block containing transactions (adding ledger data) and broadcast it. If others agree to include the block in the ledger, they will use the hash of the block as part of their own constructed block data to "confirm" the block; "confirmation" of a block also includes "confirmation" of all previous blocks of that block; voting weight is determined by the size of the workload, and the block with the large workload attached wins. The security of this type of consensus mechanism relies on specially designed economic incentives, such as Proof of Work (PoW) or Proof of Stake (PoS).
 
-比特币的工作量证明是寻找满足特定难度值的区块头哈希，比特币之后的虚拟货币项目为了避免出现专用ASIC矿机，开始设计抗ASIC的PoW算法，其中一类的思路是通过串联不同的哈希函数来增加ASIC芯片设计的难度，但并不具备抗ASIC的能力。
+Bitcoin's Proof of Work is to find a block header hash that meets a specific difficulty value. Virtual currency projects after Bitcoin, in order to avoid the appearance of dedicated ASIC mining machines, began to design ASIC-resistant PoW algorithms. One idea is to increase the difficulty of ASIC chip design by connecting different hash functions in series, but it does not have the ability to resist ASICs.
 
-另一类思路则是设计内存消耗型算法，比如Ethereum基于Dagger-Hashimoto的Ethash，Zcash基于广义生日悖论问题的Equihash，æternity基于二分图环路检测的Cuckoo Cycle等。这类算法在计算时需要占用大量内存，内存作为成熟产品优化空间小，设计专用ASIC芯片的成本优势不大。
+Another idea is to design memory-consuming algorithms, such as Ethash based on Dagger-Hashimoto for Ethereum, Equihash based on the Generalized Birthday Paradox problem for Zcash, and Cuckoo Cycle based on bipartite graph cycle detection for æternity. These algorithms require a large amount of memory during calculation. As a mature product, memory has little room for optimization, so the cost advantage of designing dedicated ASIC chips is not significant.
 
-为了克服PoW资源消耗大，运行成本高的问题，PeerCoin最早提出并实现了权益证明（Proof of Stake，PoS）类的共识协议。PoS协议下，节点获得区块创建权的概率取决于该节点在系统中所占有的权益比例的大小。
+To overcome the problems of high resource consumption and high operating costs of PoW, PeerCoin first proposed and implemented Proof of Stake (PoS) consensus protocols. Under the PoS protocol, the probability of a node obtaining the right to create a block depends on the size of the stake the node holds in the system.
 
-PoS一般需要用户时刻在线，这对应用带来了很大挑战。为了解决这个问题，衍生出了DPoS（Delegated Proof of Stake）共识，其核心思想是从先从全网节点中选出部分节点，保证这些节点的有效性，然后在该子节点集合内进行PoS共识。
+PoS generally requires users to be online at all times, which poses a great challenge to applications. To solve this problem, DPoS (Delegated Proof of Stake) consensus was derived. Its core idea is to first select some nodes from the whole network nodes, ensure the validity of these nodes, and then conduct PoS consensus within this subset of nodes.
 
-PoS共识机制也引起了学术界的极大兴趣。康奈尔大学的Elaine Shi等在2017年提出了基于Sleepy Model的PoS共识，并对其进行了形式化描述和安全性分析，证明了该共识系统在分布式环境下有良好的健壮性。爱丁堡大学的Aggelos Kiayias等在2017年也设计了一种名为Ouroboros的PoS方案，该成果发表在密码学顶级国际会议Crypto 2017上。
+PoS consensus mechanisms have also aroused great interest in academia. Elaine Shi and others from Cornell University proposed a PoS consensus based on the Sleepy Model in 2017, and formalized it and analyzed its security, proving that the consensus system has good robustness in a distributed environment. Aggelos Kiayias and others from the University of Edinburgh also designed a PoS scheme named Ouroboros in 2017, and the results were published at the top international cryptography conference Crypto 2017.
 
-### （三）混合共识
+### (III) Hybrid Consensus
 
-Elaine Shi等在2017年提出了将中本聪共识和BFT类共识进行有机结合的混合共识方案，该方案通过PoW机制来选取Committee（负责交易的验证确认及区块创建），Committee通过PBFT来进行交易及区块的共识确认。
+Elaine Shi et al. proposed a hybrid consensus scheme in 2017 that organically combines Nakamoto Consensus and BFT-type consensus. This scheme uses the PoW mechanism to select a Committee (responsible for transaction verification confirmation and block creation), and the Committee uses PBFT for consensus confirmation of transactions and blocks.
 
-而Silvio Micali等在2017年提出的基于可验证随机函数（VRF）的Algorand协议则从另一个角度出发， 通过“加密抽签”的方法随机决定区块创建者后，用带权重的拜占庭协议达成全网共识，可视为一种多级动态验证组BFT共识和PoS的混合方案。Algorand达成共识的情况会规约成3种，以大概率保证了只有唯一的输出，相比Sleepy和Ouroboros共识模型，确定性更好，不容易分叉。
+The Algorand protocol based on Verifiable Random Function (VRF) proposed by Silvio Micali et al. in 2017 starts from another angle. It uses the "cryptographic lottery" method to randomly determine the block creator, and then uses a weighted Byzantine protocol to reach network-wide consensus, which can be seen as a hybrid scheme of multi-level dynamic validation group BFT consensus and PoS. The situation of Algorand reaching consensus reduces to 3 types, guaranteeing with high probability that there is only a unique output. Compared with Sleepy and Ouroboros consensus models, it has better determinism and is less prone to forks.
 
-## 二、安全与隐私保护机制
+## II. Security and Privacy Protection Mechanisms
 
-安全机制是区块链中最为核心与关键的组成部分，而密码原语与密码方案是安全机制的支撑技术。在公有链中，安全机制主要包括：隐私保护、共识协议安全性、智能合约安全性、数字账户安全（钱包私钥保护）、离链交易安全机制、密码算法的实现安全及升级机制等。
+Security mechanisms are the most core and critical components of blockchains, while cryptographic primitives and cryptographic schemes are the supporting technologies for security mechanisms. In public chains, security mechanisms mainly include: privacy protection, consensus protocol security, smart contract security, digital account security (wallet private key protection), off-chain transaction security mechanisms, implementation security and upgrade mechanisms of cryptographic algorithms, etc.
 
-### （一）隐私保护
+### (I) Privacy Protection
 
-在公有链中，需要对交易数据、地址、身份等敏感信息进行保护，同时又能让记账节点验证交易的合法性；对于联盟链，在构建隐私保护方案的同时，需考虑可监管性/授权追踪。可以通过采用高效的零知识证明、承诺、证据不可区分等密码学原语与方案来实现交易身份及内容隐私保护；基于环签名、群签名等密码学方案的隐私保护机制、基于分级证书机制的隐私保护机制也是可选方案；也可通过采用高效的同态加密方案或安全多方计算方案来实现交易内容的隐私保护；还可采用混币机制实现简单的隐私保护。
+In public chains, sensitive information such as transaction data, addresses, and identities needs to be protected, while allowing bookkeeping nodes to verify the legitimacy of transactions; for consortium chains, while building privacy protection schemes, regulatory/authorization tracking needs to be considered. Privacy protection of transaction identity and content can be achieved by adopting efficient cryptographic primitives and schemes such as zero-knowledge proofs, commitments, and witness indistinguishability; privacy protection mechanisms based on cryptographic schemes such as ring signatures and group signatures, and privacy protection mechanisms based on hierarchical certificate mechanisms are also optional schemes; efficient homomorphic encryption schemes or secure multi-party computation schemes can also be adopted to achieve privacy protection of transaction content; coin mixing mechanisms can also be used to achieve simple privacy protection.
 
-#### 1．混币技术
+#### 1. Coin Mixing Technology
 
-混币技术是指将多笔不相关的输入进行混合后输出，使得外界无法关联交易的输入与输出，从而分辨不出数字货币的流向。这是最朴素的匿名技术。
+Coin mixing technology refers to mixing multiple unrelated inputs and then outputting them, making it impossible for the outside world to associate transaction inputs with outputs, thereby indistinguishing the flow of digital currency. This is the simplest anonymity technique.
 
-CoinJoin是一种无关协议的匿名混币技术，使用者需要委托第三方，来构造一笔混合多笔输入的交易。CoinJoin技术不是完全匿名的，即提供服务的第三方可以知道混币交易的流向。TumbleBit协议是另一种混币技术。该协议是一种链下通道的混币协议，也需要第三方参与，但第三方无法知道交易细节，仅仅是提供服务。TumbleBit分为Puzzle-Promise Protocol和RSA-Puzzle-Solver Protocol两个子协议，需要发送方、接收方和第三方进行多次交互。
+CoinJoin is a protocol-agnostic anonymous coin mixing technology. Users need to entrust a third party to construct a transaction that mixes multiple inputs. CoinJoin technology is not completely anonymous, that is, the third party providing the service can know the flow of the mixed currency transaction. The TumbleBit protocol is another currency mixing technology. This protocol is an off-chain channel mixing protocol that also requires third-party participation, but the third party cannot know the transaction details and merely provides services. TumbleBit is divided into two sub-protocols: Puzzle-Promise Protocol and RSA-Puzzle-Solver Protocol, requiring multiple interactions between the sender, receiver, and third party.
 
-#### 2．环签名
+#### 2. Ring Signature
 
-Monero（门罗币）在保证交易的隐私性方面应用了一次性环签名（One-time Ring Signature）技术，具有不可链接（Unlinkability）和不可追踪（Untraceability）两大特性。
+Monero uses One-time Ring Signature technology to ensure transaction privacy, which has two major characteristics: Unlinkability and Untraceability.
 
-门罗币里，用户有两对主公私钥对，用于生成一系列的一次性密钥对。这些一次性密钥在交易时使用，且无法关联到主公私钥对。进行交易时，发送者需要使用一次性公私钥来计算唯一的key image，然后选择一个公钥集合来进行环签名。校验者可以验证签名的合法性，但无法知道签名者的公钥。在网络里，节点需要维护一张表，来记录每次使用过的key image，否则会出现双花问题。环签名可以有效提高匿名性的同时，无需任何第三方协作参与。但相比椭圆曲线签名，环签名的签名长度明显增大，生成签名和验证签名的复杂度也大大增加，这会给网络带来多余的负担。
+In Monero, users have two pairs of main public and private keys, used to generate a series of one-time key pairs. These one-time keys are used during transactions and cannot be linked to the main public and private key pairs. During a transaction, the sender needs to use the one-time public and private keys to calculate a unique key image, and then select a public key set to perform a ring signature. Validators can verify the legitimacy of the signature, but cannot know the signer's public key. In the network, nodes need to maintain a table to record each used key image, otherwise double-spending problems will occur. Ring signatures can effectively improve anonymity without the need for any third-party collaboration. However, compared with elliptic curve signatures, the signature length of ring signatures is significantly increased, and the complexity of generating and verifying signatures is also greatly increased, which brings extra burden to the network.
 
-#### 3．零知识证明
+#### 3. Zero-Knowledge Proof
 
-ZCash采用了名为zk-SNARK的零知识证明技术，来保证交易的发送者、接受者和交易金额的机密性。在ZCash里，发送者通过向全网广播承诺（commitment）和废弃值（nullifier）来进行转账交易。zk-SNARK用于向网络证明承诺和废弃值的合法性，同时又不揭露发送者的身份。
+ZCash uses a zero-knowledge proof technology called zk-SNARK to ensure the confidentiality of the sender, receiver, and transaction amount. In ZCash, the sender transfers money by broadcasting a commitment and a nullifier to the entire network. zk-SNARK is used to prove the legitimacy of the commitment and nullifier to the network without revealing the identity of the sender.
 
-zk-SNARK具有两个特点：简洁性（Succinct），即验证者只需要少量计算就可以完成验证；非交互性（Noninteractive），即证明者和验证者只需要交换少量的信息即可。zk-SNARK可以证明所有的多项式验证问题。它提供了一个系统化的方法，可以把任何验证程序转化成一个名为 Quadratic Span Program (QSP)的多项式验证问题。因此，任意复杂的验证问题都可以由zk-SNARK来证明。zk-SNARK的缺点在于计算验证数据时，需要一定的计算量。此外，zk-SNARK还有一个初始参数设置阶段，来生成一个“绝对机密”的随机信息。使用这些初始化的随机信息可以欺骗验证者，因此需要保证该过程的绝对机密与安全。
+zk-SNARK has two characteristics: Succinct, meaning the validator only needs a small amount of calculation to complete the verification; Noninteractive, meaning the prover and the validator only need to exchange a small amount of information. zk-SNARK can prove all polynomial verification problems. It provides a systematic method to convert any verification program into a polynomial verification problem called Quadratic Span Program (QSP). Therefore, arbitrarily complex verification problems can be proved by zk-SNARK. The disadvantage of zk-SNARK is that it requires a certain amount of calculation when calculating verification data. In addition, zk-SNARK has an initial parameter setting phase to generate an "absolutely confidential" random message. Using these initialized random messages can deceive validators, so the absolute confidentiality and security of this process must be ensured.
 
-### （二）数字账户安全
+### (II) Digital Account Security
 
-钱包私钥直接关系到账户安全，需要对钱包私钥进行妥善保护。可采用无密钥的密码算法（标准算法的白盒化方案或设计新型的白盒密码算法）和代码混淆技术，实现敌手无法提取核心密码算法和密钥信息；或采用基于口令、身份、生物特征等认证因子的加密算法对密钥进行加密存储；基于TEE（可信执行环境）、辅助硬件的技术方案也是保障数字账户安全的可选方案之一。
+Wallet private keys are directly related to account security and need to be properly protected. Keyless cryptographic algorithms (white-box schemes of standard algorithms or designing new white-box cryptographic algorithms) and code obfuscation technologies can be adopted to prevent adversaries from extracting core cryptographic algorithm and key information; or encryption algorithms based on authentication factors such as passwords, identities, and biometric features can be used to encrypt and store keys; technical solutions based on TEE (Trusted Execution Environment) and auxiliary hardware are also one of the optional solutions for ensuring digital account security.
 
-### （三）密码算法的实现安全及升级机制
+### (III) Implementation Security and Upgrade Mechanism of Cryptographic Algorithms
 
-需确保区块链中密码算法的实现安全，并构建密码算法更新/升级时的安全机制。密码算法的实现安全包括软件实现的安全性及硬件实现的安全性，避免密码误用，有效抵抗旁路攻击。
+It is necessary to ensure the implementation security of cryptographic algorithms in the blockchain and build security mechanisms for when cryptographic algorithms are updated/upgraded. The implementation security of cryptographic algorithms includes software implementation security and hardware implementation security, avoiding cryptographic misuse, and effectively resisting side-channel attacks.
 
-## 三、可扩展性与效率
+## III. Scalability and Efficiency
 
-可扩展性旨在分布式账本协议的基础上，对整体进行性能效率的提升、扩容或功能性上的扩充，可选方法包括：缩短区块的产生间隔、增加区块大小、采用双层链结构、引入闪电网络、在不影响安全性的前提下修剪区块中的数据等。
+Scalability aims to improve the overall performance efficiency, expand capacity, or expand functionality on the basis of distributed ledger protocols. Optional methods include: shortening the block generation interval, increasing block size, adopting a two-layer chain structure, introducing the Lightning Network, pruning data in blocks without affecting security, etc.
 
-### （一）闪电网络
+### (I) Lightning Network
 
-闪电网络是比特币的链下扩容方案，旨在扩大比特币的交易规模和交易速度。闪电网络的基础是交易双方建立双向微支付通道。HTLC（Hashed Timelock Contract）定义了该双向微支付通道的基本工作方式。双方在转账时，转账人将一笔钱冻结，并提供一个哈希值。在一定的时间内，若有人可以给出哈希原像，就可以使用这笔钱。在这个基础上，两两各自建立链下微支付通道，最终可以扩大成一个链下支付网络。一旦链下网络达到一定的规模，用户找到一个通道数较多的节点后，便可连接到其他用户，从而完成链下交易。由于不需要上链，闪电网络中的交易是即时完成的，只有最终的清算才需要上链。
+The Lightning Network is an off-chain expansion solution for Bitcoin, aiming to expand the scale and speed of Bitcoin transactions. The foundation of the Lightning Network is the establishment of bidirectional micropayment channels between trading parties. HTLC (Hashed Timelock Contract) defines the basic working mode of this bidirectional micropayment channel. During transfer, the transferor freezes a sum of money and provides a hash value. Within a certain period of time, if someone can provide the hash preimage, they can use the money. On this basis, pairwise off-chain micropayment channels are established, eventually expanding into an off-chain payment network. Once the off-chain network reaches a certain scale, after a user finds a node with many channels, they can connect to other users to complete off-chain transactions. Since there is no need to go on-chain, transactions in the Lightning Network are completed instantly, and only the final settlement needs to go on-chain.
 
-目前比特币和莱特币均已支持闪电网络。然而，在闪电网络方案中，链下网络的建立及路由协议还存在较大的不足之处，伊利诺伊大学香槟分校Andrew Miller等在2017年提出了一种新型的闪电网络协议，进一步优化提升了闪电网络在链下网络建立及路由方面的性能效率。
+Currently, both Bitcoin and Litecoin support the Lightning Network. However, in the Lightning Network scheme, there are still significant deficiencies in the establishment of off-chain networks and routing protocols. Andrew Miller et al. from the University of Illinois at Urbana-Champaign proposed a new Lightning Network protocol in 2017, further optimizing and improving the performance efficiency of the Lightning Network in off-chain network establishment and routing.
 
-### （二）采用双层链结构
+### (II) Adopting Two-Layer Chain Structure
 
-Bitcoin-NG采用了双层链结构，其主要思想是：矿工解决哈希难题并由此创建的区块称为keyBlock，创建keyBlock的矿工在下一个keyBlock出现之前每隔一小段时间可以发布一个microBlock。系统的安全性和健壮性建立在keyBlock的PoW机制上，而系统的交易吞吐量则通过microBlock的频繁发布得以显著提高。
+Bitcoin-NG adopts a two-layer chain structure. Its main idea is: miners solve hash puzzles and the blocks created thereby are called keyBlocks. Miners who create keyBlocks can publish a microBlock every short period of time before the next keyBlock appears. The security and robustness of the system are based on the PoW mechanism of keyBlocks, while the transaction throughput of the system is significantly improved by the frequent release of microBlocks.
 
-然而，在Bitcoin-NG中存在两个安全隐患：一是不能有效阻止自私挖矿，二是当某个矿工创建keyBlock之后，他可在短时间内发布大量的microBlock，从而引发系统大量分叉并最终对共识机制的收敛性造成很大影响，同时也大大加重了系统的通信负荷。
+However, there are two security risks in Bitcoin-NG: one is that it cannot effectively prevent selfish mining, and the second is that after a miner creates a keyBlock, he can publish a large number of microBlocks in a short period of time, thereby triggering a large number of forks in the system and ultimately having a great impact on the convergence of the consensus mechanism, while also greatly increasing the communication load of the system.
 
-### （三）MimbleWimble
+### (III) MimbleWimble
 
-MimbleWimble技术删除交易中所有已花费的输出，可以有效压缩区块数据的大小。MimbleWimble使用单向聚合签名（OWAS）对金额进行隐藏，其隐藏公式为，其中C是Pedersen commitment，G和H是与椭圆曲线加密函数（ECDSA）生成的无关的固定值，v是金额，而r是一个秘密的 random blinding key（随机盲密匙）。此后，需要通过range proof 证明输出在正常的取值范围内。用户不需要遍历整个区块链，只需要验证整个区块链的输入之和和未花费的输出之和是否相等，依次证明整条区块链是正确的。因此，用户可以删除所有已花费的输出，来有效压缩区块数据的大小。除此之外，MimbleWimble还提供一定的隐私和扩展性，但该方案无法支持复杂的比特币脚本。
+MimbleWimble technology deletes all spent outputs in transactions, which can effectively compress the size of block data. MimbleWimble uses One-Way Aggregate Signature (OWAS) to hide amounts. The hiding formula is C = r*G + v*H, where C is the Pedersen commitment, G and H are unrelated fixed values generated with the elliptic curve encryption function (ECDSA), v is the amount, and r is a secret random blinding key. Thereafter, a range proof is needed to prove that the output is within the normal range of values. Users do not need to traverse the entire blockchain, only verify that the sum of inputs and the sum of unspent outputs of the entire blockchain are equal, proving that the entire blockchain is correct. Therefore, users can delete all spent outputs to effectively compress the size of block data. In addition, MimbleWimble also provides certain privacy and scalability, but this scheme cannot support complex Bitcoin scripts.
 
-## 四、区块链/协议的安全分析与评估
+## IV. Security Analysis and Evaluation of Blockchain/Protocol
 
-在区块链（协议）的安全性分析与评估中，一方面，需要对已有的共识协议建立抽象理论模型，并基于该模型研究共识协议的安全性；另一方面，需要研究在不同攻击方法（或场景下）区块链的安全性，例如：分别在高同步性、高异步性网络条件下，基于合理的困难问题假设、攻击者的计算能力、攻击类型及方法等建立相应的统计分析模型，给出共识协议能有效抵抗相应攻击的安全界；需分析在激励机制失效下系统的安全性；需对系统中密码方案软硬件实现进行安全性分析等。
+In the security analysis and evaluation of blockchain (protocols), on one hand, it is necessary to establish abstract theoretical models for existing consensus protocols and continuously study the security of consensus protocols based on this model; on the other hand, it is necessary to study the security of blockchain under different attack methods (or scenarios), for example: under high synchrony and high asynchrony network conditions respectively, based on reasonable hardness assumptions, attacker's computational power, attack types and methods, etc., establish corresponding statistical analysis models, and give security bounds for consensus protocols to effectively resist corresponding attacks; analyze the security of the system when incentive mechanisms fail; analyze the security of software and hardware implementations of cryptographic schemes in the system, etc.
 
-### （一）自私挖矿
+### (I) Selfish Mining
 
-传统观点认为比特币是有激励相容机制的，即没有人可通过损害集体利益去实现自己利益的最大化。但自私挖矿（selfish mining）的提出证明了这种观点是不完全正确的。在矿工是追求最大化利益的理性者的条件下，只要矿池能控制全网超过1/3的算力，就可以发起自私挖矿攻击，获取更大的收益，并对网络安全造成威胁。
+Traditional views believe that Bitcoin has an incentive-compatible mechanism, that is, no one can maximize their own interests by harming collective interests. However, the proposal of selfish mining proves that this view is not completely correct. Under the condition that miners are rational people pursuing maximized interests, as long as a mining pool controls more than 1/3 of the network's computing power, it can launch a selfish mining attack, obtain greater benefits, and pose a threat to network security.
 
-自私挖矿的分析是基于理性者条件的假设下，但现实中人往往不是完全理性的，且存在多方博弈，因此实现自私挖矿攻击还是存在一定的难度。
+The analysis of selfish mining is based on the assumption of rational people, but in reality, people are often not completely rational, and there are multi-party games, so there are still certain difficulties in implementing selfish mining attacks.
 
-### （二）分区攻击
+### (II) Partition Attack
 
-在P2P网络里，只要控制一定数量的节点，就可以进行Eclipse Attack，从而发起51%攻击，控制整个网络。这是一种分区攻击。假设网络中只有3个节点在挖矿，其中两个分别拥有 30%的全网算力，剩余一个有40%全网算力。如果攻击者可以控制拥有40%算力的节点，则他可以隔离其他两个节点，使得他们无法达成共识。最终的结果是，攻击者所生成的链会经共识成为最终的区块链。因此在分区攻击下，攻击者不需要拥有超过一半的算力，就可以发起51% 攻击。发起这种攻击的前提条件是，被隔离节点链接到的所有节点都受攻击者控制。在网络规模不大的时候，这比较容易实现。
+In a P2P network, as long as a certain number of nodes are controlled, an Eclipse Attack can be carried out, thereby launching a 51% attack and controlling the entire network. This is a partition attack. Assuming there are only 3 nodes mining in the network, two of which have 30% of the network's computing power respectively, and the remaining one has 40% of the network's computing power. If the attacker can control the node with 40% computing power, he can isolate the other two nodes, making them unable to reach consensus. The final result is that the chain generated by the attacker will become the final blockchain through consensus. Therefore, under partition attacks, the attacker does not need to possess more than half of the computing power to launch a 51% attack. The prerequisite for launching this attack is that all nodes linked to the isolated nodes are controlled by the attacker. When the network scale is not large, this is easier to achieve.
 
-### （三）大数据分析
+### (III) Big Data Analysis
 
-区块数据在全网都是公开的，因此可以很容易地对它们进行分析。Kumar Amrit 等在2017年通过对Monero历史区块数据的分析，得到了如下结果：65%以上的input会产生级联影响，影响到22%的交易被追踪到；来自同一交易的output在下次交易时通常会聚合在一起；匿名集中最近发生的output很可能就是真实被花费的 output。
+Block data is public across the entire network, so it is easy to analyze them. Kumar Amrit et al. analyzed Monero's historical block data in 2017 and obtained the following results: more than 65% of inputs will produce cascading effects, affecting 22% of transactions being traced; outputs from the same transaction are usually aggregated together in the next transaction; the anonymity set of recently occurred outputs is likely to be the real spent outputs.
 
-因此，尽管Monero具有良好的匿名特性，但通过数据分析，还是有超过半数的交易被追踪并分析出来。这说明了系统的参数选择和用户的使用习惯也会导致隐私暴露。
+Therefore, despite Monero's good anonymity features, through data analysis, more than half of the transactions could still be traced and analyzed. This shows that parameter selection of the system and user usage habits can also lead to privacy exposure.
 
-### （四）共识协议的抽象理论模型的安全性分析
+### (IV) Security Analysis of Abstract Theoretical Models of Consensus Protocols
 
-Aggelos Kiayias等在2017年构建了比特币的PoW协议的抽象理论模型，并借鉴密码学中可证明安全的思想证明了该抽象理论模型的安全性；Elaine Shi等在2017年提出了基于 Sleep Model的PoS共识模型，并对其进行了形式化描述和安全性分析，证明了该共识系统在分布式环境下有良好的健壮性。
+Aggelos Kiayias et al. constructed an abstract theoretical model of Bitcoin's PoW protocol in 2017, and proved the security of the abstract theoretical model by drawing on the idea of provable security in cryptography; Elaine Shi et al. proposed a PoS consensus model based on the Sleepy Model in 2017, and formalized it and analyzed its security, proving that the consensus system has good robustness in a distributed environment.
 
->（本文刊登于《中国信息安全》杂志2018年第3期）
-
+> (This article was published in the 3rd issue of "China Information Security" magazine in 2018)

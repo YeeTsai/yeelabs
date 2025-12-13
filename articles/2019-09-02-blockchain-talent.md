@@ -1,65 +1,66 @@
 ---
 layout: post
 category: architecture
-title: 对于区块链行业人才的思考
+title: Reflections on Talent in the Blockchain Industry
+language: en
 ---
 
-旧文。本文是在2018年6月26日接受CSDN区块链大本营的文字采访完整版，虽然已经过了一年多，但其中的观点我觉得依然有用。
+Old article. This applies to the full text interview of CSDN Blockchain Camp on June 26, 2018. Although more than a year has passed, I think the viewpoints in it are still useful.
 
-#### 1. 现在在区块链技术人才的招聘上，您最缺什么技能的人？对于这类技术人才，会给到多高的薪酬？
+#### 1. In the recruitment of blockchain technical talent, what skills are you lacking the most? For this type of technical talent, how high a salary will be given?
 
-拥抱区块链已经成为当下行业的主流，大量行业需要用区块链技术解决痛点和问题，进一步提升行业运行效率。在此过程中，最需要既懂行业领域知识，又熟悉行业应用技术架构，还对区块链技术理解深刻的复合人才。
+Embracing blockchain has become mainstream in the current industry. A large number of industries need to use blockchain technology to solve pain points and problems, and further improve industry operational efficiency. In this process, composite talents who not only understand industry domain knowledge but are also familiar with industry application technology architecture, and have a profound understanding of blockchain technology are most needed.
 
-比如供应链金融，架构师需要有丰富的供应链金融业务知识，对供应链金融系统的架构和流程了如指掌，又要对区块链技术理解深刻，这样才能使用区块链技术改造现有应用，以提升供应链金融的效率。
+For example, in supply chain finance, architects need to have rich knowledge of supply chain finance business, know the architecture and processes of supply chain finance systems like the back of their hand, and also have a deep understanding of blockchain technology, so that they can use blockchain technology to transform existing applications to improve the efficiency of supply chain finance.
 
-薪酬得根据人员的经验和能力来看，3-5万不等。
+The salary depends on the experience and ability of the personnel, ranging from 30,000 to 50,000.
 ​
-#### 2. 人才招聘过来后，大致需要多长的适应期或者培养期，就能真正开展任务了​？
+#### 2. After talent is recruited, roughly how long is the adaptation or training period before they can truly carry out tasks?
 
-不同的人才培养期是不一样的，一般说来，技术积累越多、对技术越敏感的人所需的适应期或培养期越短。一般来说入职后2个月左右就能了解区块链的基本知识，能开展区块链相关工作。
-对于原来中心化系统中的一些概念，如系统时间、事务、日志等，在区块链中的用法大不相同，因此技术人员除学习区块链基本知识外，还需要在工作中转变思维模式，采用区块链最佳实践方式来完成工作。
+The training period for different talents is different. Generally speaking, the more technical accumulation and the more sensitive to technology, the shorter the adaptation or training period required. Generally speaking, they can understand basic blockchain knowledge and carry out blockchain-related work about 2 months after joining.
+For some concepts in the original centralized system, such as system time, transactions, logs, etc., the usage in blockchain is quite different. Therefore, in addition to learning basic blockchain knowledge, technical personnel also need to change their thinking mode in work and adopt blockchain best practices to complete their work.
 
-####  3. 如果某个技术人才实习生，有技术基础，但没有相关的区块链技能，大概需要多长时间能学会并熟练地开展区块链相关的任务？
+#### 3. If a technical intern has a technical foundation but no relevant blockchain skills, roughly how long does it take to learn and skillfully carry out blockchain-related tasks?
 
-如果只是做区块链应用，比如DApp，那么实习生在学习3个月左右就能独立开发一个较为简单的DApp。
+If it's just doing blockchain applications, such as DApps, then an intern can independently develop a simpler DApp after studying for about 3 months.
 
-####  4. 程序员都有工种分类，比如前端、后端、架构师。。区块链技术人才是否有个大致的分类？
+#### 4. Programmers have job classifications, such as front-end, back-end, architect... Is there a rough classification for blockchain technical talent?
 
-从区块链技术来看，也分为底层开发、区块链中间件开发、区块链智能合约开发、区块链业务对接开发。
+From the perspective of blockchain technology, it is also divided into underlying development, blockchain middleware development, blockchain smart contract development, and blockchain business docking development.
 
-####  5. 不同的区块链人才，主要需要具备的核心技能是什么？不同工种的区块链人才，薪酬上是否差别很大，有什么差别？
+#### 5. What are the core skills required for different blockchain talents? Is there a big difference in salary for different types of blockchain talents, and what are the differences?
 
-底层开发技术人员需要具备扎实的密码学功底，广博的计算机基础知识（如操作系统原理、网络知识、数据结构、算法等）以及深厚的编程经验（至少精通一门系统编程语言，如C/C++，GO等）。
-区块链中间件开发人员需要具备全面的区块链知识，对不同区块链的实现方式、优劣有深入的了解；如比特币采用UTXO模型，而以太坊采用账户模型，其在对接时处理完全不一样。
-区块链智能合约开发人员需要对精通智能合约语言，对智能合约常见设计模式、实现方法有深入理解，对要实现的业务非常了解，对智能合约安全非常了解；比如拿现在最为流行的Token合约而言，需要理解Token转移和发放的业务流程和逻辑，需要采用安全的编程手段避免溢出漏洞、逻辑漏洞，需要研究权限控制实现的最佳实践，这样开发出的智能合约才能满足业务需要和保证合约安全。
-区块链业务对接开发人员需要了解一定的区块链知识，了解业务知识，了解区块链能做什么，不能做什么。比如区块链具有一经写入，不可更改的特性，那么在本行业的业务流程的那个环节可以采用这个特性而获得较好效果呢？这都是业务对接开发人员需要考虑的问题。
+Underlying development technical personnel need solid cryptography skills, broad basic computer knowledge (such as operating system principles, network knowledge, data structures, algorithms, etc.) and profound programming experience (at least proficient in a system programming language, such as C/C++, GO, etc.).
+Blockchain middleware developers need to have comprehensive blockchain knowledge and a deep understanding of the implementation methods, pros and cons of different blockchains; for example, Bitcoin uses the UTXO model, while Ethereum uses the account model, and their handling in docking is completely different.
+Blockchain smart contract developers need to be proficient in smart contract languages, have a deep understanding of common design patterns and implementation methods of smart contracts, understand the business to be implemented very well, and understand smart contract security very well; for example, taking the currently most popular Token contract, one needs to understand the business flow and logic of Token transfer and issuance, need to use secure programming means to avoid overflow vulnerabilities and logic vulnerabilities, and need to research best practices for permission control implementation, so that the developed smart contract can meet business needs and ensure contract security.
+Blockchain business docking developers need to understand certain blockchain knowledge, understand business knowledge, understand what blockchain can do and what it cannot do. For example, blockchain has the characteristic of being immutable once written, so in which link of the business process of this industry can this characteristic be used to obtain better results? These are all problems that business docking developers need to consider.
 
-####  6. 区块链技术人才的薪酬相对AI、或者传统行业的程序员，价格是持平，虚高，还是略有下降？
+#### 6. Is the salary of blockchain technical talent relatively flat, inflated, or slightly lower compared to AI or traditional industry programmers?
 
-当前区块链处于风口，因此区块链技术人才的薪酬相对AI、或者传统行业的程序员略高。
+Blockchain is currently a hot topic, so the salary of blockchain technical talent is slightly higher than that of AI or traditional industry programmers.
 
-#### 7. 哪些方向的传统程序员人才更容易转区块链？哪些方向的传统程序员更愿意转区块链？为什么
+#### 7. Which directions of traditional programmer talent are easier to switch to blockchain? Which directions of traditional programmers are more willing to switch to blockchain? Why?
 
-从现在的情况来看，P2P/通讯软件开发、加密类系统开发、数据库软件开发的传统程序员更容易转向底层链开发，
-后端技术开发人员更容易转向中间件、智能合约开发。主要原因是原有技术积累能帮助程序员快速的上手。
+Judging from the current situation, traditional programmers in P2P/communication software development, encryption system development, and database software development are easier to switch to underlying chain development.
+Back-end technical developers are easier to switch to middleware and smart contract development. The main reason is that original technical accumulation can help programmers get started quickly.
 
-####  8. 如果想转型区块链，从实战来说，需要从哪些地方下功夫，才能真正做好转型？
+#### 8. If you want to transition to blockchain, from a practical point of view, where do you need to work hard to truly make a good transition?
 
-首先需要了解区块链的基础知识，密码学、P2P、数据结构等，其次需要深刻理解区块链的思想，
-再者就是使用区块链的SDK或者接口进行应用开发，在实际开发中加深理解。
+First of all, you need to understand the basic knowledge of blockchain, cryptography, P2P, data structures, etc. Secondly, you need to deeply understand the ideas of blockchain.
+Furthermore, use the blockchain SDK or interface for application development, and deepen understanding in actual development.
 
-####  9. 从其他行业转型到区块链的程序员，您认识的可否介绍两位认识一下？
+#### 9. Can you introduce two programmers who have transitioned from other industries to blockchain that you know?
 
-我是从金融行业系统开发转到中间件、智能合约开发的，我同事是从前端开发转到中间件开发的。从金融行业系统转型到智能合约开发相对其他行业会有一些优势，因为区块链现在的应用还主要与金融相关，金融行业的一些思维可以帮助你很好的理解区块链的本质。从前端开发转向中间件和DApp开发也具备较好的优势，比如现在以太坊的客户端最成熟的是web3.js，前端开发人员可以很快上手，更别说DApp的界面本就是使用html和css开发了。
+I transferred from financial industry system development to middleware and smart contract development. My colleague transferred from front-end development to middleware development. Transitioning from financial industry system to smart contract development will have some advantages relative to other industries, because current blockchain applications are mainly related to finance, and some thinking in the financial industry can help you understand the essence of blockchain very well. Transitioning from front-end development to middleware and DApp development also has good advantages. For example, the most mature Ethereum client is now web3.js, so front-end developers can get started quickly, not to mention that the DApp interface is originally developed using html and css.
 
-####  10. 当前您是否感受到了有一个明显的转型潮正在发生，还是说，传统的程序员只是观望，并不真正愿意踏入进来，转型潮还远未到来。
+#### 10. Do you currently feel that there is a significant transition wave happening, or are traditional programmers just waiting and seeing, and not really willing to step in, and the transition wave is far from coming?
 
-现在区块链落地应用还在探索阶段，还没有杀手级应用出现，因此谈不上有明显的转型潮，只是一些对新技术感兴趣、渴望做些有意思的事情的程序员在进入区块链行业。
+Now blockchain landing applications are still in the exploration stage, and no killer application has appeared, so there is no obvious transition wave. It's just some programmers who are interested in new technologies and eager to do something interesting are entering the blockchain industry.
 
-####  11. 区块链人才有多稀缺，能举个例子吗？
+#### 11. How scarce is blockchain talent? Can you give an example?
 
-可以这样说吧，即使在程序员这样本应很快接触新兴技术的人群中，都有很多人不了解区块链。而现在很多行业都想在区块链上做一些应用，因此大部分人都只有想法，没法落地。现在技术人员面试的时候，大部分人只是听说过区块链，而且主要是知道比特币，真正对区块链底层和原理理解的人凤毛麟角。
+Let's put it this way, even among programmers who should be exposed to emerging technologies very quickly, many people do not understand blockchain. And now many industries want to do some applications on blockchain, so most people only have ideas and cannot implement them. When technical personnel are interviewed now, most people have only heard of blockchain, and mainly know Bitcoin. People who truly understand the underlying and principles of blockchain are rare.
 
-####  12. 其他，您觉得对于区块链人才，还有什么特别值得一说的点呢？
+#### 12. Others, what special points do you think are worth mentioning for blockchain talent?
 
-区块链不止是技术，还是一种架构方式，一种思想；区块链技术和探索日新月异，因此区块链人才建议多学、多想、多实践。
+Blockchain is not just technology, but also an architectural method, an idea; blockchain technology and exploration are changing with each passing day, so blockchain talents are advised to learn more, think more, and practice more.

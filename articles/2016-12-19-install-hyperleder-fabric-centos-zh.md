@@ -1,40 +1,40 @@
 ---
 layout: post
 category: blockchain
-title: Setting up HyperLedger Fabric Development and Testing Environment on CentOS
-language: en
+title: 在CentOS上搭建HyperLedger Fabric开发测试环境
+language: zh
 ---
 
-Although HyperLedger Fabric provides a ready-to-use Vagrant Box environment, to deepen the understanding of it, I decided to build a development and testing environment from scratch.
+虽然HyperLedger Fabric提供Vagrant Box开箱即用的环境，但为了加深对其的理解，决定从头搭建一套开发测试环境。
 
-I use VMWare to install CentOS. If using Virtual Box, the operation is similar.
+使用VMWare安装CentOS，若用Virtual Box，操作类似。
 
 ***
 
-### Install CentOS
+### 安装CentOS
 
-Download CentOS 7 and install it. I use the x86-64 Minimal version.
+下载CentOS 7并安装 ，我使用的是x86-64 Minimal版本。
 
-### Install Docker
+### 安装Docker
 
-#### Preparation before installation
+####  安装前准备
 
-Check if the kernel version supports it (Docker requires 3.10+). CentOS 7 supports it completely.
+检查内核版本是否支持（Docker需要3.10以上），CentOS 7完全支持。
 
 ```
 # uname -a
 3.10.0-327.el7.x86_64
 ```
 
-#### Install Docker using yum
+#### 使用yum安装Docker
 
-##### 1. Update yum
+##### 1. 更新yum
 
 ```
 sudo yum update
 ```
 
-##### 2. Add yum Repo
+##### 2. 增加 yum Repo
 
 ~~~ shell
 sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
@@ -47,95 +47,95 @@ gpgkey=https://yum.dockerproject.org/gpg
 EOF
 ~~~
 
-##### 3. Install Docker
+##### 3. 安装Docker
 
 ~~~ shell
 sudo yum install docker-engine
 ~~~
 
-##### 4. Enable Docker to start as a Service
+##### 4. 允许Docker作为Service启动
 
 ~~~ shell
 sudo systemctl enable docker.service
 ~~~
 
-##### 5. Start Docker Service
+##### 5. 启动Docker服务
 
 ~~~ shell
 sudo systemctl start docker
 ~~~
 
-##### 6. Install docker-compose
+##### 6. 安装docker-compose
 
-docker-compose is a docker cluster management tool, which can define and start multiple docker containers with one click.
+docker-compose是docker集群管理工具，可自定义一键启动多个docker container。
 
 ~~~shell
 curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ~~~
 
-*Note*: The ```docker-compose.yaml``` file on HyperLedger github requires the latest docker-compose version to parse.
+*Note*: HyperLedger github上```docker-compose.yaml```文件需要使用最新的docker-compose版本解析。
 
-### Build Fabric Development Environment
+### 搭建Fabric开发环境
 
-#### Download related components
+#### 下载相关组件
 
 ##### 1. docker-compose.yml
 
-You can use the example on HyperLedger github
+可使用HyperLedger github上的样例
 
 ~~~shell
 curl -o docker-compose.yml https://raw.githubusercontent.com/hyperledger/fabric/master/examples/sdk/node/docker-compose.yml
 ~~~
 
-##### 2. Download Docker image
+##### 2. 下载Docker image
 
-membersrvc and peer can use standard hyperledger fabric components, so pull directly
+membersrvc和peer可以采用标准的 hyperledger fabric组件，因此直接pull
 
 ~~~shell
 docker pull hyperledger/fabric-membersrvc:latest
 docker pull hyperledger/fabric-peer:latest
 ~~~
 
-#### Build client image
+#### build客户端镜像
 
-##### 1. Download Fabric example Dockerfile
+##### 1. 下载Fabric样例Dockerfile
 
 ~~~shell
 curl -o Dockerfile https://raw.githubusercontent.com/hyperledger/fabric/master/examples/sdk/node/Dockerfile
 ~~~
 
-##### 2. Build image
+##### 2. build image
 
 ~~~shell
 docker build -t hyperledger/fabric-starter-kit:latest .
 ~~~
 
-##### 3. Check if images are correct
+##### 3. 检查images是否正确
 
 ~~~shell
 docker ps -a
 ~~~
 
-#### Run Fabric Development Environment
+#### 运行Fabric开发环境
 
-##### 1. Start Cluster
+##### 1. 启动Clustedr
 
 ~~~shell
 docker-compose -f docker-compose.yml up -d
 ~~~
 
-##### 2. Enter Docker
+##### 2. 进入Docker
 
-Deploy as development mode, enter peer directly
+部署为开发模式，直接进入peer
 
 ~~~shell
 docker exec -it peer bash
 ~~~
 
-##### 3. Logic
+##### 3. 登陆
 
-The official Image opens permissions by default, you need to login first, use the built-in user to login.
+官方Image默认打开权限，需要先登陆用户，使用内置用户登陆。
 
 
 - CLI
@@ -144,14 +144,14 @@ The official Image opens permissions by default, you need to login first, use th
 peer network login jim
 ~~~
 
-Password
+密码
 ```
 6avZQLwcUe9b
 ```
 
 - REST API
 
-You can also use REST API:
+也可以使用REST API：
 
 ```
 POST http://127.0.0.1:7050/registrar
@@ -164,14 +164,14 @@ POST http://127.0.0.1:7050/registrar
 }
 ~~~
 
-*Note*: To use REST, you need to add port mapping in the peer of docker-compose.yml file:
+*Note*: 为了使用REST，你需要在docker-compose.yml文件的peer中加入端口映射：
 
 ```
 ports:
    - "0.0.0.0:7050:7050"
 ```
 
-##### 4. Deploy Chaincode
+##### 4. 部署Chaincode
 
 - CLI
 
@@ -180,15 +180,15 @@ CORE_PEER_ADDRESS=127.0.0.1:7051
 peer chaincode deploy -n hyperledger-demo-1 -c '{"Function": "init", "Args": ["a", "1000", "b", "2000"]}' -u jim
 ~~~
 
-*Note*: Since peer is set to development mode when starting, chaincode runs on starter, not built specifically for chaincode and executed in a separate docker vm.
-*Note*: Successful deployment only means that the submitted instruction has been received, not that the instruction execution is complete.
-*Note*: Because it runs in development mode (dev), chaincode is already registered when docker starts, so -p path cannot be carried in manual command line or REST parameters, otherwise deployment error:
+*Note*: 由于peer启动时设置为开发模式，chaincode运行时是在starter上执行的，没有针对chaincode专门构建和在单独的docker vm中执行。
+*Note*: 部署返回成功仅仅意味着提交的指令已被接收，不代表指令执行完成。
+*Note*: 由于运行在开发模式(dev)，在docker启动时已经注册chaincode，因此命令行或REST参数中不能再带-p 路径，不然部署报错：
 
 ```
 sending init failed(handler not found for chaincode
 ```
 
-If the command is not specified in docker-compose.yml, you can enter starter and register with the following command:
+如果不在docker-compose.yml中指定命令，可进入starter用以下命令注册：
 
 ~~~shell
 CORE_CHAINCODE_ID_NAME=hyperledger-demo-1 CORE_PEER_ADDRESS=0.0.0.0:7051 ./chaincode_example02
@@ -213,13 +213,13 @@ POST http://127.0.0.1:7050/chaincode
             "function": "init",
             "args": ["a", "1000", "b", "2000"]
         },
-        "secureContext": "jim"
+        "secureContext": "jim"  
     },
     "id": 1
 }
 ~~~
 
-##### 5. Query
+##### 5. 查询
 
 - CLI
 
@@ -246,13 +246,13 @@ POST http://127.0.0.1:7050/chaincode
             "function": "query",
             "args": ["a"]
         },
-        "secureContext": "jim"
+        "secureContext": "jim"  
     },
     "id": 5
 }
 ~~~
 
-##### 6. Transfer
+##### 6. 转账
 
 - CLI
 
@@ -279,13 +279,13 @@ POST http://127.0.0.1:7050/chaincode
             "function": "invoke",
             "args": ["a", "b", "100"]
         },
-        "secureContext": "jim"
+        "secureContext": "jim"  
     },
      "id": 3
 }
 ~~~
 
-##### 7. Get Block Information
+##### 7. 获取某个区块的信息
 
 - REST API
 
@@ -295,6 +295,6 @@ GET http://127.0.0.1:7050/chain/blocks/4
 
 ***
 
-**By now**, the development environment on CentOS is set up. If you use Mac OSX, there is no need to trouble, use [Docker for Mac](https://download.docker.com/mac/stable/Docker.dmg), you can complete the above operations directly on Mac.
+**到此**，CentOS上的开发环境搭建完毕。如果你使用的是Mac OSX，大可不必如此麻烦，使用[Docker for Mac](https://download.docker.com/mac/stable/Docker.dmg)，你直接可以在Mac上完成以上操作。
 
-**Finally**, wish everything goes well.
+**最后**，祝一切顺利。

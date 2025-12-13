@@ -1,13 +1,15 @@
 ---
 layout: post
 category: habit
-title: 养成倾听的习惯，不断提升自己
+title: Cultivate the Habit of Listening to Continuously Improve Yourself
+language: en
 ---
 
->那一刻，我明白，如果我要想在事业和生活上取得成功，我必须练习倾听的技能；不只是偶尔倾听，而是时时刻刻地倾听；不仅仅倾听他，而且倾听团队、客户和所有利益相关者。我应该更多地交流意见，更少地捍卫自己的看法—如果我想留下自己的印记，我需要发展这个技能。现在，我有几个直接向我报告的下属，他们的意见和我的一样重要。我需要放下缰绳，不再证明自己的价值和观点，而更多地留意他人的想法。因为，单纯拥有强硬的能力和专长是不足够的。
->                                                                           -- 莫琳·希凯 《深度思考》
+> At that moment, I understood that if I wanted to succeed in my career and life, I had to practice the skill of listening; not just listening occasionally, but listening all the time; not just listening to him, but listening to the team, customers, and all stakeholders. I should exchange opinions more and defend my own views less—if I want to leave my mark, I need to develop this skill. Now, I have several subordinates reporting directly to me, and their opinions are as important as mine. I need to let go of the reins, stop proving my own value and point of view, and pay more attention to others' ideas. Because simply having strong abilities and expertise is not enough.
+> -- Maureen Chiquet, "Deep Thinking"
 
-今早7点自然醒后，拿起头几天断断续续只看了几页的《深度思考》，花了半个多小时翻了大半，感觉早上看书的效率还是挺高的。
+After waking up naturally at 7 this morning, I picked up "Deep Thinking," which I had only read a few pages of intermittently in the past few days. I spent more than half an hour flipping through most of it and felt that reading in the morning was quite efficient.
 
-上面的引用是书的一段话，看后深有感触。我有喜欢打断别人说话的毛病，一直都在让自己改，但进步总是很慢的。如果本能的就觉得自己是对的，别人的是错的，那你一定不会好好听别人说话的。倾听不仅是听，有很多人表面上是在听，但内心深处就在不停的抗拒。内心戏就是，这个人什么都不懂，还说三道四云云。不管是打断别人说话，还是只是表面听从而内心抗拒，都是不够开放，不够自信造成的。其实这样想可能会好一些，不管别人说的对错，但说的过程中很有可能你没考虑到的细节给你启示，完善你的思路，从而让你有所提高，这样自己是赚的。因此从个人提高的角度而言，就应该多倾听别人的建议、思路，有则改之，无则加勉，这样才能不断提高，不断进步。
-自勉。
+The quote above is a passage from the book, which touched me deeply. I have a habit of interrupting others, and I have always been trying to change it, but progress is always slow. If you instinctively feel that you are right and others are wrong, you will definitely not listen to others properly. Listening is not just hearing; many people appear to be listening, but deep down they are constantly resisting. The inner monologue is: "This person knows nothing, yet they are making irresponsible remarks," etc. Whether interrupting others or just listening superficially while resisting internally, it is caused by not being open and confident enough. In fact, thinking this way might be better: regardless of whether what others say is right or wrong, the details you didn't consider in their speech might inspire you and perfect your train of thought, thereby improving you. In this way, you gain something. Therefore, from the perspective of personal improvement, one should listen more to others' suggestions and ideas, change if there are mistakes, and encourage oneself if there are none, so as to continuously improve and progress.
+
+Self-encouragement.

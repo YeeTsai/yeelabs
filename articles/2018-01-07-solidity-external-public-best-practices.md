@@ -1,25 +1,26 @@
 ---
 layout: post
 category: blockchain
-title: Solidity中的external与public使用最佳实践
+title: Best Practices for Using External and Public in Solidity
+language: en
 ---
 
-`Written by 蔡一 | TsaiYee 转载请注明出处。`
+`Written by TsaiYee. Please cite the source when reprinting.`
 
-`原文链接`：[https://tsaiyee.com/blog/2018/01/07/solidity-external-public-best-practices/](https://tsaiyee.com/blog/2018/01/07/solidity-external-public-best-practices/)
+`Original link`: [https://tsaiyee.com/blog/2018/01/07/solidity-external-public-best-practices/](https://tsaiyee.com/blog/2018/01/07/solidity-external-public-best-practices/)
 
-Solidity有两种函数调用方式，一种是内部调用，不会创建一个EVM调用（也叫做消息调用），另一种则是外部调用，会创建EVM调用（会发起消息调用）。
+Solidity has two types of function calls: internal calls, which do not create an EVM call (also known as a message call), and external calls, which create an EVM call (initiating a message call).
 
-Solidity对函数和状态变量提供了四种可见性。分别是external,public,internal,private。其中函数默认是public。状态变量默认的可见性是internal。
+Solidity provides four types of visibility for functions and state variables: external, public, internal, and private. Functions default to public. State variables default to internal visibility.
 
-* interal - 函数只能通过内部访问（当前合约或者继承的合约），可在当前合约或继承合约中调用。类似于Java的protected
-* public - public标识的函数是合约接口的一部分。可以通过内部，或者消息来进行调用。与Java的public含义一致。
-* external - external标识的函数是合约接口的一部分。函数只能通过外部的方式调用。外部函数在接收大的数组时更有效。Java中无与此对应的关键字。
-* private - 只能在当前合约内访问，在继承合约中都不可访问。与Java中的private含义一致。 
+* internal - Functions can only be accessed internally (current contract or inherited contracts). Similar to Java's protected.
+* public - Functions marked as public are part of the contract interface and can be called either internally or via messages. Consistent with Java's public.
+* external - Functions marked as external are part of the contract interface and can only be called externally. External functions are more efficient when receiving large arrays. Java has no corresponding keyword.
+* private - Can only be accessed within the current contract, not accessible in inherited contracts. Consistent with Java's private.
 
-在培训和与学员交流的过程中，大家比较困惑的是external和public的使用。使用public也可以在外部调用，为啥还需要使用external呢？什么时候该使用public，什么时候该使用external呢？
+During training and communication with students, there is often confusion about the use of external and public. Since public can also be called externally, why use external? When should public be used and when should external be used?
 
-我们来看一下的例子：
+Let's look at an example:
 
 ```javascript
 pragma solidity^0.4.12;
@@ -35,12 +36,12 @@ contract Test {
 }
 ```
 
-调用例子中的两个函数，我们能看到，调用test函数（public）使用496 gas，调用test2（external）函数仅花费261 gas。这是为什么呢？
+Calling the two functions in the example, we can see that calling the test function (public) costs 496 gas, while calling the test2 (external) function costs only 261 gas. Why is this?
 
-对于public函数，每次调用时Solidity会将参数copy到内存中；而调用external函数，则可以直接读取calldata。内存分配在EVM中是非常昂贵的，而读取calldata则相对廉价很多。
+For public functions, Solidity copies arguments to memory for each call; whereas for external function calls, it can read directly from calldata. Memory allocation is very expensive in the EVM, while reading calldata is relatively cheap.
 
-那为什么public需要做内存复制呢？那是因为public需要支持内部调用，而内部调用与外部调用的处理机制是完全不同的。内部调用是通过jump指令执行的，参数数据在内部是指向内存的。因此，当编译器在编译可内部调用的函数时，函数希望它的参数是载入内存的。
+Why does public need to do memory copying? Because public needs to support internal calls, and the processing mechanism for internal calls is completely different from external calls. Internal calls are executed via jump instructions, and parameter data points to memory internally. Therefore, when the compiler compiles a function that can be called internally, the function expects its arguments to be loaded into memory.
 
-而对于external，编译器是不需要允许内部调用的，因此编译器可以直接从calldata读取数据，而省略了内存复制。
+For external, the compiler does not need to allow internal calls, so the compiler can read data directly from calldata, omitting memory copying.
 
-综上，作为最佳实践，如果你的函数仅仅需要外部调用，那么你应该用external，如果你的函数需要内部和外部同时调用，那么使用public。值得注意的是，合约内调用public，一定不要使用this.f()，因为这需要EVM执行CALL指令，这也是很昂贵的。
+In summary, as a best practice, if your function only needs to be accessed externally, you should use external. If your function needs to be called both internally and externally, use public. It is worth noting that when calling public within a contract, do not use `this.f()`, because this requires the EVM to execute the CALL instruction, which is also very expensive.

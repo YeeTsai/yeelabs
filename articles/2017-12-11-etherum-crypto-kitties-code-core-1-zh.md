@@ -1,24 +1,23 @@
 ---
 layout: post
 category: blockchain
-title: "[Smart Contract] CryptoKitties Core Code (KittyCore) Analysis (I)"
-language: en
+title: 【智能合约】CryptoKitties核心代码(KittyCore)分析（一）
+language: zh
 ---
 
-`Written by TsaiYee. Please cite the source when reprinting.`
+`Written by 蔡一 | TsaiYee 转载请注明出处。`
 
-`Original link`: [https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-1/](https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-1/)
+`原文链接`：[https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-1/](https://tsaiyee.com/blog/2017/12/11/etherum-crypto-kitties-code-core-1/)
 
-The cat breeding game CryptoKitties running on the Ethereum platform has swept the world, causing transaction congestion on Ethereum.
+基于以太坊平台运行的养猫游戏CryptoKitties风靡全球，造成了以太坊的交易堵塞。
 
-Now let's look at what CryptoKitties has done from a code perspective.
+现在让我们从代码的角度来看看，CryptoKitties到底做了些什么事情。
 
-CryptoKitties has three parts of code: core code (KittyCore), auction house (CryptoKittiesSalesAuction), and breeding (CryptoKittiesSiringAuction).
+CryptoKitties一共有三部分代码，核心代码（KittyCore）、拍卖行（CryptoKittiesSalesAuction）、繁殖（CryptoKittiesSiringAuction）。
 
-Today we first look at the core code (KittyCore).
+今天我们先来看看核心代码（KittyCore）。
 
-The first contract, Ownable, is an Ethereum standard contract, a standard implementation of user permission control, so I won't go into details here.
-
+第一个合约，Ownable，为以太坊标准合约，一个用户权限控制的标准实现，此处就不一一详说。
 ~~~ javascript
 pragma solidity ^0.4.11;
 /**
@@ -54,13 +53,13 @@ contract Ownable {
 }
 ~~~
 
-The following code defines the interface standard for ERC721 (ERC: Non-fungible Token Standard #721).
+以下这段代码定义了 ERC721的接口标准（ERC: Non-fungible Token Standard #721）。
 
-ERC721 is an interface standard for Non-fungible Tokens proposed by the Ethereum community.
+ERC721是以太坊社区提出的不可替代（Non-fungible）的Token的接口标准。
 
-The interface is mainly to allow non-fungible tokens (NFTs) to be tracked by standard Ethereum wallets or traded on exchanges.
+接口主要为了允许不可替代的Token（non-fungible tokens，简称为NFTs）能被标准以太坊钱包跟踪或能在交易所交易。
 
-Similar to ERC20, ERC721 defines interfaces such as balance query, permission query, transfer, authorization, and authorized transfer, adding support for TokenId.
+和ERC20类似，ERC721定义了余额查询、权限查询、转账、授权、授权转出等接口，增加了对TokenId的支持。
 
 ```javascript
 /// @title Interface for contracts conforming to ERC-721: Non-Fungible Tokens
@@ -87,68 +86,68 @@ contract ERC721 {
 }
 ```
 
-Next is the gene calculation interface.
+接下来是基因计算接口。
 
 ```javascript
 /// @title SEKRETOOOO
 contract GeneScienceInterface {
-    /// @dev A simple boolean indicating this is the contract we expect.
+    /// @dev 一个简单的布尔值，表明是我们所期望的合约。
     function isGeneScience() public pure returns (bool);
 
-    /// @dev Given genes of kitten 1 and 2, returns a gene combination, potentially containing a random factor
+    /// @dev 给定小猫1和2的基因，返回一个基因组合，可能有一个随机因子
     /// @param genes1 genes of mom
     /// @param genes2 genes of sire
-    /// @return The genes that should be passed to the next generation child
+    /// @return 返回应该传递给下一代孩子的基因
     function mixGenes(uint256 genes1, uint256 genes2, uint256 targetBlock) public returns (uint256);
 }
 ```
 
-The contracts below define special management permissions for the KittyCore contract.
+下面的合约对KittyCore合约的特殊管理权限做了定义。
 
 ```javascript
-/// @title Contract for managing special access privileges of CryptoKitties.
+/// @title 管理CryptoKitties的特殊访问权限的合约。
 /// @author Axiom Zen (https://www.axiomzen.co)
 /// @dev See the KittyCore contract documentation to understand how the various contract facets are arranged.
 contract KittyAccessControl {
-    // This is the special management permission for CryptoKitties. There are three management roles:
-    //     - The CEO: The CEO can reassign other roles and can also change the address of the smart contracts we rely on. Only this role can unpause the contract.
-    //                The CEO role address is initially set to the address that created the KittyCore smart contract.
-    //     - The CFO: The CFO can withdraw funds from KittyCore and its auction contracts.
-    //     - The COO: The COO can release generation 0 kittens for auction or create promotional kittens.
-    // It should be pointed out that these roles have clearly non-overlapping access capabilities, and the list of capabilities for each role is exhaustive.
-    // In fact, the CEO can assign any address to any role, but the CEO itself has no ability to play these roles.
-    // This restriction is intentional so that we don't frequently use the CEO address for convenience.
-    // The less we use an address, the less likely we are to compromise the account in some way.
-    /// @dev Event sent when the contract is upgraded
+    // 这是CryptoKitties的特殊管理权限。 有三种管理角色:
+    //     - The CEO: CEO可以重新分配其它角色，也可以改变我们依赖的智能合约的地址。只有这个角色能取消合约的暂停。
+    //                CEO角色地址初始设置为创建KettyCore智能合约的地址。
+    //     - The CFO: CFO可以从KittyCore和它的拍卖合约中提取资金。
+    //     - The COO: COO可以释放初代小猫来拍卖，或者创造促销小猫。
+    // 应该指出的是，这些角色是明显的没有重叠的访问能力的，每个角色的能力列表都是详尽的。
+    // 实际上，CEO能分配任意地址到任意角色，但CEO本身是没有能力扮演这些角色的。
+    // 这个限制时故意为之的，这样，我们就不会为了图方便而频繁的使用CEO地址了。
+    // 我们使用一个地址越少，我们以某种方式损害账户的可能性就越小。
+    /// @dev 当合约被升级时发送一个事件
     event ContractUpgrade(address newContract);
 
-    // Accounts or contract addresses that can perform the corresponding role operations
+    // 能执行相应角色的操作的账户或合约地址
     address public ceoAddress;
     address public cfoAddress;
     address public cooAddress;
 
-    // @dev Tracks whether the contract is paused. If paused, most operations will be blocked.
+    // @dev 跟踪合约是否被暂停。如果被暂停，大部分操作将被阻止。
     bool public paused = false;
 
-    /// @dev Function modifier: Only accessible by CEO
+    /// @dev 函数修饰符：仅仅CEO能访问
     modifier onlyCEO() {
         require(msg.sender == ceoAddress);
         _;
     }
 
-    /// @dev Function modifier: Only accessible by CFO
+    /// @dev 函数修饰符：仅仅CFO能访问
     modifier onlyCFO() {
         require(msg.sender == cfoAddress);
         _;
     }
 
-    /// @dev Function modifier: Only accessible by COO
+    /// @dev 函数修饰符：仅仅COO能访问
     modifier onlyCOO() {
         require(msg.sender == cooAddress);
         _;
     }
 
-    ///@dev Function modifier: Only accessible by developers
+    ///@dev 函数修饰符：仅仅开发人员能访问
     modifier onlyCLevel() {
         require(
             msg.sender == cooAddress ||
@@ -158,7 +157,7 @@ contract KittyAccessControl {
         _;
     }
 
-    /// @dev Transfer CEO permission to a new address, only operable by current CEO
+    /// @dev 将CEO权限转到一个新的地址，只有当前CEO能操作
     /// @param _newCEO The address of the new CEO
     function setCEO(address _newCEO) external onlyCEO {
         require(_newCEO != address(0));
@@ -166,7 +165,7 @@ contract KittyAccessControl {
         ceoAddress = _newCEO;
     }
 
-    /// @dev Transfer CFO permission to a new address, only operable by current CEO
+    /// @dev 将CFO权限转到一个新的地址，只有当前CEO能操作
     /// @param _newCFO The address of the new CFO
     function setCFO(address _newCFO) external onlyCEO {
         require(_newCFO != address(0));
@@ -174,32 +173,32 @@ contract KittyAccessControl {
         cfoAddress = _newCFO;
     }
 
-    /// @dev Transfer COO permission to a new address, only operable by current CEO
+    /// @dev 将COO的权限转到一个新的地址，只有当前CEO能操作
     /// @param _newCOO The address of the new COO
     function setCOO(address _newCOO) external onlyCEO {
         require(_newCOO != address(0));
 
         cooAddress = _newCOO;
     }
-    /*** Available functions for OpenZeppelin ***/
-    /// @dev Function modifier: Only operable when contract is not paused
+    /*** 适用于OpenZeppelin的可用功能 ***/
+    /// @dev 函数修饰符：仅仅当合约未暂停时才能操作
     modifier whenNotPaused() {
         require(!paused);
         _;
     }
-    /// @dev Function modifier: Only operable when contract is paused
+    /// @dev 函数修饰符: 仅仅当合约暂停时才能操作
     modifier whenPaused {
         require(paused);
         _;
     }
 
-    /// @dev Can be called by any developer permission to pause the contract. Used only when defects or vulnerabilities are detected; we need to limit damage.
+    /// @dev 能被任何开发者权限调用来暂停合约。仅仅在检测到缺陷或漏洞时使用，我们需要限制损害。
     function pause() external onlyCLevel whenNotPaused {
         paused = true;
     }
 
-    /// @dev Unpause the contract. Can only be operated by the CEO because we might pause the contract when the CFO or COO account is stolen.
-    /// @notice This is a public function, not just an external function, so it can be called by derived contracts.
+    /// @dev 取消合约暂停。只能被CEO操作，因为我们可能在当CFO或COO的账号被盗时暂停合约。
+    /// @notice 这是一个公开函数而不只是外部函数，因此可被衍生合约调用。
     function unpause() public onlyCEO whenPaused {
         // can't unpause if contract was upgraded
         paused = false;
@@ -208,4 +207,4 @@ contract KittyAccessControl {
 
 ```
 
-To be continued...
+未完待续…………

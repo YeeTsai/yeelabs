@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllLibraryPosts } from "@/lib/library";
+import FilteredPostList from "@/components/FilteredPostList";
 
 export const metadata = {
   title: "Digital Library | YEE Labs",
@@ -19,48 +20,12 @@ export default function LibraryListingPage() {
           Curated collection of valuable external articles and resources.
         </p>
 
-        <div className="space-y-12">
-          {posts.map((post) => {
-            const title = post.meta.title || "Untitled";
-            const date = post.meta.date || "Unknown Date";
-            const excerpt = post.meta.excerpt || "";
-            const tags = post.meta.tags || [];
-            
-            // Construct slug path
-            const slugPath = `/library/${post.slug.join("/")}`;
-
-            return (
-              <article key={slugPath} className="group border-l-2 border-white/10 pl-8 transition-colors hover:border-neon-cyan">
-                  <div className="flex flex-col md:flex-row md:items-baseline gap-4 mb-2">
-                   <h2 className="text-2xl font-bold font-orbitron text-white group-hover:text-neon-cyan transition-colors">
-                     <Link href={slugPath}>{title}</Link>
-                   </h2>
-                   <div className="flex items-center gap-2 font-mono text-xs text-neon-green">
-                     {post.meta.author && <span className="text-white/80">{post.meta.author} •</span>}
-                     <time>{date}</time>
-                   </div>
-                </div>
-                
-                <p className="text-gray-400 mb-4 max-w-2xl leading-relaxed">
-                  {excerpt}
-                </p>
-                
-                <div className="flex gap-3 items-center">
-                   {tags.map((tag: string) => (
-                     <span key={tag} className="text-xs font-mono text-gray-500">#{tag}</span>
-                   ))}
-                   <Link href={slugPath} className="text-sm font-bold text-neon-blue hover:text-white ml-auto transition-colors">
-                     READ_ARTICLE_&gt;
-                   </Link>
-                </div>
-              </article>
-            );
-          })}
-          
-          {posts.length === 0 && (
-             <p className="text-gray-500 font-mono">No archives found. Library initialization pending...</p>
-          )}
-        </div>
+        <FilteredPostList 
+          posts={posts} 
+          basePath="/library" 
+          type="library" 
+          emptyMessage="No archives found for selected language." 
+        />
       </div>
     </div>
   );

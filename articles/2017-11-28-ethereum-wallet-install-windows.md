@@ -1,138 +1,138 @@
 ---
 layout: post
 category: blockchain
-title: 【入门系列】以太坊官方钱包软件(轻节点模式)在Windows下的安装
+title: "[Beginner Series] Installing Ethereum Official Wallet (Light Node Mode) on Windows"
+language: en
 ---
 
-以太坊官方钱包(Ethereum Wallet)在Mac OSX和Linux（Unbuntu）下安装都很简单，安装后直接打开使用，但在Windows下总有各式各样的问题。
+Installing the Ethereum Official Wallet (Ethereum Wallet) on Mac OSX and Linux (Ubuntu) is very simple, just install and open it. However, there are always various problems on Windows.
 
-下面就在Windows系统上的安装做一个说明。
+Here is an explanation of the installation on Windows systems.
 
 ***
 
-### 软件下载
+### Software Download
 
-为了防止钱包软件中植入木马，请到官方网站下载钱包软件并在安装前检查chksum。
+To prevent Trojans from being implanted in the wallet software, please download the wallet software from the official website and check the chksum before installation.
 
-以太坊官网提供两种钱包下载:
+The Ethereum official website provides two types of wallet downloads:
 
 * Mist
 
-Mist是一个去中心化应用浏览器，里面包含了以太币钱包应用。
-这个发布的版本允许你用Mist浏览器打开任何Ethereum去中心化应用。
+Mist is a decentralized application browser that contains an Ether wallet application.
+This released version allows you to open any Ethereum decentralized application with the Mist browser.
 
-* 以太坊钱包(Ethereum Wallet)
+* Ethereum Wallet
 
-以太坊钱包仅提供一种单独的Mist浏览器去中心化应用：钱包，因此他被称作“以太坊钱包”。
-将来，等到Metropolis发布以后，以太坊钱包将提供完整的Mist浏览器功能以便开放给任何去中心化应用使用。
+Ethereum Wallet only provides a single Mist browser decentralized application: Wallet, so it is called "Ethereum Wallet".
+In the future, when Metropolis is released, Ethereum Wallet will provide full Mist browser functionality to be open to any decentralized application.
 
-进入[以太坊的官网 https://ethereum.org/](https://ethereum.org/)，下拉页面，找到 Download 按钮。不要直接点 蓝色按钮，那样会默认下载
-Mist的安装包。
+Enter [Ethereum Official Website https://ethereum.org/](https://ethereum.org/), scroll down the page, and find the Download button. Do not click the blue button directly, as that will download the Mist installation package by default.
 
-##### 1. 点击链接 [`See all versions`](https://github.com/ethereum/mist/releases/latest) 将进入全部钱包软件下载页面。
+##### 1. Click the link [`See all versions`](https://github.com/ethereum/mist/releases/latest) to enter the full wallet software download page.
 
-![官网下载](/img/blog/ethereum-wallet-install-windows/website-download.png)
+![Official Website Download](/img/blog/ethereum-wallet-install-windows/website-download.png)
 
-##### 2. 对于安全警告，你只能选择同意， `SURE I UNDERSTAND AND AGREE`。
+##### 2. For the security warning, you can only choose to agree, `SURE I UNDERSTAND AND AGREE`.
 
-![安全警告](/img/blog/ethereum-wallet-install-windows/security-warning.png)
+![Security Warning](/img/blog/ethereum-wallet-install-windows/security-warning.png)
 
-##### 3. 选择最新版本，本文编写时，最新版本为 `Ethereum Wallet and Mist 0.9.3`。
+##### 3. Select the latest version. At the time of this writing, the latest version is `Ethereum Wallet and Mist 0.9.3`.
 
-为了简化安装，选择Windows系统安装包 `Ethereum-Wallet-installer-0-9-3.exe`。
+To simplify installation, select the Windows system installation package `Ethereum-Wallet-installer-0-9-3.exe`.
 
-![下载列表](/img/blog/ethereum-wallet-install-windows/download-list.png)
+![Download List](/img/blog/ethereum-wallet-install-windows/download-list.png)
 
-##### 4. 选择下载位置，下载文件。由于GitHub使用的Amazon AWS服务，下载速度较慢，所以你要有点耐心，等待下载完成。
+##### 4. Choose the download location and download the file. Since GitHub uses Amazon AWS services, the download speed is slow, so be patient and wait for the download to complete.
 
-### 开始安装
+### Start Installation
 
-##### 1. 双击下载的文件`Ethereum-Wallet-installer-0-9-3.exe`，进入熟悉的Windows软件安装步骤。
+##### 1. Double-click the downloaded file `Ethereum-Wallet-installer-0-9-3.exe` to enter the familiar Windows software installation steps.
 
-![安装1](/img/blog/ethereum-wallet-install-windows/install-1.png)
+![Install 1](/img/blog/ethereum-wallet-install-windows/install-1.png)
 
-##### 2. 一路默认回车，安装完成！
+##### 2. Press Enter all the way, installation complete!
 
-![安装完成](/img/blog/ethereum-wallet-install-windows/install-finish.png)
+![Install Finish](/img/blog/ethereum-wallet-install-windows/install-finish.png)
 
-##### 3. 桌面上出现图标。
+##### 3. An icon appears on the desktop.
 
-  ***先别点它！！！先别点它！！！先别点它！！！***
+  ***Don't click it yet!!! Don't click it yet!!! Don't click it yet!!!***
 
-因为如果现在点击运行，以太坊节点将运行在全节点模式，那么你将进入漫长区块同步阶段，至少要准备100多G硬盘，为了快速的
+Because if you click to run now, the Ethereum node will run in full node mode, then you will enter a long block synchronization phase, prepare at least 100+ GB of hard disk space. For speed:
 
-### 修改节点运行模式
+### Modify Node Run Mode
 
-为了提高同步速度，更快的打开钱包，我们采用最近版本才推出的钱包轻节点模式。
+To improve synchronization speed and open the wallet faster, we use the wallet light node mode introduced in recent versions.
 
-##### 1. 选中桌面上以太坊钱包的图标，点击右键，选择`属性`。
+##### 1. Select the Ethereum Wallet icon on the desktop, right-click, and select `Properties`.
 
-![修改同步模式1](/img/blog/ethereum-wallet-install-windows/change-syncmode-1.png)
+![Change Sync Mode 1](/img/blog/ethereum-wallet-install-windows/change-syncmode-1.png)
 
-##### 2. 在 "目标" 框中增加` -node-light`，注意"Roaming\Ethereum"与` -node-light`要有空格。
+##### 2. Add ` -node-light` to the "Target" box. Note there must be a space between "Roaming\Ethereum" and ` -node-light`.
 
-![修改同步模式2](/img/blog/ethereum-wallet-install-windows/change-syncmode-2.png)
+![Change Sync Mode 2](/img/blog/ethereum-wallet-install-windows/change-syncmode-2.png)
 
-### 开始运行
+### Start Running
 
-##### 1. 双击修改好的图标
+##### 1. Double-click the modified icon
 
-![启动1](/img/blog/ethereum-wallet-install-windows/start-1.png)
+![Start 1](/img/blog/ethereum-wallet-install-windows/start-1.png)
 
-选择主网络`The Main Network`。
+Select the main network `The Main Network`.
 
 ***Tips***
-> * The Main Network: 为生产网络；
-* Rinkeby 使用 PoS 共识算法的测试网络。
- * Ropsten: 使用 PoW 共识算法的测试网络。
- * Solo Network: Pairty钱包的测试网络。
+> * The Main Network: Production network;
+> * Rinkeby: Test network using PoS consensus algorithm.
+> * Ropsten: Test network using PoW consensus algorithm.
+> * Solo Network: Parity wallet test network.
 
-![启动2](/img/blog/ethereum-wallet-install-windows/start-2.png)
+![Start 2](/img/blog/ethereum-wallet-install-windows/start-2.png)
 
-##### 2. 查找节点并创建用户
+##### 2. Find Peers and Create User
 
-Ethereum Wallet 将自动启动以太坊节点，并查找其它节点。在这个过程中，你可以创建账号、了解一下以太坊，以及喝杯咖啡。
+Ethereum Wallet will automatically start the Ethereum node and search for other nodes. In this process, you can create an account, learn about Ethereum, and have a cup of coffee.
 
-![启动3](/img/blog/ethereum-wallet-install-windows/start-3.png)
+![Start 3](/img/blog/ethereum-wallet-install-windows/start-3.png)
 
-![启动4](/img/blog/ethereum-wallet-install-windows/start-4.png)
+![Start 4](/img/blog/ethereum-wallet-install-windows/start-4.png)
 
-![启动6](/img/blog/ethereum-wallet-install-windows/start-6.png)
-
-
-##### 3. 等待节点同步
-
-找到节点后，将进行节点同步，在轻钱包的模式下，将只同步区块头，速度与同步全节点数据相比，那就是火箭和自行车的区别。
-
-![启动5](/img/blog/ethereum-wallet-install-windows/start-5.png)
-
-继续了解以太坊，或者喝好几杯咖啡，😎。
-
-![启动7](/img/blog/ethereum-wallet-install-windows/start-7.png)
-
-网络同步完成后，就进入了主界面。
-
-也可在同步时，先进入主界面。在主界面中，可看到同步状态。
-
-![同步](/img/blog/ethereum-wallet-install-windows/syncnode.png)
-
-![主界面](/img/blog/ethereum-wallet-install-windows/main-ui.png)
-
-##### 4. 切换测试网络
-
-为了进行测试，那么有时需要切换到测试网络，现在一般测试都是用 Ropsten 网络。切换后，需要进行等待节点同步。
-
-注意，请在主网络同步完后再选择切换网络，以免发生错误。
-
-![切换网络](/img/blog/ethereum-wallet-install-windows/change-network.png)
-
-若要切换回生产网络，重新选择`主网络`即可，切回主网络时，也请等待测试网络同步完成后进行。
+![Start 6](/img/blog/ethereum-wallet-install-windows/start-6.png)
 
 
-##### 5. 使用钱包软件
+##### 3. Wait for Node Synchronization
 
-恭喜，你现在已经完成了 以太坊钱包软件的安装，可以在上面转账、部署合约了。
+After finding nodes, node synchronization will proceed. In light wallet mode, only block headers will be synchronized. Compared with full node data synchronization, the speed difference is like a rocket versus a bicycle.
 
-关于如何使用以太坊钱包软件转账、部署合约，我们且听下回分解。
+![Start 5](/img/blog/ethereum-wallet-install-windows/start-5.png)
 
-有任何问题，可发邮件与我讨论。
+Continue learning about Ethereum, or have several cups of coffee, 😎.
+
+![Start 7](/img/blog/ethereum-wallet-install-windows/start-7.png)
+
+After network synchronization is complete, you enter the main interface.
+
+You can also enter the main interface during synchronization. In the main interface, you can see the synchronization status.
+
+![Sync](/img/blog/ethereum-wallet-install-windows/syncnode.png)
+
+![Main UI](/img/blog/ethereum-wallet-install-windows/main-ui.png)
+
+##### 4. Switch Test Network
+
+To test, sometimes you need to switch to a test network. Generally, Ropsten network is used for testing now. After switching, you need to wait for node synchronization.
+
+Note, please choose to switch networks after the main network synchronization is complete to avoid errors.
+
+![Change Network](/img/blog/ethereum-wallet-install-windows/change-network.png)
+
+To switch back to the production network, simply select `Main Network` again. When switching back to the main network, please also wait for the test network synchronization to complete before proceeding.
+
+
+##### 5. Use Wallet Software
+
+Congratulations, you have now completed the installation of the Ethereum wallet software, and you can transfer funds and deploy contracts on it.
+
+About how to use Ethereum wallet software to transfer funds and deploy contracts, let's listen to the next breakdown.
+
+If you have any questions, you can email me for discussion.
