@@ -11,9 +11,9 @@ import Link from "next/link";
 const experiments = [
   {
     title: "YES Lab",
-    description: "Where AI meets Market Alpha. AI-Driven Crypto Quant Trading Platform leveraging advanced strategies.",
+    description: "Yield Entropy Synthesis Lab is a quantitative ecosystem engineered to synthesize order from market entropy, transforming volatility into sustainable yield.",
     link: "https://yeslab.app",
-    tags: ["AI", "Quant", "Trading"],
+    tags: ["AI", "Quant", "Trading", "Crypto", "Research"],
     borderColor: "blue" as const
   },
   {
@@ -34,6 +34,7 @@ const experiments = [
     title: "Open Source Tools",
     description: "Small utilities born from curiosity. A collection of scripts and tools for the ecosystem.",
     // link: "https://github.com/...", // Placeholder or link to github profile
+    link: "https://github.com/YeeTsai",
     tags: ["Tools", "Open Source", "Scripts"],
     borderColor: "cyan" as const
   }
@@ -163,7 +164,7 @@ export default function Home() {
                    </p>
                 </div>
                 <p className="text-xl text-gray-300 font-light leading-relaxed max-w-lg">
-                  The underlying architecture powering YEE Labs. An autonomous system constantly exploring market alphas, evolving strategies, and refining execution precision.
+                  Enhanced-intelligence Engine for Super Individuals, the underlying intelligence engine by YEE Labs that turns AI into a force multiplier for individual capability and execution.
                 </p>
             </motion.div>
 
