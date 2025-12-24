@@ -31,6 +31,15 @@ const experiments = [
     borderColor: "cyan" as const
   },
   {
+    title: "IELTS Speaking Assistant",
+    description: "Your AI-powered partner for achieving your target band score. Prepare answers, practice pronunciation, and simulate the exam experience",
+    // link: "https://github.com/...", // Placeholder or link to github profile
+    link: "https://is.yeelabs.xyz",
+    tags: ["IELTS", "AI", "Speaking", "Education", "Pronunciation", "Speaking Practice"],
+    borderColor: "cyan" as const
+  }
+/*
+  {
     title: "Open Source Tools",
     description: "Small utilities born from curiosity. A collection of scripts and tools for the ecosystem.",
     // link: "https://github.com/...", // Placeholder or link to github profile
@@ -38,6 +47,7 @@ const experiments = [
     tags: ["Tools", "Open Source", "Scripts"],
     borderColor: "cyan" as const
   }
+  */
 ];
 
 export default function Home() {
@@ -200,6 +210,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
+                className="h-60"
               >
                 <CyberCard {...project} />
               </motion.div>
@@ -243,7 +254,7 @@ export default function Home() {
                     Senior Architect & <span className="text-neon-green font-bold">ERC-3525</span> Co-author.
                   </p>
                   <p className="text-gray-400">
-                    Obsessed with the intersection of <span className="text-white">AI</span>, <span className="text-white">Crypto</span>, and <span className="text-white">Math</span>.
+                    Obsessed with the intersection of <span className="text-white">AI</span>, <span className="text-white">Crypto</span>, and <span className="text-white">Finance</span>.
                     Exploring the boundaries of digital value and autonomous systems.
                   </p>
                   

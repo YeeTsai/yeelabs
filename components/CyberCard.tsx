@@ -9,6 +9,7 @@ interface CyberCardProps {
   link?: string;
   tags?: string[];
   borderColor?: "cyan" | "blue" | "green";
+  className?: string;
 }
 
 export default function CyberCard({ 
@@ -16,7 +17,8 @@ export default function CyberCard({
   description, 
   link, 
   tags = [],
-  borderColor = "cyan" 
+  borderColor = "cyan",
+  className = ""
 }: CyberCardProps) {
   
   const borderColors = {
@@ -34,7 +36,7 @@ export default function CyberCard({
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className={`group relative p-6 rounded-xl border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden transition-all duration-300 hover:border-transparent`}
+      className={`group relative p-6 rounded-xl border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden transition-all duration-300 hover:border-transparent h-full ${className}`}
     >
       {/* Animated Border Gradient on Hover */}
       <div className={`absolute inset-0 rounded-xl border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${borderColors[borderColor]}`} />
@@ -56,7 +58,7 @@ export default function CyberCard({
           )}
         </div>
         
-        <p className="text-gray-300 mb-6 flex-grow leading-relaxed">
+        <p className="text-gray-300 mb-6 flex-grow leading-relaxed line-clamp-2">
           {description}
         </p>
         
