@@ -210,7 +210,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="h-60"
+                className="h-48"
               >
                 <CyberCard {...project} />
               </motion.div>
