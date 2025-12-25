@@ -19,7 +19,7 @@ export default function Footer() {
             <Github className="w-5 h-5" />
           </a>
           <a
-            href="https://twitter.com" // Update with actual twitter if known
+            href="https://x.com/yee2079"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-neon-cyan transition-colors"
@@ -28,7 +28,7 @@ export default function Footer() {
             <Twitter className="w-5 h-5" />
           </a>
           <a
-            href="mailto:contact@yeelabs.com" // Update with actual email if known
+            href="mailto:yee.tsai@gmail.com"
             className="text-gray-400 hover:text-neon-blue transition-colors"
             aria-label="Email"
           >
